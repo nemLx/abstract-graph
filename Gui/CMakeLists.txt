@@ -6,6 +6,11 @@
 cmake_minimum_required(VERSION 2.6)
 project(AbstractGraph)
 
+# Hide things we don't need
+if(APPLE)
+  mark_as_advanced(CMAKE_OSX_ARCHITECTURES CMAKE_OSX_SYSROOT)
+endif(APPLE)
+
 # Basic compiler options
 set(CMAKE_CXX_FLAGS "-Wall -O0 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
@@ -21,8 +26,13 @@ set(QT_USE_QTOPENGL true)
 set(QT_USE_QTXML true)
 include(${QT_USE_FILE})
 
+# Source Files
+#file(windows_SRC Windows/*.h Windows/*.cpp)
+qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h)
+set(WINDOWS_SRC Windows/MainWindow.h Windows/MainWindow.cpp)
+
 # Main Executable
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} ${WINDOWS_MOC_SRC} ${WINDOWS_SRC} main.cpp)
 
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR})
