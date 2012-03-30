@@ -10,7 +10,8 @@
  */
 
 #include <QApplication>
-#include <QPushButton>
+
+#include "Windows/MainWindow.h"
 
 #ifdef WIN32
 // WIN32 routines
@@ -19,9 +20,9 @@
 int main(int argc, char* argv[])
 {
   QApplication app(argc, argv);
-  QPushButton button("Test Me!");
-  button.resize(500, 500);
-  button.show();
+  MainWindow window("AbstractGraph");
+  window.resize(800, 600);
+  window.show();
   return app.exec();
 }
 #endif
