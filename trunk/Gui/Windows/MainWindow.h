@@ -11,6 +11,7 @@
 #ifndef WINDOWS_MAINWINDOW_H__
 #define WINDOWS_MAINWINDOW_H__
 
+#include <QList>
 #include <QMainWindow>
 #include <QString>
 
@@ -55,9 +56,29 @@ private:
    * Initialize menu items (private helper)
    */
   void initMenus();
+  
+  /**
+   * Build file menu (private helper)
+   */
+  void buildFileMenu();
+  
+  /**
+   * Build edit menu (private helper)
+   */
+  void buildEditMenu();
+  
+  /**
+   * Build algorithm menu (private helper)
+   */
+  void buildAlgMenu();
 
   QMenu* fileMenu;
-  QAction* actExit;
+  QMenu* editMenu;
+  QMenu* algorithmMenu;
+  
+  QList<QAction*> fileActions;
+  QList<QAction*> algorithmActions;
+  QList<QAction*> editActions;
 };
 
 #endif /* WINDOWS_MAINWINDOW_H__ */
