@@ -28,8 +28,9 @@ include(${QT_USE_FILE})
 
 # Source Files
 #file(windows_SRC Windows/*.h Windows/*.cpp)
-qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h)
-set(WINDOWS_SRC Windows/MainWindow.h Windows/MainWindow.cpp)
+qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h Windows/GLWindow.h)
+set(WINDOWS_SRC Windows/MainDefs.h Windows/MainWindow.h Windows/MainWindow.cpp
+  Windows/GLWindow.h Windows/GLWindow.cpp)
 
 # Main Executable
 add_executable(${PROJECT_NAME} ${WINDOWS_MOC_SRC} ${WINDOWS_SRC} main.cpp)
