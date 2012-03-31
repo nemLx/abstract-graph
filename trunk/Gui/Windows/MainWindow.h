@@ -15,8 +15,10 @@
 #include <QMainWindow>
 #include <QString>
 
-class QMenu;
 class QAction;
+class QMenu;
+class QResizeEvent;
+class QTabWidget;
 
 /**
  * MainWindow
@@ -44,8 +46,40 @@ protected:
    *
    * @param evt   The event to be handled
    */
-  void closeEvent(QCloseEvent* evt);
+  virtual void closeEvent(QCloseEvent* evt);
 
+  /**
+   * Resize the main window
+   *
+   * @param evt   The resize event
+   */
+  virtual void resizeEvent(QResizeEvent* evt);
+  
+protected slots:
+  /**
+   * Create a new OpenGL tab
+   */
+  void createGLWindow();
+  
+  /**
+   * Close OpenGL tab based off of current index
+   */
+  void closeGLWindow();
+  
+  /**
+   * Close an OpenGL tab
+   *
+   * @param idx   The index of the tab to be closed
+   */
+  void closeGLWindow(int idx);
+  
+  /**
+   * Update the current tab
+   *
+   * @param idx   The index of the current tab
+   */
+  void updateCurrentTab(int idx);
+  
 private:
   /**
    * Initialize action items (private helper)
@@ -56,6 +90,11 @@ private:
    * Initialize menu items (private helper)
    */
   void initMenus();
+  
+  /**
+   * Initialize content [i.e. tab widget] (private helper)
+   */
+  void initContent();
   
   /**
    * Build file menu (private helper)
@@ -71,6 +110,10 @@ private:
    * Build algorithm menu (private helper)
    */
   void buildAlgMenu();
+  
+  int currentTabIdx;
+  
+  QTabWidget* glTabs;
 
   QMenu* fileMenu;
   QMenu* editMenu;

@@ -23,6 +23,7 @@
 #define MAINWINDOW_FILE_IMPORT tr("I&mport")
 #define MAINWINDOW_FILE_EXPORT tr("E&xport")
 #define MAINWINDOW_FILE_NEW tr("N&ew Tab")
+#define MAINWINDOW_FILE_CLOSETAB tr("C&lose Current Tab")
 #define MAINWINDOW_FILE_CLOSE tr("C&lose")
 
 // Algorithm Menu Actions
