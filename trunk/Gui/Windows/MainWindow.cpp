@@ -36,12 +36,6 @@ void MainWindow::closeEvent(QCloseEvent* evt)
   // Do nothing for now
 }
 
-void MainWindow::resizeEvent(QResizeEvent* evt)
-{
-  QWidget::resizeEvent(evt);
-  glTabs->setFixedSize(width(), height());
-}
-
 void MainWindow::initActions()
 {
   buildFileMenu();
@@ -63,6 +57,7 @@ void MainWindow::initContent()
   glTabs->setMovable(true);
   connect(glTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeGLWindow(int)));
   connect(glTabs, SIGNAL(currentChanged(int)), this, SLOT(updateCurrentTab(int)));
+  this->setCentralWidget(glTabs);
 }
 
 void MainWindow::buildFileMenu()

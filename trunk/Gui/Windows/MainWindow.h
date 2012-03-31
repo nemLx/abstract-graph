@@ -47,13 +47,6 @@ protected:
    * @param evt   The event to be handled
    */
   virtual void closeEvent(QCloseEvent* evt);
-
-  /**
-   * Resize the main window
-   *
-   * @param evt   The resize event
-   */
-  virtual void resizeEvent(QResizeEvent* evt);
   
 protected slots:
   /**
