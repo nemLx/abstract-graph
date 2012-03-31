@@ -9,15 +9,29 @@
  * @version $Id$
  */
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 #include <QApplication>
 
 #include "Windows/MainWindow.h"
 
-#ifdef WIN32
-// WIN32 routines
+int runApplication(int argc, char* argv[]);
+
+#ifdef _WIN32
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpstr, int nCmd)
+{
+  return runApplication(0, NULL);
+}
 #else
-// NOTE: Just a dummy button right now
 int main(int argc, char* argv[])
+{
+  return runApplication(argc, argv);
+}
+#endif
+
+int runApplication(int argc, char* argv[])
 {
   QApplication app(argc, argv);
   MainWindow window("AbstractGraph");
@@ -25,5 +39,3 @@ int main(int argc, char* argv[])
   window.show();
   return app.exec();
 }
-#endif
-

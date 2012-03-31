@@ -12,11 +12,13 @@ if(APPLE)
 endif(APPLE)
 
 # Basic compiler options
-set(CMAKE_CXX_FLAGS "-Wall -O0 -g")
-set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -O2 -g")
-set(CMAKE_CXX_FLAGS_MINSIZEREL "-Wall -O3")
-set(CMAKE_CXX_FLAGS_DEBUG "-Wall -O0 -g")
+if(NOT WIN32)
+  set(CMAKE_CXX_FLAGS "-Wall -O0 -g")
+  set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
+  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -O2 -g")
+  set(CMAKE_CXX_FLAGS_MINSIZEREL "-Wall -O3")
+  set(CMAKE_CXX_FLAGS_DEBUG "-Wall -O0 -g")
+endif(NOT WIN32)
 
 # Make sure the user has Qt
 find_package(Qt4 4.7 REQUIRED)
@@ -27,13 +29,18 @@ set(QT_USE_QTXML true)
 include(${QT_USE_FILE})
 
 # Source Files
-#file(windows_SRC Windows/*.h Windows/*.cpp)
 qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h Windows/GLWindow.h)
 set(WINDOWS_SRC Windows/MainDefs.h Windows/MainWindow.h Windows/MainWindow.cpp
   Windows/GLWindow.h Windows/GLWindow.cpp)
 
+set(SOURCE_FILES ${WINDOWS_MOC_SRC} ${WINDOWS_SRC} main.cpp)
+
 # Main Executable
-add_executable(${PROJECT_NAME} ${WINDOWS_MOC_SRC} ${WINDOWS_SRC} main.cpp)
+if(WIN32)
+add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
+else(WIN32)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+endif(WIN32)
 
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR})

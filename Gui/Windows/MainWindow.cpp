@@ -10,14 +10,19 @@
 
 #include <QtGui>
 
+#include "GLWindow.h"
 #include "MainWindow.h"
 #include "MainDefs.h"
 
+/* Main UI Setup */
 MainWindow::MainWindow(const QString& title)
+  : currentTabIdx(-1)
 {
   this->setWindowTitle(title);
+  
   initMenus();
   initActions();
+  initContent();
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +34,12 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent* evt)
 {
   // Do nothing for now
+}
+
+void MainWindow::resizeEvent(QResizeEvent* evt)
+{
+  QWidget::resizeEvent(evt);
+  glTabs->setFixedSize(width(), height());
 }
 
 void MainWindow::initActions()
@@ -45,11 +56,24 @@ void MainWindow::initMenus()
   algorithmMenu = menuBar()->addMenu(MAINWINDOW_ALG_MENU);
 }
 
+void MainWindow::initContent()
+{
+  glTabs = new QTabWidget(this);
+  glTabs->setTabsClosable(true);
+  glTabs->setMovable(true);
+  connect(glTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeGLWindow(int)));
+  connect(glTabs, SIGNAL(currentChanged(int)), this, SLOT(updateCurrentTab(int)));
+}
+
 void MainWindow::buildFileMenu()
 {
   // File actions
   QAction* actNew = new QAction(MAINWINDOW_FILE_NEW, this);
   actNew->setShortcut(QKeySequence::New);
+  
+  QAction* actCloseT = new QAction(MAINWINDOW_FILE_CLOSETAB, this);
+  actCloseT->setShortcut(QKeySequence::Close);
+  //actCloseT->setEnabled(false);
   
   QAction* actImport = new QAction(MAINWINDOW_FILE_IMPORT, this);
   actImport->setShortcut(QKeySequence::Open);
@@ -59,10 +83,15 @@ void MainWindow::buildFileMenu()
   actExport->setEnabled(false);
   
   QAction* actExit = new QAction(MAINWINDOW_FILE_CLOSE, this);
+          
+  // Make the items do something
+  connect(actNew, SIGNAL(triggered()), this, SLOT(createGLWindow()));
+  connect(actCloseT, SIGNAL(triggered()), this, SLOT(closeGLWindow()));
   connect(actExit, SIGNAL(triggered()), qApp, SLOT(quit()));
   
   // Add them in order to the respective list
   fileActions.push_back(actNew);
+  fileActions.push_back(actCloseT);
   fileActions.push_back(actImport);
   fileActions.push_back(actExport);
   fileActions.push_back(actExit);
@@ -138,4 +167,30 @@ void MainWindow::buildAlgMenu()
   algorithmMenu->addActions(algorithmActions);
   algorithmMenu->insertSeparator(algChromNo);
   algorithmMenu->insertSeparator(algPrufer);
+}
+
+/* Signals/Slots */
+void MainWindow::createGLWindow()
+{
+  GLWindow* glWindow = new GLWindow(this);
+  glTabs->addTab(glWindow, "OpenGL Tab");
+}
+
+void MainWindow::closeGLWindow()
+{
+  closeGLWindow(currentTabIdx);
+}
+
+void MainWindow::closeGLWindow(int idx)
+{
+  if(glTabs->count() <= idx) // Paranoia
+    return;
+  QWidget* widget = glTabs->widget(idx);
+  glTabs->removeTab(idx);
+  delete widget;
+}
+
+void MainWindow::updateCurrentTab(int idx)
+{
+  currentTabIdx = idx;
 }
