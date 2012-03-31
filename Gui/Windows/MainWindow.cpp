@@ -68,7 +68,7 @@ void MainWindow::buildFileMenu()
   
   QAction* actCloseT = new QAction(MAINWINDOW_FILE_CLOSETAB, this);
   actCloseT->setShortcut(QKeySequence::Close);
-  //actCloseT->setEnabled(false);
+  actCloseT->setEnabled(false);
   
   QAction* actImport = new QAction(MAINWINDOW_FILE_IMPORT, this);
   actImport->setShortcut(QKeySequence::Open);
@@ -84,17 +84,18 @@ void MainWindow::buildFileMenu()
   connect(actCloseT, SIGNAL(triggered()), this, SLOT(closeGLWindow()));
   connect(actExit, SIGNAL(triggered()), qApp, SLOT(quit()));
   
-  // Add them in order to the respective list
-  fileActions.push_back(actNew);
-  fileActions.push_back(actCloseT);
-  fileActions.push_back(actImport);
-  fileActions.push_back(actExport);
-  fileActions.push_back(actExit);
-  
   // Add to menu
-  fileMenu->addActions(fileActions);
-  fileMenu->insertSeparator(actExit);
-  fileMenu->insertSeparator(actImport);
+  fileMenu->addAction(actNew);
+  fileMenu->addAction(actCloseT);
+  fileMenu->addSeparator();
+  fileMenu->addAction(actImport);
+  fileMenu->addAction(actExport);
+  fileMenu->addSeparator();
+  fileMenu->addAction(actExit);
+  
+  // Important conditionally enabled/disabled items
+  addActionToMap(MAINWINDOW_FILE_CLOSETAB_ID, actCloseT);
+  addActionToMap(MAINWINDOW_FILE_EXPORT_ID, actExport);
 }
 
 void MainWindow::buildEditMenu()
@@ -106,13 +107,10 @@ void MainWindow::buildEditMenu()
   QAction* editRemove = new QAction(MAINWINDOW_EDIT_REMOVENODE, this);
   editRemove->setEnabled(false);
   
-  // Add to list
-  editActions.push_back(editAddEdge);
-  editActions.push_back(editRemove);
-  
   // Add to menu
-  editMenu->addActions(editActions);
-  editMenu->insertSeparator(editRemove);
+  editMenu->addAction(editAddEdge);
+  editMenu->addSeparator();
+  editMenu->addAction(editRemove);
 }
 
 void MainWindow::buildAlgMenu()
@@ -144,24 +142,40 @@ void MainWindow::buildAlgMenu()
   
   QAction* algdeB = new QAction(MAINWINDOW_ALG_DEBRUIJN, this);
   
-  algorithmActions.push_back(algShort);
-  algorithmActions.push_back(algMST);
-  algorithmActions.push_back(algMaxM);
-  algorithmActions.push_back(algMinVtx);
-  algorithmActions.push_back(algMaxNet);
-  algorithmActions.push_back(algMinXY);
-  algorithmActions.push_back(algChromNo);
-  algorithmActions.push_back(algPartite);
-  algorithmActions.push_back(algCycles);
-  algorithmActions.push_back(algEuler);
-  algorithmActions.push_back(algCenter);
-  algorithmActions.push_back(algPrufer);
-  algorithmActions.push_back(algdeB);
-  
   // Add to menu
-  algorithmMenu->addActions(algorithmActions);
-  algorithmMenu->insertSeparator(algChromNo);
-  algorithmMenu->insertSeparator(algPrufer);
+  algorithmMenu->addAction(algShort);
+  algorithmMenu->addAction(algMST);
+  algorithmMenu->addAction(algMaxM);
+  algorithmMenu->addAction(algMinVtx);
+  algorithmMenu->addAction(algMaxNet);
+  algorithmMenu->addAction(algMinXY);
+  algorithmMenu->addSeparator();
+  algorithmMenu->addAction(algChromNo);
+  algorithmMenu->addAction(algPartite);
+  algorithmMenu->addAction(algCycles);
+  algorithmMenu->addAction(algEuler);
+  algorithmMenu->addAction(algCenter);
+  algorithmMenu->addSeparator();
+  algorithmMenu->addAction(algPrufer);
+  algorithmMenu->addAction(algdeB);
+}
+
+/* Internal private helpers (i.e. not directly gui related) */
+void MainWindow::addActionToMap(int key, QAction* act)
+{
+  enableDisableMap[key] = act;
+}
+
+QAction* MainWindow::retrieveActionFromMap(int key)
+{
+  return enableDisableMap[key];
+}
+
+void MainWindow::enableAction(int key, bool enable)
+{
+  QAction* act = retrieveActionFromMap(key);
+  if(act != NULL && act->isEnabled() != enable)
+    act->setEnabled(enable);
 }
 
 /* Signals/Slots */
@@ -169,6 +183,7 @@ void MainWindow::createGLWindow()
 {
   GLWindow* glWindow = new GLWindow(this);
   glTabs->addTab(glWindow, "OpenGL Tab");
+  enableAction(MAINWINDOW_FILE_CLOSETAB_ID, true);
 }
 
 void MainWindow::closeGLWindow()
@@ -188,4 +203,7 @@ void MainWindow::closeGLWindow(int idx)
 void MainWindow::updateCurrentTab(int idx)
 {
   currentTabIdx = idx;
+  if(idx == -1) {
+    enableAction(MAINWINDOW_FILE_CLOSETAB_ID, false);
+  }
 }
