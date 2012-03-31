@@ -45,4 +45,9 @@
 #define MAINWINDOW_EDIT_REMOVENODE tr("R&emove Node")
 #define MAINWINDOW_EDIT_ADDEDGE tr("A&dd Edge")
 
+// IDs for hashing (only for ones which need it)
+// MainWindow gets 0x1000 block
+#define MAINWINDOW_FILE_EXPORT_ID 0x1001
+#define MAINWINDOW_FILE_CLOSETAB_ID 0x1002
+
 #endif /* WINDOWS_MAINDEFS_H__ */

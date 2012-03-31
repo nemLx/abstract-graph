@@ -11,7 +11,7 @@
 #ifndef WINDOWS_MAINWINDOW_H__
 #define WINDOWS_MAINWINDOW_H__
 
-#include <QList>
+#include <QHash>
 #include <QMainWindow>
 #include <QString>
 
@@ -104,6 +104,30 @@ private:
    */
   void buildAlgMenu();
   
+  /**
+   * Add an action to the enableDisableMap (private helper)
+   *
+   * @param key   The key to store the action
+   * @param act   The action to be stored
+   */
+  void addActionToMap(int key, QAction* act);
+  
+  /**
+   * Retrieve an element from enableDisableMap
+   *
+   * @param key   The key to retrieve the action
+   * @return  A pointer to the action
+   */
+  QAction* retrieveActionFromMap(int key);
+  
+  /**
+   * Update whether item is enabled or disabled
+   *
+   * @param key     Key of the element to be enabled/disabled
+   * @param enable  If true, then enable the item. Otherwise, disable
+   */
+  void enableAction(int key, bool enable);
+  
   int currentTabIdx;
   
   QTabWidget* glTabs;
@@ -112,9 +136,7 @@ private:
   QMenu* editMenu;
   QMenu* algorithmMenu;
   
-  QList<QAction*> fileActions;
-  QList<QAction*> algorithmActions;
-  QList<QAction*> editActions;
+  QHash<int, QAction*> enableDisableMap;
 };
 
 #endif /* WINDOWS_MAINWINDOW_H__ */
