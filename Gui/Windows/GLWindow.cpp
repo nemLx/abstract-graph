@@ -22,7 +22,16 @@ GLWindow::~GLWindow()
 
 void GLWindow::initalizeGL()
 {
-  // Not implemented
+  // Some default code
+  // Will eventually be moved out
+  // to the library
+  makeCurrent();
+  glDisable(GL_TEXTURE_2D);
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_COLOR_MATERIAL);
+  glEnable(GL_BLEND);
+  glEnable(GL_POLYGON_SMOOTH);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 }
 
 void GLWindow::resizeGL(int w, int h)
@@ -32,7 +41,10 @@ void GLWindow::resizeGL(int w, int h)
 
 void GLWindow::paintGL()
 {
-  // Not implemented
+  // Just turn the background gray - nothing fancy for now
+  makeCurrent();
+  glClear(GL_COLOR_BUFFER_BIT);
+  glClearColor(139.0/255.0, 137.0/255.0, 137.0/255.0, 0.0);
 }
 
 void GLWindow::mousePressEvent(QMouseEvent* evt)

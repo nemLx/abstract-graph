@@ -205,5 +205,11 @@ void MainWindow::updateCurrentTab(int idx)
   currentTabIdx = idx;
   if(idx == -1) {
     enableAction(MAINWINDOW_FILE_CLOSETAB_ID, false);
+  } else {
+    GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(idx));
+    if(tab != NULL) {
+      tab->makeCurrent();
+      tab->makeOverlayCurrent();
+    }
   }
 }

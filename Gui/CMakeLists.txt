@@ -28,6 +28,9 @@ set(QT_USE_QTOPENGL true)
 set(QT_USE_QTXML true)
 include(${QT_USE_FILE})
 
+# Also need OpenGL of course
+find_package(OpenGL REQUIRED)
+
 # Source Files
 qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h Windows/GLWindow.h)
 set(WINDOWS_SRC Windows/MainDefs.h Windows/MainWindow.h Windows/MainWindow.cpp
@@ -45,7 +48,9 @@ endif(WIN32)
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${QT_INCLUDE_DIR})
+include_directories(${OPENGL_INCLUDE_DIR})
 
 # Libraries
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 
