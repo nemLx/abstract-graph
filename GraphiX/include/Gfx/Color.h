@@ -11,7 +11,7 @@
 #ifndef GRAPHIX_GFX_COLOR_H__
 #define GRAPHIX_GFX_COLOR_H__
 
-struct Color
+struct GRAPHIX_EXPORT Color
 {
   /**
    * Constructor
