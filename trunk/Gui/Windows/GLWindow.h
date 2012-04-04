@@ -31,6 +31,11 @@ public:
    * Destructor
    */
   virtual ~GLWindow();
+  
+  /**
+   * Update the mode of all tabs
+   */
+  virtual void updateMode(GRAPHIX::MODES mode);
 
 protected:
   /**

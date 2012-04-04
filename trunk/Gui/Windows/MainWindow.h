@@ -15,6 +15,8 @@
 #include <QMainWindow>
 #include <QString>
 
+#include "graphix.h"
+
 class QAction;
 class QMenu;
 class QResizeEvent;
@@ -73,6 +75,16 @@ protected slots:
    */
   void updateCurrentTab(int idx);
   
+  /**
+   * Set GL mode to node creation
+   */
+  void setNodeCreateMode();
+  
+  /**
+   * Set GL mode to edge creation
+   */
+  void setEdgeCreateMode();
+  
 private:
   /**
    * Initialize action items (private helper)
@@ -98,6 +110,11 @@ private:
    * Build edit menu (private helper)
    */
   void buildEditMenu();
+  
+  /**
+   * Build modes menu (private helper)
+   */
+  void buildModesMenu();
   
   /**
    * Build algorithm menu (private helper)
@@ -128,12 +145,21 @@ private:
    */
   void enableAction(int key, bool enable);
   
+  /**
+   * Actually update the GL mode for all
+   * tabs
+   *
+   * @param mode   The graph mode
+   */
+  void updateMode(GRAPHIX::MODES mode);
+  
   int currentTabIdx;
   
   QTabWidget* glTabs;
 
   QMenu* fileMenu;
   QMenu* editMenu;
+  QMenu* modesMenu;
   QMenu* algorithmMenu;
   
   QHash<int, QAction*> enableDisableMap;
