@@ -31,6 +31,11 @@ include(${QT_USE_FILE})
 # Also need OpenGL of course
 find_package(OpenGL REQUIRED)
 
+# Very important is our graphix library
+# This is the backend for our graphics
+find_library(GRAPHIX_LIB "The location of GraphiX Library")
+find_path(GRAPHIX_INCLUDE_DIR "The location of the GraphiX Library include directory")
+
 # Source Files
 qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h Windows/GLWindow.h)
 set(WINDOWS_SRC Windows/MainDefs.h Windows/MainWindow.h Windows/MainWindow.cpp
@@ -49,8 +54,10 @@ endif(WIN32)
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${OPENGL_INCLUDE_DIR})
+include_directories(@GRAPHIX_INCLUDE_DIR@)
 
 # Libraries
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} @GRAPHIX_LIB@)
 
