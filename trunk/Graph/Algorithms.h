@@ -1,8 +1,11 @@
 #ifndef _ALGORITHMS_H_
 #define _ALGORITHMS_H_
 
+#include <limits.h>
 #include <vector>
 #include <queue>
+
+#define INFINITY INT_MAX
 
 using namespace std;
 
@@ -30,7 +33,9 @@ namespace Algorithms{
             }
         };
 
-		int dijkstra(Vertex * s, priority_queue<Vertex*, vector<Vertex*>, comp> * G);
+		int dijkstra(bool isPrim, Vertex * s, priority_queue<Vertex*, vector<Vertex*>, comp> * G);
+		
+		void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
 	}
 
 }

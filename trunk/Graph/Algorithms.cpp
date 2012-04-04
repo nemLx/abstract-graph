@@ -5,26 +5,19 @@
 using namespace std;
 using namespace Algorithms;
 
-int Dijkstra::dijkstra(Dijkstra::Vertex * s, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G){
+int Dijkstra::dijkstra(bool isPrim, Dijkstra::Vertex * s, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G){
     
     s->dist = 0;
     
-    Dijkstra::Vertex * v = G->top();
-    G->pop();
-    G->push(v);
-    
-//    while (G->size() > 0){
-//        printf("%i \n", G->top()->dist);
-//        G->pop();
-//    }
+    refreshMin(G);
     
     while (G->size() > 0){
         
         Dijkstra::Vertex * u = G->top();
         
-        if (u->dist == 999999999){
+        if (u->dist == INFINITY){
             break;
-            printf("broken with: %i \n", u->dist);
+            //printf("broken with: %i \n", u->dist);
         }
         
         u->visited = true;
@@ -38,23 +31,34 @@ int Dijkstra::dijkstra(Dijkstra::Vertex * s, priority_queue<Dijkstra::Vertex*, v
             w = u->adj->at(i);
             uwCost = u->cost->at(i);
             
-            printf("iteration: %i -- w: %i -- u: %i -- uwCost: %i \n", i, w->id, u->id, uwCost);
+            //printf("iteration: %i -- w: %i -- u: %i -- uwCost: %i \n", i, w->id, u->id, uwCost);
             
             if ( !w->visited ){
-                printf("unvisited \n");
-                if ( (u->dist + uwCost) < w->dist ){
-                    w->dist = u->dist + uwCost;
-                    
-                    Dijkstra::Vertex * v = G->top();
-                    G->pop();
-                    G->push(v);
-                    
-                    w->next = u;
-                    
-                    printf("w->dist: %i, u->dist: %i, uwCost: %i w->next: %i \n", w->dist, u->dist, uwCost, w->next->id);
-                }
+                //printf("unvisited \n");
+				
+				if (isPrim){
+					if (w->dist > uwCost){
+						w->dist = uwCost;
+						refreshMin(G);
+						w->next = u;
+					}
+				}else{
+					if ( (u->dist + uwCost) < w->dist ){
+						w->dist = u->dist + uwCost;
+						refreshMin(G);
+						w->next = u;
+						//printf("w->dist: %i, u->dist: %i, uwCost: %i w->next: %i \n", w->dist, u->dist, uwCost, w->next->id);
+					}
+				}
             }
         }
     }
 }
+
+void Dijkstra::refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G){
+	Dijkstra::Vertex * v = G->top();
+    G->pop();
+    G->push(v);
+}
+
 
