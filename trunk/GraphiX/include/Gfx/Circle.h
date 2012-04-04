@@ -11,11 +11,12 @@
 #ifndef GRAPHIX_GFX_CIRCLE_H__
 #define GRAPHIX_GFX_CIRCLE_H__
 
+#include "graphix_incl.h"
 #include "Shape.h"
 
 namespace GRAPHIX
 {
-class Circle : public Shape
+class GRAPHIX_EXPORT Circle : public Shape
 {
 public:
   /**

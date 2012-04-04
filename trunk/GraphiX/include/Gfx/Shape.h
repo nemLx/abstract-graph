@@ -11,6 +11,7 @@
 #ifndef GRAPHIX_GFX_SHAPE_H__
 #define GRAPHIX_GFX_SHAPE_H__
 
+#include "graphix_incl.h"
 #include "Color.h"
 
 namespace GRAPHIX
@@ -18,7 +19,7 @@ namespace GRAPHIX
 /**
  * Shapes that can be generated
  */
-enum SHAPES
+enum GRAPHIX_EXPORT SHAPES
 {
   CIRCLE  
 };
@@ -27,7 +28,7 @@ enum SHAPES
  * Base shape class for all
  * primitive shapes in the GraphiX scene
  */
-class Shape
+class GRAPHIX_EXPORT Shape
 {
 public:
   /**

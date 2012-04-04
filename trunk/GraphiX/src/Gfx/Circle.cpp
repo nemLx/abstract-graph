@@ -10,7 +10,6 @@
 
 #include <cmath>
 
-#include "graphix_incl.h"
 #include "Gfx/Circle.h"
 
 #define DEG2RAD (3.14159/180)
