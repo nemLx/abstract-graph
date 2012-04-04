@@ -72,6 +72,7 @@ void MainWindow::buildFileMenu()
   
   QAction* actImport = new QAction(MAINWINDOW_FILE_IMPORT, this);
   actImport->setShortcut(QKeySequence::Open);
+  actImport->setEnabled(false); // Currently not implemented
   
   QAction* actExport = new QAction(MAINWINDOW_FILE_EXPORT, this);
   actExport->setShortcut(QKeySequence::Save);
@@ -182,7 +183,8 @@ void MainWindow::enableAction(int key, bool enable)
 void MainWindow::createGLWindow()
 {
   GLWindow* glWindow = new GLWindow(this);
-  glTabs->addTab(glWindow, "OpenGL Tab");
+  int idx = glTabs->addTab(glWindow, "Graph");
+  glTabs->setCurrentIndex(idx);
   enableAction(MAINWINDOW_FILE_CLOSETAB_ID, true);
 }
 

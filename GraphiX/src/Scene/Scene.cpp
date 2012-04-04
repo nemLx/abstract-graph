@@ -12,6 +12,7 @@
 #include "Gfx/Circle.h"
 
 #include "Scene/Scene.h"
+#include "Control/NodeCreationMode.h"
 
 #define GRAPHIX_DEFAULT_PICK_BUFFER_SIZE 16
 
@@ -21,6 +22,11 @@ Scene::Scene()
 {
   bufferSize = GRAPHIX_DEFAULT_PICK_BUFFER_SIZE;
   pickBuffer = new unsigned[bufferSize];
+  
+  modes[NODECREATION] = new NodeCreationMode(&shapes, &selected);
+  
+  // Default in Node Creation Mode for now
+  currentMode = modes[NODECREATION];
   
   // Only supporting 2D for now
   glDisable(GL_DEPTH_TEST);
@@ -89,7 +95,22 @@ void Scene::addShape(SHAPES shape, int xW, int yW)
   if(newShape != NULL)
     shapes.push_back(newShape);
 }
-  
+
+void Scene::registerClick(int xW, int yW)
+{
+  updateViewport();
+  double x = 0, y = 0;
+  windowToGL(xW, yW, x, y);
+  unsigned hits = pickScene(xW, viewport[3]-yW);
+  currentMode->handleClick(x, y, hits, pickBuffer);
+}
+
+void Scene::updateMode(GRAPHIX::MODES mode)
+{
+  currentMode = modes[mode];
+  currentMode->removeAllHighlight();
+}
+
 void Scene::updateGLSize(int w, int h)
 {
   glViewport(0, 0, w, h);
@@ -126,11 +147,8 @@ unsigned Scene::pickScene(float x, float y)
   
   // Perform the picking operation
   glMatrixMode(GL_MODELVIEW);
-  std::vector<Shape*>::const_iterator it;
-  unsigned i = 0;
-  for(it = shapes.begin(), i = 0 ; it != shapes.end() ; ++it, ++i) {
-    (*it)->pick(i);
-  }
+  
+  currentMode->pickLogic();
   
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
@@ -138,12 +156,6 @@ unsigned Scene::pickScene(float x, float y)
   unsigned hits = glRenderMode(GL_RENDER);
   
   glMatrixMode(GL_MODELVIEW);
-  
-  // TODO: Will have to update this logic
-  if(hits > 0)
-    hitLogic(hits);
-  else
-    removeHighlight();
   
   return hits;
 }
@@ -159,64 +171,6 @@ void Scene::windowToGL(int winX, int winY, double& x, double& y) const
   gluUnProject(winX, winY, 0, model, projection, viewport, &x, &y, &z);
   
   y *= -1; // Window to OpenGL so invert y
-}
-
-void Scene::hitLogic(unsigned hits)
-{
-  // Find selected nodes
-  for(unsigned i = 0 ; i < hits ; ++i) {
-    unsigned char p = (unsigned char)pickBuffer[i * 4 + 3];
-    Shape* shape = shapes[p];
-    
-    if(shape == NULL)
-      continue;
-    
-    if(shape->isSelected())
-      removeHighlight(shape);
-    else
-      highlightSelected(shape);
-  }
-}
-
-void Scene::highlightSelected(Shape* shape)
-{
-  if(shape == NULL)
-    return;
-  
-  Color highlight(0.0, 0.0, 255.0, 0.0);
-  
-  shape->setHighlight(highlight);
-  selected.push_back(shape);
-  
-  shape->toggleSelected();
-}
-
-void Scene::removeHighlight()
-{
-  std::vector<Shape*>::iterator it;
-  Color highlight(0.f, 0.f, 0.f, 0.f);
-  
-  for(it = selected.begin() ; it != selected.end() ;) {
-    removeHighlight(*it);
-  }
-}
-
-void Scene::removeHighlight(Shape* shape)
-{
-  if(shape == NULL || !shape->isSelected())
-    return;
-  
-  std::vector<Shape*>::iterator it;
-  Color highlight(0.f, 0.f, 0.f, 0.f);
-  
-  for(it = selected.begin() ; it != selected.end() ; ++it) {
-    if(*it == shape) {
-      shape->setHighlight(highlight);
-      shape->toggleSelected();
-      selected.erase(it);
-      break;
-    }
-  }
 }
 
 void Scene::copy(const Scene& rhs)
@@ -244,23 +198,43 @@ void Scene::copy(const Scene& rhs)
     if(newShape != NULL && newShape->isSelected())
       selected.push_back(newShape);
   }
+  
+  std::map<MODES, Mode*>::const_iterator it;
+  for(it = rhs.modes.begin() ; it != rhs.modes.end() ; ++it) {
+    MODES modeType = (*it).first;
+    Mode* modePtr  = (*it).second;
+    
+    switch(modePtr->getMode()) {
+      case NODECREATION:
+      {
+        NodeCreationMode* theMode = static_cast<NodeCreationMode*>(modePtr);
+        modes[modeType] = new NodeCreationMode(*theMode);
+      }
+        break;
+      case EDGECREATION:
+        // Not implemented
+        break;
+      default:
+        break;
+    }
+  }
 }
   
 void Scene::destroy()
 {
   if(pickBuffer != NULL)
     delete pickBuffer;
+  
   for(unsigned i = 0 ; i < shapes.size() ; ++i)
-    delete shapes[i];
+    delete shapes[i]; 
+  
+  std::map<MODES, Mode*>::iterator it;
+  for(it = modes.begin() ; it != modes.end() ; ++it)
+    delete (*it).second;
+  
   shapes.clear();
   selected.clear();
-}
-  
-unsigned char* Scene::getBufferElement(unsigned idx) const
-{
-  if(idx >= bufferSize)
-    return NULL;
-  return (unsigned char*)&pickBuffer[idx];
+  modes.clear();
 }
   
 void Scene::resizePickBuffer()
