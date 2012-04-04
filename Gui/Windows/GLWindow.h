@@ -12,6 +12,7 @@
 #define WINDOWS_GLWINDOW_H__
 
 #include <QtOpenGL/QGLWidget>
+#include "graphix.h"
 
 class QWidget;
 
@@ -64,6 +65,9 @@ protected:
    * Handle key press events
    */
   void keyPressEvent(QKeyEvent* evt);
+  
+private:
+  GRAPHIX::Scene scene;
 };
 
 #endif /* WINDOWS_GLWINDOW_H__ */

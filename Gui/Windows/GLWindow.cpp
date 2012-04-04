@@ -8,7 +8,10 @@
  * @version $Id$
  */
 
+#include <QtGui/QMouseEvent>
+
 #include "GLWindow.h"
+#include "graphix.h"
 
 GLWindow::GLWindow(QWidget* parent)
   : QGLWidget(parent)
@@ -17,39 +20,38 @@ GLWindow::GLWindow(QWidget* parent)
 
 GLWindow::~GLWindow()
 {
-  // Not implemented
 }
 
 void GLWindow::initalizeGL()
 {
-  // Some default code
-  // Will eventually be moved out
-  // to the library
   makeCurrent();
-  glDisable(GL_TEXTURE_2D);
-  glDisable(GL_DEPTH_TEST);
-  glDisable(GL_COLOR_MATERIAL);
-  glEnable(GL_BLEND);
-  glEnable(GL_POLYGON_SMOOTH);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 }
 
 void GLWindow::resizeGL(int w, int h)
 {
-  // Not implemented
+  scene.updateGLSize(w, h);
 }
 
 void GLWindow::paintGL()
 {
-  // Just turn the background gray - nothing fancy for now
-  makeCurrent();
-  glClear(GL_COLOR_BUFFER_BIT);
-  glClearColor(139.0/255.0, 137.0/255.0, 137.0/255.0, 0.0);
+  scene.updateScene();
 }
 
 void GLWindow::mousePressEvent(QMouseEvent* evt)
 {
-  // Not implemented
+  Qt::MouseButton button = evt->button();
+  
+  // Make sure are coordinates are from the proper perspective
+  QPoint pos(evt->x(), evt->y());
+  mapFromGlobal(pos);
+  int x = pos.x();
+  int y = pos.y();
+  
+  if(button == Qt::LeftButton) {
+    // Basically just adding circles now
+    scene.addShape(GRAPHIX::CIRCLE, x, y);
+    updateGL();
+  }
 }
 
 void GLWindow::mouseMoveEvent(QMouseEvent* evt)

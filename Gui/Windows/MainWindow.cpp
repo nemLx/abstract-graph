@@ -64,7 +64,7 @@ void MainWindow::buildFileMenu()
 {
   // File actions
   QAction* actNew = new QAction(MAINWINDOW_FILE_NEW, this);
-  actNew->setShortcut(QKeySequence::New);
+  actNew->setShortcut(QKeySequence::AddTab);
   
   QAction* actCloseT = new QAction(MAINWINDOW_FILE_CLOSETAB, this);
   actCloseT->setShortcut(QKeySequence::Close);
