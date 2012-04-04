@@ -293,10 +293,15 @@ private:
     vector<Edge*>* E;
 
     bool exists(int id, int isNode);
-    Dijkstra::Vertex * initDijkstra(int s, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G);
+    
+    vector<Dijkstra::Vertex*> * initDijkstra(int s, int t, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G);
+    
     Dijkstra::Vertex * initDijkstraVertex(Node * node);
+    
     void initDijkstraVertexAdj(Dijkstra::Vertex * v, vector<Dijkstra::Vertex*> * vertices);
+    
     Edge* getEdge(Node * from, Node * to);
+    
 };
 
 #endif

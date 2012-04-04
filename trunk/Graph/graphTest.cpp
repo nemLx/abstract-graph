@@ -19,7 +19,7 @@ int main(){
     
     vector<int> * path = new vector<int>();
     
-	printf("\n%i \n", g.shortestPath(1,2,path));
+	printf("\n%i \n", g.shortestPath(2,4,path));
 
 	return 0;
 }

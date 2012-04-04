@@ -107,14 +107,17 @@ int Graph::shortestPath(int s, int t, vector<int> * path){
     
     priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G 
     = new priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp>();
-    Dijkstra::Vertex * src = initDijkstra(s, G);
     
-    Dijkstra::dijkstra(src, G);
+    vector<Dijkstra::Vertex*> * srcDest = initDijkstra(s, t, G);
+    
+    Dijkstra::dijkstra(srcDest->at(0), G);
     
     int length = 0;
     
-    Dijkstra::Vertex * curr = src;
+    Dijkstra::Vertex * curr = srcDest->at(1);
     path->push_back(curr->id);
+    
+    //printf("src: %i next: %i", curr->id, curr->next->id);
     
     while (curr->next != NULL){
         curr = curr->next;
@@ -125,8 +128,14 @@ int Graph::shortestPath(int s, int t, vector<int> * path){
 	return length;
 }
 
-Dijkstra::Vertex * Graph::initDijkstra(int s, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G){
+vector<Dijkstra::Vertex*> * Graph::initDijkstra(
+                                                int s, 
+                                                int t, 
+                                                priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G)
+{
+    
     vector<Dijkstra::Vertex*> * vertices = new vector<Dijkstra::Vertex*>(n);
+    vector<Dijkstra::Vertex*> * srcDest = new vector<Dijkstra::Vertex*>(2);
     
     for (int i = 0; i < n; i++){
         if (N->at(i) != NULL) {
@@ -143,7 +152,10 @@ Dijkstra::Vertex * Graph::initDijkstra(int s, priority_queue<Dijkstra::Vertex*, 
         }
     }
     
-    return vertices->at(s);
+    srcDest->at(0) = vertices->at(s);
+    srcDest->at(1) = vertices->at(t);
+    
+    return srcDest;
 }
 
 Dijkstra::Vertex * Graph::initDijkstraVertex(Node * node){
