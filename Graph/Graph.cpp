@@ -29,7 +29,9 @@ int Graph::addNode(){
 	return n;
 }
 
-int Graph::addEdge(int from, int to){
+
+
+int Graph::addEdge(int from, int to, int weight){
 
 	// return -1 if end points out of bound
 	if (from >= n || to >= n){
@@ -37,11 +39,14 @@ int Graph::addEdge(int from, int to){
 	}
 
 	Edge * newEdge = new Edge(m, N->at(from), N->at(to), directed);
+	newEdge->setWeight(weight);
 	E->push_back(newEdge);
 	m++;
 	
 	return m;
 }
+
+
 
 int Graph::removeNode(int id){
 	if (!exists(id, 1)){
@@ -51,6 +56,8 @@ int Graph::removeNode(int id){
 		N->at(id) = NULL;
 	}
 }
+
+
 
 int Graph::removeEdge(int id){
 	if (!exists(id, 0)){
@@ -63,6 +70,8 @@ int Graph::removeEdge(int id){
 	}
 }
 
+
+
 int Graph::setNodeWeight(int id, int weight){
 	if (!exists(id, 1) || weight < 0){
 		return 0;
@@ -72,6 +81,8 @@ int Graph::setNodeWeight(int id, int weight){
 	}
 }
 
+
+
 int Graph::setEdgeWeight(int id, int weight){
 	if (!exists(id, 0) || weight < 0){
 		return 0;
@@ -79,6 +90,8 @@ int Graph::setEdgeWeight(int id, int weight){
 		E->at(id)->setWeight(weight);
 	}
 }
+
+
 
 int Graph::setEdgeCapacity(int id, int capacity){
 	if (!exists(id, 0) || capacity < 0){
@@ -89,6 +102,8 @@ int Graph::setEdgeCapacity(int id, int capacity){
 	}
 }
 
+
+
 int Graph::setEdgeDirection(int id, int from, int to){
 	if (!exists(id, 0)){
 		return 0;
@@ -96,6 +111,8 @@ int Graph::setEdgeDirection(int id, int from, int to){
 		return E->at(id)->setDirection(N->at(from), N->at(to));
 	}
 }
+
+
 
 int Graph::shortestPath(int s, int t, vector<int> * path){
     
@@ -107,36 +124,36 @@ int Graph::shortestPath(int s, int t, vector<int> * path){
     
     priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G 
     = new priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp>();
+	
+	vector<Dijkstra::Vertex*> * vertices = new vector<Dijkstra::Vertex*>(n);
+	
+	initDijkstra(s, vertices, G);
     
-    vector<Dijkstra::Vertex*> * srcDest = initDijkstra(s, t, G);
+    Dijkstra::dijkstra(false, vertices->at(s), G);
     
-    Dijkstra::dijkstra(srcDest->at(0), G);
-    
-    int length = 0;
-    
-    Dijkstra::Vertex * curr = srcDest->at(1);
+    Dijkstra::Vertex * curr = vertices->at(t);
     path->push_back(curr->id);
-    
-    //printf("src: %i next: %i", curr->id, curr->next->id);
     
     while (curr->next != NULL){
         curr = curr->next;
         path->push_back(curr->id);
-        length++;
     }
+	
+	int retVal = vertices->at(t)->dist;
+	
+	delete G;
+	delete vertices;
     
-	return length;
+	return retVal;
 }
 
-vector<Dijkstra::Vertex*> * Graph::initDijkstra(
-                                                int s, 
-                                                int t, 
-                                                priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G)
+
+
+void Graph::initDijkstra(
+						int s,
+						vector<Dijkstra::Vertex*> * vertices,
+						priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G)
 {
-    
-    vector<Dijkstra::Vertex*> * vertices = new vector<Dijkstra::Vertex*>(n);
-    vector<Dijkstra::Vertex*> * srcDest = new vector<Dijkstra::Vertex*>(2);
-    
     for (int i = 0; i < n; i++){
         if (N->at(i) != NULL) {
             vertices->at(i) = initDijkstraVertex(N->at(i));
@@ -144,19 +161,16 @@ vector<Dijkstra::Vertex*> * Graph::initDijkstra(
             vertices->at(i) = NULL;
         }
     }
-    
-    for (int i = 0; i < n; i++){
+	
+	for (int i = 0; i < n; i++){
         if (vertices->at(i) != NULL){
             initDijkstraVertexAdj(vertices->at(i), vertices);
             G->push(vertices->at(i));
         }
     }
-    
-    srcDest->at(0) = vertices->at(s);
-    srcDest->at(1) = vertices->at(t);
-    
-    return srcDest;
 }
+
+
 
 Dijkstra::Vertex * Graph::initDijkstraVertex(Node * node){
     Dijkstra::Vertex * v = new Dijkstra::Vertex();
@@ -165,11 +179,13 @@ Dijkstra::Vertex * Graph::initDijkstraVertex(Node * node){
     v->adj = new vector<Dijkstra::Vertex*>();
     v->cost = new vector<int>();
     v->visited = false;
-    v->dist = 999999999;
+    v->dist = INFINITY;
     v->next = NULL;
     
     return v;
 }
+
+
 
 void Graph::initDijkstraVertexAdj(Dijkstra::Vertex * v, vector<Dijkstra::Vertex*> * vertices){
     
@@ -205,32 +221,79 @@ void Graph::initDijkstraVertexAdj(Dijkstra::Vertex * v, vector<Dijkstra::Vertex*
 }
 
 
-int Graph::MST(vector<int> * edges){
-	return -1;
+
+int Graph::MST(vector<int> * edges, int root){
+	
+	if ( directed || !isConnected() ){
+        return 0;
+    }
+    
+    //init a vertex struct with adjacency list
+    
+    priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G 
+    = new priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp>();
+	
+	vector<Dijkstra::Vertex*> * vertices = new vector<Dijkstra::Vertex*>(n);
+	
+	initDijkstra(root, vertices, G);
+    
+    Dijkstra::dijkstra(true, vertices->at(root), G);
+	
+	int retVal = 0;
+	
+	for (int i = 0; i < n; i++){
+		//printf("%i trying \n",i);
+		if (vertices->at(i) != NULL && vertices->at(i)->next != NULL){
+			//printf("%i valid vertex \n",i);
+			
+			Node * from = N->at(vertices->at(i)->id);
+			Node * to	= N->at(vertices->at(i)->next->id);
+			Edge * edge = getEdge(from, to);
+			edges->push_back(edge->weight);
+			retVal += edge->weight;
+			
+			//printf("%i \n",edge->weight);
+		}
+	}
+	
+	return retVal;
 }
+
+
 
 int Graph::maxMatching(vector<int> * matching){
 	return -1;
 }
 
+
+
 int Graph::minVertexCover(vector<int> * cover){
 	return -1;
 }
+
+
 
 Graph::Edge* Graph::getEdge(Node * from, Node * to){
     Edge* curr = NULL;
     
     for (int i = 0; i < m; i++){
-        
         curr = E->at(i);
-        
         if (from->id == curr->from->id && to->id == curr->to->id){
             return curr;
-        }
+        }else if (!directed && from->id == curr->to->id && to->id == curr->from->id){
+			return curr;
+		}
     }
     
     return NULL;
 }
+
+
+bool Graph::isConnected(){
+	return true;
+}
+
+
 
 void Graph::printGraph(){
 	for (int i = 0; i < n; i++){
@@ -239,6 +302,8 @@ void Graph::printGraph(){
 		}
 	}
 }
+
+
 
 bool Graph::exists(int id, int isNode){
 	if (isNode == 1){

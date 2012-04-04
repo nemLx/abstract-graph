@@ -2,9 +2,12 @@
 #define _GRAPH_H_
 
 #include <iostream>
+#include <limits.h>
 #include <vector>
 #include <queue>
 #include "Algorithms.h"
+
+#define INFINITY INT_MAX
 
 using namespace std;
 using namespace Algorithms;
@@ -27,7 +30,7 @@ public:
 	 *		a positive id of the edge on success
 	 *		-1 on failure
 	 */
-    int addEdge(int from, int to);
+    int addEdge(int from, int to, int weight);
 
 
 
@@ -92,7 +95,7 @@ public:
 	 *
 	 *		-1 on failure
 	 */
-	int MST(vector<int> * edges);
+	int MST(vector<int> * edges, int root);
 
 
 
@@ -109,6 +112,9 @@ public:
 	 *		-1 on failure
 	 */
 	int minVertexCover(vector<int> * cover);
+	
+	
+	bool isConnected();
 
 
 	void printGraph();
@@ -294,7 +300,7 @@ private:
 
     bool exists(int id, int isNode);
     
-    vector<Dijkstra::Vertex*> * initDijkstra(int s, int t, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G);
+    void initDijkstra(int s, vector<Dijkstra::Vertex*> * vertices, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G);
     
     Dijkstra::Vertex * initDijkstraVertex(Node * node);
     
