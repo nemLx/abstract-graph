@@ -3,13 +3,16 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
+#include "Algorithms.h"
 
 using namespace std;
+using namespace Algorithms;
 
 class Graph{
 
 public:
-	Graph(int numNodes);
+	Graph(int numNodes, int directed);
     ~Graph();
 
 
@@ -24,7 +27,7 @@ public:
 	 *		a positive id of the edge on success
 	 *		-1 on failure
 	 */
-    int addEdge(int from, int to, int directed);
+    int addEdge(int from, int to);
 
 
 
@@ -115,11 +118,14 @@ public:
 private:
     int n;
     int m;
+    int directed;
 
     class Node{
 	public:
 		int id;
 		int degree;
+		int inDegree;
+		int outDegree;
 		int weight;
 		vector<Node*>* neighborhood;
 		vector<Node*>* inNeighborhood;
@@ -136,39 +142,36 @@ private:
 		}
 
 		int addNeighbor(Node* neighbor){
+			degree++;
 			return addNeighborTo(neighbor, neighborhood);
 		}
 
 		int addInNeighbor(Node* neighbor){
+			inDegree++;
 			return addNeighborTo(neighbor, inNeighborhood);
 		}
 
 		int addOutNeighbor(Node* neighbor){
+			outDegree++;
 			return addNeighborTo(neighbor, outNeighborhood);
 		}
 
 		int removeNeighbor(Node* neighbor){
+			degree--;
 			return removeNeighborFrom(neighbor, this->neighborhood);	
 		}
 
 		int removeInNeighbor(Node* neighbor){
+			inDegree--;
 			return removeNeighborFrom(neighbor, this->inNeighborhood);	
 		}
 
 		int removeOutNeighbor(Node* neighbor){
+			outDegree--;
 			return removeNeighborFrom(neighbor, this->outNeighborhood);	
 		}
 
 		int addNeighborTo(Node* neighbor, vector<Node*>* neighborhood){
-			vector<Node*>::iterator it = neighborhood->begin();
-
-			while (it != neighborhood->end()){
-				if ((*it)->id == neighbor->id){
-					return 0;
-				}else{
-					++it;
-				}
-			}
 
 			neighborhood->push_back(neighbor);
 
@@ -229,9 +232,6 @@ private:
 			weight = 1;
 			capacity = 1;
 
-			from->degree++;
-			to->degree++;
-
 			from->addNeighbor(to);
 			to->addNeighbor(from);
 
@@ -270,6 +270,10 @@ private:
 			from->addOutNeighbor(to);
 			to->addInNeighbor(from);
 		}
+        
+        void setWeight(int weight){
+            this->weight = weight;
+        }
 
 		~Edge(){
 			from->degree--;
@@ -289,6 +293,10 @@ private:
     vector<Edge*>* E;
 
     bool exists(int id, int isNode);
+    Dijkstra::Vertex * initDijkstra(int s, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G);
+    Dijkstra::Vertex * initDijkstraVertex(Node * node);
+    void initDijkstraVertexAdj(Dijkstra::Vertex * v, vector<Dijkstra::Vertex*> * vertices);
+    Edge* getEdge(Node * from, Node * to);
 };
 
 #endif
