@@ -6,8 +6,6 @@ using namespace std;
 using namespace Algorithms;
 
 int Dijkstra::dijkstra(Dijkstra::Vertex * s, priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G){
-	
-    printf("dijkstra Called \n");
     
     s->dist = 0;
     
@@ -24,10 +22,9 @@ int Dijkstra::dijkstra(Dijkstra::Vertex * s, priority_queue<Dijkstra::Vertex*, v
         
         Dijkstra::Vertex * u = G->top();
         
-        printf("%i \n", u->dist);
-        
         if (u->dist == 999999999){
             break;
+            printf("broken with: %i \n", u->dist);
         }
         
         u->visited = true;
@@ -41,7 +38,10 @@ int Dijkstra::dijkstra(Dijkstra::Vertex * s, priority_queue<Dijkstra::Vertex*, v
             w = u->adj->at(i);
             uwCost = u->cost->at(i);
             
+            printf("iteration: %i -- w: %i -- u: %i -- uwCost: %i \n", i, w->id, u->id, uwCost);
+            
             if ( !w->visited ){
+                printf("unvisited \n");
                 if ( (u->dist + uwCost) < w->dist ){
                     w->dist = u->dist + uwCost;
                     
@@ -50,6 +50,8 @@ int Dijkstra::dijkstra(Dijkstra::Vertex * s, priority_queue<Dijkstra::Vertex*, v
                     G->push(v);
                     
                     w->next = u;
+                    
+                    printf("w->dist: %i, u->dist: %i, uwCost: %i w->next: %i \n", w->dist, u->dist, uwCost, w->next->id);
                 }
             }
         }
