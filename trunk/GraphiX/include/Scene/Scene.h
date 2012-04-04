@@ -12,9 +12,11 @@
 #define GRAPHIX_SCENE_SCENE_H__
 
 #include <vector>
+#include <map>
 
 #include "graphix_incl.h"
 #include "../Gfx/Shape.h"
+#include "../Control/Mode.h"
 
 namespace GRAPHIX
 {
@@ -58,13 +60,31 @@ public:
   virtual unsigned* updateScene();
   
   /**
-   * Add a shape
+   * Add a shape. Method added for flexibility in
+   * scene, however, should be unnecessary for standard
+   * graph applications.
    *
    * @param shape   SHAPE type
    * @param x       X coordinate (window coord)
    * @param y       Y coordinate (window coord)
    */
   void addShape(SHAPES shape, int x, int y);
+  
+  /**
+   * Register a click with the scene
+   *  The current mode should handle accordingly
+   *
+   * @param x   X coordinate (window coord)
+   * @param y   Y coordinate (window coord)
+   */
+  void registerClick(int x, int y);
+  
+  /**
+   * Update the mode
+   *
+   * @param mode    The new mode to enter
+   */
+  void updateMode(GRAPHIX::MODES mode);
   
   /**
    * updateGLSize
@@ -100,32 +120,6 @@ private:
   void windowToGL(int winX, int winY, double& x, double& y) const;
   
   /**
-   * Handle hits (picking related)
-   *
-   * @param hits    Number of items "picked"
-   */
-  void hitLogic(unsigned hits);
-  
-  /**
-   * Highlight selected nodes/edges
-   *
-   * @param shape   Pointer to the shape to highlight
-   */
-  void highlightSelected(Shape* shape);
-  
-  /**
-   * Remove the highlighting
-   */
-  void removeHighlight();
-  
-  /**
-   * Remove highlighting on a particular node
-   *
-   * @param shape   The selected shape
-   */
-  void removeHighlight(Shape* shape);
-  
-  /**
    * Copy data (private helper)
    */
   void copy(const Scene& rhs);
@@ -136,20 +130,14 @@ private:
   void destroy();
   
   /**
-   * Get an element from the picked buffer
-   *
-   * @param idx   The index of the element
-   * @return  A pointer to the requested element. Otherwise NULL.
-   */
-  unsigned char* getBufferElement(unsigned idx) const;
-  
-  /**
    * Resize pick buffer
    */
   void resizePickBuffer();
   
   std::vector<Shape*> shapes;
   std::vector<Shape*> selected;
+  std::map<MODES, Mode*> modes;
+  Mode* currentMode;
   int viewport[4];
   unsigned* pickBuffer;
   unsigned bufferSize;

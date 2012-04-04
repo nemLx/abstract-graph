@@ -48,8 +48,7 @@ void GLWindow::mousePressEvent(QMouseEvent* evt)
   int y = pos.y();
   
   if(button == Qt::LeftButton) {
-    // Basically just adding circles now
-    scene.addShape(GRAPHIX::CIRCLE, x, y);
+    scene.registerClick(x, y);
     updateGL();
   }
 }

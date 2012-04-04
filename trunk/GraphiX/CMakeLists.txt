@@ -27,8 +27,10 @@ find_package(OpenGL REQUIRED)
 set(GFX_SRC src/Gfx/Shape.cpp include/Gfx/Shape.h
   src/Gfx/Circle.cpp include/Gfx/Circle.h)
 set(SCENE_SRC src/Scene/Scene.cpp include/Scene/Scene.h)
+set(CONTROL_SRC src/Control/Mode.cpp include/Control/Mode.h
+  src/Control/NodeCreationMode.cpp include/Control/NodeCreationMode.h)
 
-set(SOURCE_FILES ${GFX_SRC} ${SCENE_SRC} graphix.h)
+set(SOURCE_FILES ${GFX_SRC} ${SCENE_SRC} ${CONTROL_SRC})
 
 # Main Binary
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
