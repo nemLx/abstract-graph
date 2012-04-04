@@ -13,6 +13,7 @@
 
 #include <vector>
 
+#include "graphix_incl.h"
 #include "../Gfx/Shape.h"
 
 namespace GRAPHIX
@@ -23,7 +24,7 @@ namespace GRAPHIX
  * NOTE: Assumes already running within a valid
  *    rendering context
  */
-class Scene
+class GRAPHIX_EXPORT Scene
 {
 public:
   /**

@@ -11,6 +11,11 @@
 #ifndef GRAPHIX_LIB_H__
 #define GRAPHIX_LIB_H__
 
+// Make sure we have proper library import/export type
+#if _WIN32
+#define GRAPHIX_PROD
+#endif
+
 #include "graphix_incl.h"
 
 #include "Gfx/Shape.h"

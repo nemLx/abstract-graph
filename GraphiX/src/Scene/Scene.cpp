@@ -8,8 +8,6 @@
  * @version $Id$
  */
 
-#include "graphix_incl.h"
-
 #include "Gfx/Shape.h"
 #include "Gfx/Circle.h"
 

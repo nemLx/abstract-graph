@@ -3,7 +3,7 @@
 #
 # @author Dennis J. McWherter, Jr.
 # @version $Id$
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.6)
 project(GraphiX)
 
 # Hide things we don't need
