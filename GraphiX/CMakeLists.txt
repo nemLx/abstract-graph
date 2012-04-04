@@ -25,12 +25,14 @@ find_package(OpenGL REQUIRED)
 
 # Source Files
 set(GFX_SRC src/Gfx/Shape.cpp include/Gfx/Shape.h
-  src/Gfx/Circle.cpp include/Gfx/Circle.h)
+  src/Gfx/Circle.cpp include/Gfx/Circle.h
+  src/Gfx/Line.cpp include/Gfx/Line.h)
 set(SCENE_SRC src/Scene/Scene.cpp include/Scene/Scene.h)
 set(CONTROL_SRC src/Control/Mode.cpp include/Control/Mode.h
-  src/Control/NodeCreationMode.cpp include/Control/NodeCreationMode.h)
+  src/Control/NodeCreationMode.cpp include/Control/NodeCreationMode.h
+  src/Control/EdgeCreationMode.cpp include/Control/EdgeCreationMode.h)
 
-set(SOURCE_FILES ${GFX_SRC} ${SCENE_SRC} ${CONTROL_SRC})
+set(SOURCE_FILES ${GFX_SRC} ${SCENE_SRC} ${CONTROL_SRC} include/graphix.h)
 
 # Main Binary
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})

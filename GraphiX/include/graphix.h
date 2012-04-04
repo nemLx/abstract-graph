@@ -23,5 +23,8 @@
 
 #include "Scene/Scene.h"
 
+#include "Control/Mode.h"
+#include "Control/NodeCreationMode.h"
+
 #endif /* GRAPHIX_LIB_H__ */
 

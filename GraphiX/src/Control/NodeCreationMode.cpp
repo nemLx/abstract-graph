@@ -59,7 +59,7 @@ void NodeCreationMode::pickLogic()
 
 void NodeCreationMode::selectLogic(unsigned hits, unsigned* pickBuffer)
 {
-  // In NODE creation mode, do nothing??
+  // In NODE creation mode, do nothing?? - Temporarily highlighting
   Mode::selectLogic(hits, pickBuffer);
 }
 

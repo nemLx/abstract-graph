@@ -40,13 +40,15 @@ void MainWindow::initActions()
 {
   buildFileMenu();
   buildEditMenu();
+  buildModesMenu();
   buildAlgMenu();
 }
 
 void MainWindow::initMenus()
 {
-  fileMenu = menuBar()->addMenu(MAINWINDOW_FILE_MENU);
-  editMenu = menuBar()->addMenu(MAINWINDOW_EDIT_MENU);
+  fileMenu  = menuBar()->addMenu(MAINWINDOW_FILE_MENU);
+  editMenu  = menuBar()->addMenu(MAINWINDOW_EDIT_MENU);
+  modesMenu = menuBar()->addMenu(MAINWINDOW_MODES_MENU);
   algorithmMenu = menuBar()->addMenu(MAINWINDOW_ALG_MENU);
 }
 
@@ -114,6 +116,18 @@ void MainWindow::buildEditMenu()
   editMenu->addAction(editRemove);
 }
 
+void MainWindow::buildModesMenu()
+{
+  QAction* modeCNode = new QAction(MAINWINDOW_MODES_NODECREATION, this);
+  connect(modeCNode, SIGNAL(triggered()), this, SLOT(setNodeCreateMode()));
+
+  QAction* modeCEdge = new QAction(MAINWINDOW_MODES_EDGECREATION, this);
+  connect(modeCEdge, SIGNAL(triggered()), this, SLOT(setEdgeCreateMode()));
+  
+  modesMenu->addAction(modeCNode);
+  modesMenu->addAction(modeCEdge);
+}
+
 void MainWindow::buildAlgMenu()
 {
   // Algorithm Actions
@@ -179,6 +193,15 @@ void MainWindow::enableAction(int key, bool enable)
     act->setEnabled(enable);
 }
 
+void MainWindow::updateMode(GRAPHIX::MODES mode)
+{
+  for(int i = 0 ; i < glTabs->count() ; ++i) {
+    GLWindow* gl = static_cast<GLWindow*>(glTabs->widget(i));
+    if(gl != NULL)
+      gl->updateMode(mode);
+  }
+}
+
 /* Signals/Slots */
 void MainWindow::createGLWindow()
 {
@@ -186,6 +209,9 @@ void MainWindow::createGLWindow()
   int idx = glTabs->addTab(glWindow, "Graph");
   glTabs->setCurrentIndex(idx);
   enableAction(MAINWINDOW_FILE_CLOSETAB_ID, true);
+  
+  // Set everyone back to node creation mode
+  updateMode(GRAPHIX::NODECREATION);
 }
 
 void MainWindow::closeGLWindow()
@@ -215,3 +241,14 @@ void MainWindow::updateCurrentTab(int idx)
     }
   }
 }
+
+void MainWindow::setNodeCreateMode()
+{
+  updateMode(GRAPHIX::NODECREATION);
+}
+
+void MainWindow::setEdgeCreateMode()
+{
+  updateMode(GRAPHIX::EDGECREATION);
+}
+

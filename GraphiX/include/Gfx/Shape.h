@@ -21,7 +21,8 @@ namespace GRAPHIX
  */
 enum GRAPHIX_EXPORT SHAPES
 {
-  CIRCLE  
+  CIRCLE,
+  LINE
 };
 
 /**

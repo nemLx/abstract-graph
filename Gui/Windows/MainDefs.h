@@ -17,6 +17,7 @@
 // Menus
 #define MAINWINDOW_FILE_MENU tr("&File")
 #define MAINWINDOW_EDIT_MENU tr("&Edit")
+#define MAINWINDOW_MODES_MENU tr("&Modes")
 #define MAINWINDOW_ALG_MENU  tr("&Algorithms")
 
 // File Menu Actions
@@ -25,6 +26,14 @@
 #define MAINWINDOW_FILE_NEW tr("N&ew Tab")
 #define MAINWINDOW_FILE_CLOSETAB tr("C&lose Current Tab")
 #define MAINWINDOW_FILE_CLOSE tr("C&lose")
+
+// Edit Menu Actions
+#define MAINWINDOW_EDIT_REMOVENODE tr("R&emove Node")
+#define MAINWINDOW_EDIT_ADDEDGE tr("A&dd Edge")
+
+// Modes Menu Actions
+#define MAINWINDOW_MODES_NODECREATION tr("N&ode Creation")
+#define MAINWINDOW_MODES_EDGECREATION tr("E&dge Creation")
 
 // Algorithm Menu Actions
 #define MAINWINDOW_ALG_SHORTEST tr("S&hortest Path")
@@ -40,10 +49,6 @@
 #define MAINWINDOW_ALG_CENTER tr("Center of Graph")
 #define MAINWINDOW_ALG_PRUFER tr("Prufer Code (Trees)")
 #define MAINWINDOW_ALG_DEBRUIJN tr("de Bruijn Cycles")
-
-// Edit Menu Actions
-#define MAINWINDOW_EDIT_REMOVENODE tr("R&emove Node")
-#define MAINWINDOW_EDIT_ADDEDGE tr("A&dd Edge")
 
 // IDs for hashing (only for ones which need it)
 // MainWindow gets 0x1000 block

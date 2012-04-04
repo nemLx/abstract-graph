@@ -22,6 +22,12 @@ GLWindow::~GLWindow()
 {
 }
 
+void GLWindow::updateMode(GRAPHIX::MODES mode)
+{
+  scene.updateMode(mode);
+  updateGL();
+}
+
 void GLWindow::initalizeGL()
 {
   makeCurrent();

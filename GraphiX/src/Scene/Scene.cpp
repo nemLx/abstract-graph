@@ -12,7 +12,9 @@
 #include "Gfx/Circle.h"
 
 #include "Scene/Scene.h"
+
 #include "Control/NodeCreationMode.h"
+#include "Control/EdgeCreationMode.h"
 
 #define GRAPHIX_DEFAULT_PICK_BUFFER_SIZE 16
 
@@ -24,6 +26,7 @@ Scene::Scene()
   pickBuffer = new unsigned[bufferSize];
   
   modes[NODECREATION] = new NodeCreationMode(&shapes, &selected);
+  modes[EDGECREATION] = new EdgeCreationMode(&shapes, &selected);
   
   // Default in Node Creation Mode for now
   currentMode = modes[NODECREATION];
@@ -212,7 +215,10 @@ void Scene::copy(const Scene& rhs)
       }
         break;
       case EDGECREATION:
-        // Not implemented
+      {
+        EdgeCreationMode* theMode = static_cast<EdgeCreationMode*>(modePtr);
+        modes[modeType] = new EdgeCreationMode(*theMode);
+      }
         break;
       default:
         break;
