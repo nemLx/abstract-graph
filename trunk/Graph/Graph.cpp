@@ -17,7 +17,21 @@ Graph::Graph(int numNodes, int directed){
 }
 
 Graph::~Graph(){
+	for (int i = 0; i < m; i++){
+		if (E->at(i) != NULL){
+			delete E->at(i);
+		}
+	}
+
 	
+	for (int i = 0; i < n; i++){
+		if (N->at(i) != NULL){
+			delete N->at(i);
+		}
+	}
+	
+	delete N;
+	delete E;
 }
 
 int Graph::addNode(){
