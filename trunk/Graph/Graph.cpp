@@ -65,7 +65,6 @@ int Graph::removeEdge(int id){
 	}else{
 		delete E->at(id);
 		E->at(id) = NULL;
-		m--;
 		return 1;
 	}
 }
@@ -116,43 +115,115 @@ int Graph::setEdgeDirection(int id, int from, int to){
 
 int Graph::shortestPath(int s, int t, vector<int> * path){
     
+	// validify
     if (path == NULL || !exists(s,1) || !exists(t,1) ){
-        return 0;
+        return -1;
     }
     
-    //init a vertex struct with adjacency list
-    
+	// initialized structure needed for Dijkstra's
     priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G 
     = new priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp>();
 	
 	vector<Dijkstra::Vertex*> * vertices = new vector<Dijkstra::Vertex*>(n);
 	
 	initDijkstra(s, vertices, G);
-    
+	
+	// run Dijkstra's
     Dijkstra::dijkstra(false, vertices->at(s), G);
+	
+	// construct path, cleanup, and return distance
+	int dist = constructPath(t, vertices, path);
+	
+	delete vertices;
+	delete G;
+	
+    return dist;
+}
+
+
+
+int Graph::MST(vector<int> * edges, int root){
+	
+	// validify
+	if ( directed ){
+        return 0;
+    }
     
-    Dijkstra::Vertex * curr = vertices->at(t);
+    // initialized structure needed for Dijkstra's
+    priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G 
+    = new priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp>();
+	
+	vector<Dijkstra::Vertex*> * vertices = new vector<Dijkstra::Vertex*>(n);
+	
+	initDijkstra(root, vertices, G);
+    
+	// run Dijkstra's
+    Dijkstra::dijkstra(true, vertices->at(root), G);
+	
+	// construct tree, clean up, and return total weight
+	int totalWeight = constructMST(vertices, edges);
+	
+	delete vertices;
+	delete G;
+	
+	return totalWeight;
+}
+
+
+
+int Graph::constructMST(vector<Dijkstra::Vertex*> * vertices, vector<int> * edges){
+	int totalWeight = 0;
+	
+	for (int i = 0; i < n; i++){
+		if (vertices->at(i) == NULL || vertices->at(i)->next == NULL){
+			continue;
+		}
+		
+		Node * from = N->at(vertices->at(i)->id);
+		Node * to	= N->at(vertices->at(i)->next->id);
+		Edge * edge = getEdge(from, to);
+		
+		edges->push_back(edge->id);
+		
+		totalWeight += edge->weight;
+	}
+	
+	return totalWeight;
+}
+
+
+
+int Graph::maxMatching(vector<int> * matching){
+	return -1;
+}
+
+
+
+int Graph::minVertexCover(vector<int> * cover){
+	return -1;
+}
+
+
+
+int Graph::constructPath(int t, vector<Dijkstra::Vertex*> * vertices, vector<int> * path){
+	
+	Dijkstra::Vertex * curr = vertices->at(t);
     path->push_back(curr->id);
     
     while (curr->next != NULL){
         curr = curr->next;
         path->push_back(curr->id);
     }
-	
-	int retVal = vertices->at(t)->dist;
-	
-	delete G;
-	delete vertices;
     
-	return retVal;
+	return vertices->at(t)->dist;
 }
 
 
 
 void Graph::initDijkstra(
-						int s,
-						vector<Dijkstra::Vertex*> * vertices,
-						priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G)
+						 int s,
+						 vector<Dijkstra::Vertex*> * vertices,
+						 priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G)
 {
     for (int i = 0; i < n; i++){
         if (N->at(i) != NULL) {
@@ -192,89 +263,31 @@ void Graph::initDijkstraVertexAdj(Dijkstra::Vertex * v, vector<Dijkstra::Vertex*
     Node * node = N->at(v->id);
     
     vector<Node*> * reachables = NULL;
+	vector<Edge*> * weights = NULL;
     int currId = -1;
     int degree = 0;
     
     if (directed){
         reachables = node->outNeighborhood;
+		weights = node->outAdjacent;
         degree = node->outDegree;
     }else{
         reachables = node->neighborhood;
+		weights = node->adjacent;
         degree = node->degree;
     }
     
     for (int i = 0; i < degree; i++) {
         currId = reachables->at(i)->id;
         v->adj->push_back(vertices->at(currId));
-        
-        Node * from = node;
-        Node * to   = reachables->at(i);
-        Edge * e    = getEdge(from, to);
-        
-        if (!directed && e == NULL){
-            e = getEdge(to, from);
-        }
-        
-        v->cost->push_back( e->weight );
+        v->cost->push_back( weights->at(i)->weight );
     }
-    
-}
-
-
-
-int Graph::MST(vector<int> * edges, int root){
-	
-	if ( directed || !isConnected() ){
-        return 0;
-    }
-    
-    //init a vertex struct with adjacency list
-    
-    priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp> * G 
-    = new priority_queue<Dijkstra::Vertex*, vector<Dijkstra::Vertex*>, Dijkstra::comp>();
-	
-	vector<Dijkstra::Vertex*> * vertices = new vector<Dijkstra::Vertex*>(n);
-	
-	initDijkstra(root, vertices, G);
-    
-    Dijkstra::dijkstra(true, vertices->at(root), G);
-	
-	int retVal = 0;
-	
-	for (int i = 0; i < n; i++){
-		//printf("%i trying \n",i);
-		if (vertices->at(i) != NULL && vertices->at(i)->next != NULL){
-			//printf("%i valid vertex \n",i);
-			
-			Node * from = N->at(vertices->at(i)->id);
-			Node * to	= N->at(vertices->at(i)->next->id);
-			Edge * edge = getEdge(from, to);
-			edges->push_back(edge->weight);
-			retVal += edge->weight;
-			
-			//printf("%i \n",edge->weight);
-		}
-	}
-	
-	return retVal;
-}
-
-
-
-int Graph::maxMatching(vector<int> * matching){
-	return -1;
-}
-
-
-
-int Graph::minVertexCover(vector<int> * cover){
-	return -1;
 }
 
 
 
 Graph::Edge* Graph::getEdge(Node * from, Node * to){
-    Edge* curr = NULL;
+	Edge* curr = NULL;
     
     for (int i = 0; i < m; i++){
         curr = E->at(i);
@@ -289,16 +302,17 @@ Graph::Edge* Graph::getEdge(Node * from, Node * to){
 }
 
 
-bool Graph::isConnected(){
-	return true;
-}
-
-
 
 void Graph::printGraph(){
 	for (int i = 0; i < n; i++){
 		if (N->at(i) != NULL){
 			N->at(i)->printNode();
+		}
+	}
+	
+	for (int i = 0; i < m; i++){
+		if (E->at(i) != NULL){
+			E->at(i)->printEdge();
 		}
 	}
 }

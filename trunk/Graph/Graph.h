@@ -26,7 +26,11 @@ public:
 
 
 
-    /*	returns:
+    /*	
+	 *	from: id of tail node
+	 *	to: id of head node
+	 *	weight: should be 1 in unweighted graph
+	 *	returns:
 	 *		a positive id of the edge on success
 	 *		-1 on failure
 	 */
@@ -82,7 +86,7 @@ public:
 
 	/*	returns:
 	 *		weight of the path on success, which is simply the length
-	 *		the edges are not weighted
+	 *		if the edges are not weighted
 	 *
 	 *		-1 on failure
 	 */
@@ -112,20 +116,17 @@ public:
 	 *		-1 on failure
 	 */
 	int minVertexCover(vector<int> * cover);
-	
-	
-	bool isConnected();
 
 
 	void printGraph();
-
 
 	
 private:
     int n;
     int m;
     int directed;
-
+	class Edge;
+	
     class Node{
 	public:
 		int id;
@@ -133,6 +134,11 @@ private:
 		int inDegree;
 		int outDegree;
 		int weight;
+		
+		vector<Edge*>* adjacent;
+		vector<Edge*>* inAdjacent;
+		vector<Edge*>* outAdjacent;
+		
 		vector<Node*>* neighborhood;
 		vector<Node*>* inNeighborhood;
 		vector<Node*>* outNeighborhood;
@@ -142,65 +148,80 @@ private:
 			this->id = id;
 			degree = 0;
 			weight = 0;
+			
 			neighborhood = new vector<Node*>();
 			inNeighborhood = new vector<Node*>();
 			outNeighborhood = new vector<Node*>();
+			
+			adjacent = new vector<Edge*>();
+			inAdjacent = new vector<Edge*>();
+			outAdjacent = new vector<Edge*>();
 		}
 
-		int addNeighbor(Node* neighbor){
+		void addNeighbor(Edge* adj, Node* neighbor){
 			degree++;
-			return addNeighborTo(neighbor, neighborhood);
-		}
-
-		int addInNeighbor(Node* neighbor){
-			inDegree++;
-			return addNeighborTo(neighbor, inNeighborhood);
-		}
-
-		int addOutNeighbor(Node* neighbor){
-			outDegree++;
-			return addNeighborTo(neighbor, outNeighborhood);
-		}
-
-		int removeNeighbor(Node* neighbor){
-			degree--;
-			return removeNeighborFrom(neighbor, this->neighborhood);	
-		}
-
-		int removeInNeighbor(Node* neighbor){
-			inDegree--;
-			return removeNeighborFrom(neighbor, this->inNeighborhood);	
-		}
-
-		int removeOutNeighbor(Node* neighbor){
-			outDegree--;
-			return removeNeighborFrom(neighbor, this->outNeighborhood);	
-		}
-
-		int addNeighborTo(Node* neighbor, vector<Node*>* neighborhood){
-
 			neighborhood->push_back(neighbor);
-
-			return 1;
+			adjacent->push_back(adj);
 		}
 
-		int removeNeighborFrom(Node* neighbor, vector<Node*>* neighborhood){
-			vector<Node*>::iterator it = neighborhood->begin();
+		void addInNeighbor(Edge* adj, Node* neighbor){
+			inDegree++;
+			inNeighborhood->push_back(neighbor);
+			inAdjacent->push_back(adj);
+		}
 
-			while (it != neighborhood->end()){
+		void addOutNeighbor(Edge* adj, Node* neighbor){
+			outDegree++;
+			outNeighborhood->push_back(neighbor);
+			outAdjacent->push_back(adj);
+		}
+
+		void removeNeighbor(Edge* adj, Node* neighbor){
+			degree--;
+			removeNeighborFrom(neighbor, this->neighborhood);
+			removeAdjacentFrom(adj, this->adjacent);
+		}
+
+		int removeInNeighbor(Edge* adj, Node* neighbor){
+			inDegree--;
+			removeNeighborFrom(neighbor, this->inNeighborhood);
+			removeAdjacentFrom(adj, this->inAdjacent);	
+		}
+
+		int removeOutNeighbor(Edge* adj, Node* neighbor){
+			outDegree--;
+			removeNeighborFrom(neighbor, this->outNeighborhood);
+			removeAdjacentFrom(adj, this->outAdjacent);
+		}
+
+		void removeNeighborFrom(Node* neighbor, vector<Node*>* nb){
+			vector<Node*>::iterator it = nb->begin();
+
+			while (it != nb->end()){
 				if ((*it)->id == neighbor->id){
-					it = neighborhood->erase(it);
-					return 0;
+					nb->erase(it);
+					break;
 				}else{
-					++it;
+					it++;
 				}
 			}
-
-			return 1;
+		}
+		
+		void removeAdjacentFrom(Edge* adj, vector<Edge*>* nb){
+			vector<Edge*>::iterator it = nb->begin();
+			
+			while (it != nb->end()){
+				if ((*it)->id == adj->id){
+					nb->erase(it);
+					break;
+				}else{
+					it++;
+				}
+			}
 		}
 
 		void printNode(){
-			printf("%i : ", id);
+			printf("Node %i's adjs : ", id);
 			
 			for (int i = 0; i < degree; i++){
 				if (neighborhood->at(i)!=NULL){
@@ -238,12 +259,14 @@ private:
 			weight = 1;
 			capacity = 1;
 
-			from->addNeighbor(to);
-			to->addNeighbor(from);
+			from->addNeighbor(this, to);
+			if (from->id != to->id){
+				to->addNeighbor(this, from);
+			}
 
 			if (directed == 1){
-				from->addOutNeighbor(to);
-				to->addInNeighbor(from);
+				from->addOutNeighbor(this, to);
+				to->addInNeighbor(this, from);
 			}
 		}
 
@@ -266,31 +289,41 @@ private:
 		}
 
 		void reverseDirection(){
-			from->removeOutNeighbor(to);
-			to->removeInNeighbor(from);
+			from->removeOutNeighbor(this, to);
+			to->removeInNeighbor(this, from);
 
 			Node* temp = from;
 			from = to;
 			to = temp;
 
-			from->addOutNeighbor(to);
-			to->addInNeighbor(from);
+			from->addOutNeighbor(this, to);
+			to->addInNeighbor(this, from);
 		}
         
         void setWeight(int weight){
             this->weight = weight;
         }
 
+		void printEdge(){
+			if (directed){
+				printf("Edge %i : %i->%i ", id, from->id, to->id);
+			}else{
+				printf("Edge %i : %i<->%i ", id, from->id, to->id);
+			}
+			
+			printf("w:%i \n", weight);
+		}
+		
 		~Edge(){
-			from->degree--;
-			to->degree--;
 
-			from->removeNeighbor(to);
-			to->removeNeighbor(from);
+			from->removeNeighbor(this, to);
+			if (from->id != to->id){
+				to->removeNeighbor(this, from);
+			}
 
 			if (directed == 1){
-				from->removeOutNeighbor(to);
-				to->removeInNeighbor(from);
+				from->removeOutNeighbor(this, to);
+				to->removeInNeighbor(this, from);
 			}
 		}
     };
@@ -307,7 +340,10 @@ private:
     void initDijkstraVertexAdj(Dijkstra::Vertex * v, vector<Dijkstra::Vertex*> * vertices);
     
     Edge* getEdge(Node * from, Node * to);
+	
+	int constructPath(int t, vector<Dijkstra::Vertex*> * vertices, vector<int> * path);
     
+	int constructMST(vector<Dijkstra::Vertex*> * vertices, vector<int> * edges);
 };
 
 #endif

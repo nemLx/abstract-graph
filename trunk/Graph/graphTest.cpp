@@ -18,51 +18,66 @@ int main(){
 }
 
 void shortestPathTest(){
+	
 	Graph g(8,1);
 	
-	printf("%i ", g.addEdge(1,2,2));
-	printf("%i ", g.addEdge(1,4,1));
-	printf("%i ", g.addEdge(2,4,3));
-	printf("%i ", g.addEdge(2,5,10));
-	printf("%i ", g.addEdge(3,1,4));
-	printf("%i ", g.addEdge(3,6,5));
-	printf("%i ", g.addEdge(4,3,2));
-	printf("%i ", g.addEdge(4,5,2));
-	printf("%i ", g.addEdge(4,6,8));
-	printf("%i ", g.addEdge(4,7,4));
-	printf("%i ", g.addEdge(5,7,6));
-	printf("%i ", g.addEdge(7,6,1));
+	g.addEdge(1,1,1);
+	g.removeEdge(0);
 	
+	g.addEdge(1,2,2);
+	g.addEdge(1,4,1);
+	g.addEdge(2,4,3);
+	g.addEdge(2,5,10);
+	g.addEdge(3,1,4);
+	g.addEdge(3,6,5);
+	g.addEdge(4,3,2);
+	g.addEdge(4,5,2);
+	g.addEdge(4,6,8);
+	g.addEdge(4,7,4);
+	g.addEdge(5,7,6);
+	g.addEdge(7,6,1);
+	
+	printf("\n");
 	g.printGraph();
     
     vector<int> * path = new vector<int>();
-	vector<int> * mstEdges = new vector<int>();
+	
+	int from = 1;
+	int to = 7;
     
-	printf("\n%i \n", g.shortestPath(1,7, path));
+	printf("\nshortest path from %i to %i: \ndistance: %i \npath: ", from, to, g.shortestPath(from,to, path));
+	
+	int size = path->size();
+	for (int i = 0; i < size; i++){
+		printf("%i ", path->at(size-i-1));
+	}
+	
+	printf("\n");
 }
 
 void mstTest(){
 	
 	Graph g(8,0);
 	
-	printf("%i ", g.addEdge(1,2,2));
-	printf("%i ", g.addEdge(1,4,1));
-	printf("%i ", g.addEdge(2,4,3));
-	printf("%i ", g.addEdge(2,5,10));
-	printf("%i ", g.addEdge(3,1,4));
-	printf("%i ", g.addEdge(3,6,5));
-	printf("%i ", g.addEdge(4,3,2));
-	printf("%i ", g.addEdge(4,5,7));
-	printf("%i ", g.addEdge(4,6,8));
-	printf("%i ", g.addEdge(4,7,4));
-	printf("%i ", g.addEdge(5,7,6));
-	printf("%i ", g.addEdge(7,6,1));
+	g.addEdge(1,2,2);
+	g.addEdge(1,4,1);
+	g.addEdge(2,4,3);
+	g.addEdge(2,5,10);
+	g.addEdge(3,1,4);
+	g.addEdge(3,6,5);
+	g.addEdge(4,3,2);
+	g.addEdge(4,5,7);
+	g.addEdge(4,6,8);
+	g.addEdge(4,7,4);
+	g.addEdge(5,7,6);
+	g.addEdge(7,6,1);
 	
+	printf("\n");
 	g.printGraph();
 	
 	vector<int> * mstEdges = new vector<int>();
 	
-	printf("\ntotal weight: %i \n", g.MST(mstEdges, 1));
+	printf("\nMST: \ntotal weight: %i \ntree edges: ", g.MST(mstEdges, 1));
 	
 	for (int i = 0; i < mstEdges->size(); i++){
 		printf("%i ", mstEdges->at(i));
