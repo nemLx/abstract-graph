@@ -196,8 +196,16 @@ private:
 
 		void removeNeighborFrom(Node* neighbor, vector<Node*>* nb){
 			vector<Node*>::iterator it = nb->begin();
-
+			
+			if (neighbor == NULL){
+				return;
+			}
+			
 			while (it != nb->end()){
+				if ((*it) == NULL){
+					continue;
+				}
+				
 				if ((*it)->id == neighbor->id){
 					nb->erase(it);
 					break;
@@ -210,7 +218,15 @@ private:
 		void removeAdjacentFrom(Edge* adj, vector<Edge*>* nb){
 			vector<Edge*>::iterator it = nb->begin();
 			
+			if (adj == NULL){
+				return;
+			}
+			
 			while (it != nb->end()){
+				if ((*it) == NULL){
+					continue;
+				}
+				
 				if ((*it)->id == adj->id){
 					nb->erase(it);
 					break;
@@ -236,7 +252,16 @@ private:
 			delete neighborhood;
 			delete inNeighborhood;
 			delete outNeighborhood;
+			
+			delete adjacent;
+			delete inAdjacent;
+			delete outAdjacent;
+			
 			neighborhood = NULL;
+			inNeighborhood = NULL;
+			outNeighborhood = NULL;
+			
+			adjacent = NULL;
 			inNeighborhood = NULL;
 			outNeighborhood = NULL;
 		}
@@ -315,7 +340,11 @@ private:
 		}
 		
 		~Edge(){
-
+			
+			if (to == NULL || from ==NULL){
+				return;
+			}
+			
 			from->removeNeighbor(this, to);
 			if (from->id != to->id){
 				to->removeNeighbor(this, from);

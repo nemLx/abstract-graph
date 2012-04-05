@@ -6,4 +6,5 @@ g++ -c graphTest.cpp
 g++ -c Algorithms.cpp
 g++ graphTest.o Graph.o Algorithms.o -o graphTest
 rm *.o
+
 ./graphTest

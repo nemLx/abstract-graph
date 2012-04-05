@@ -53,6 +53,8 @@ void shortestPathTest(){
 	}
 	
 	printf("\n");
+	
+	delete path;
 }
 
 void mstTest(){
@@ -84,4 +86,6 @@ void mstTest(){
 	}
 	
 	printf("\n");
+	
+	delete mstEdges;
 }
