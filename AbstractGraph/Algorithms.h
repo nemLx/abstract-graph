@@ -22,7 +22,7 @@ namespace Algorithms{
 			//	pointer to adjacent vertices
 			vector<Vertex*> * adj;
 			
-			//	costs of each adjacent node
+			//	costs of each adjacent edge
             vector<int> * cost;
 			
 			//	true if visited
