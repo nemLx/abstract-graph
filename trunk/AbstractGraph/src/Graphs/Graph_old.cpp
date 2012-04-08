@@ -1,9 +1,8 @@
-#include "Graph.h"
+#include "../../include/Graphs/Graph.h"
 
 using namespace std;
-using namespace Algorithms;
 
-Graph::Graph(int numNodes, int directed){
+Graph(int numNodes, int directed){
 
 	n = 0;
 	m = 0;
@@ -101,6 +100,7 @@ int Graph::setEdgeWeight(int id, int weight){
 		return 0;
 	}else{
 		E->at(id)->setWeight(weight);
+		return 1;
 	}
 }
 
