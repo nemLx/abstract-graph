@@ -9,7 +9,8 @@
 #include <iostream>
 
 #include "../../include/Graphs/AbstractGraph.h"
-
+#include "../../include/Algorithms/Dijkstra.h"
+#include "../../include/Algorithms/Prim.h"
 
 AbstractGraph::AbstractGraph(){
 	n = 0;
@@ -26,38 +27,16 @@ AbstractGraph::~AbstractGraph(){
 		delete itNodes->second;
 	}
 	
-	map<int, AbstractEdge*>::iterator itEdges;
-	
-	for (itEdges = E->begin(); itEdges != E->end(); itEdges++){
-		delete itEdges->second;
-	}
+//	map<int, AbstractEdge*>::iterator itEdges;
+//	
+//	for (itEdges = E->begin(); itEdges != E->end(); itEdges++){
+//		delete itEdges->second;
+//	}
 	
 	delete N;
 	delete E;
 }
 
-
-int AbstractGraph::removeNode(int id){
-	if (!validNode(id)){
-		return 0;
-	}else{
-		delete (*E)[id];
-		E->erase(id);
-		m--;
-		return 1;
-	}
-}
-
-int AbstractGraph::removeEdge(int id){
-	if (!validEdge(id)){
-		return 0;
-	}else{
-		delete (*N)[id];
-		N->erase(id);
-		n--;
-		return 1;
-	}
-}
 
 int AbstractGraph::setEdgeValue(int id, int v){
 	if(!validEdge(id)){
@@ -70,29 +49,86 @@ int AbstractGraph::setEdgeValue(int id, int v){
 
 bool AbstractGraph::validEdge(int id){
 	if (E->find(id) == E->end()){
-		return true;
-	}else{
 		return false;
+	}else{
+		return true;
 	}
 }
 
 bool AbstractGraph::validNode(int id){
 	if (N->find(id) == N->end()){
-		return true;
-	}else{
 		return false;
+	}else{
+		return true;
 	}
 }
 
 int AbstractGraph::shortestPath(int s, int t, vector<int> * path){
-		
+	
 	Dijkstra spSolver(s, t, this, path);
-	
-	spSolver.solve();
-	
-	return 0;
+
+	return spSolver.solve();
 }
 
+
+int AbstractGraph::mst(vector<int> * edges){
+	
+	Prim mstSolver(this, edges);
+	
+	return mstSolver.solve();
+}
+
+
+int AbstractGraph::removeEdge(int id){
+	
+	if (!validEdge(id)){
+		return 0;
+	}else{
+		
+		delete (*E)[id];
+		
+		E->erase(E->find(id));
+		
+		m--;
+		
+		return 1;
+	}
+}
+
+
+bool AbstractGraph::isDirected(){
+	return directed;
+}
+
+
+map<int, AbstractNode*> * AbstractGraph::getNodes(){
+	return N;
+}
+
+
+map<int, AbstractEdge*> * AbstractGraph::getEdges(){
+	return E;
+}
+
+
+void AbstractGraph::printGraph(){
+	
+	map<int, AbstractNode*>::iterator itN = N->begin();
+	
+	while (itN != N->end()) {
+		itN->second->printNode();
+		
+		itN++;
+	}
+	
+	map<int, AbstractEdge*>::iterator itE = E->begin();
+	
+	while (itE != E->end()) {
+		itE->second->printEdge();
+		
+		itE++;
+	}
+}
 
 //int AbstractGraph::addNode(){
 //	return -1;

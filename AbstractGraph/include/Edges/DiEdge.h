@@ -10,9 +10,15 @@ class DiEdge : public AbstractEdge{
 	
 public:
 	
+	DiNode * from;
+	
+	DiNode * to;
+	
 	DiEdge(int id, DiNode * s, DiNode * t);
 	
 	DiEdge(int id, DiNode * s, DiNode * t, int v);
+	
+	void printEdge();
 	
 	~DiEdge();
 	

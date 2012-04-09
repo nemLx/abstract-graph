@@ -19,6 +19,8 @@ public:
 	
 	int addEdge(int s, int t, int v);
 	
+	int removeNode(int id);
+	
 private:
 	
 	

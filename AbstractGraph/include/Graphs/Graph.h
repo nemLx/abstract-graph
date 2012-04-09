@@ -19,9 +19,7 @@ public:
 	
 	int addEdge(int s, int t, int v);
 	
-private:
-	
-	
+	int removeNode(int id);
 };
 
 #endif
