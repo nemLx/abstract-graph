@@ -10,9 +10,15 @@ class Edge : public AbstractEdge{
 	
 public:
 	
+	Node * from;
+	
+	Node * to;
+	
 	Edge(int id, Node * s, Node * t);
 	
 	Edge(int id, Node * s, Node * t, int v);
+	
+	void printEdge();
 	
 	~Edge();
 	

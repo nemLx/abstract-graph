@@ -1,14 +1,9 @@
 #ifndef _DIJKSTRA_H_
 #define _DIJKSTRA_H_
 
-#define INFINITY 1000
-
-#include "../Graphs/AbstractGraph.h"
 #include "Algorithm.h"
 
 using namespace std;
-
-class AbstractGraph;
 
 class Dijkstra : public Algorithm{
 
@@ -24,10 +19,12 @@ private:
 		int id;
 		
 		//	pointer to adjacent vertices
-		vector<Vertex*> * adj;
+		map<int, Vertex*> * adj;
 		
 		//	costs of each adjacent edge
-		vector<int> * cost;
+		map<int, int> * cost;
+		
+		map<int, int> * edgeId;
 		
 		//	true if visited
 		bool visited;
@@ -51,7 +48,13 @@ private:
 		}
 	};
 	
-	Vertex * s;
+	map<int, Vertex*> * V;
+	
+	int s;
+	
+	int t;
+	
+	vector<int> * path;
 	
 	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
 	
@@ -59,6 +62,13 @@ private:
 	
 	void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
 	
+	void initDirected(int s, int t, DiGraph * g);
+	
+	void initUnDirected(int s, int t, Graph * g);
+	
+	Vertex * initVertex(AbstractNode * node);
+	
+	int constructPath();
 };
 
 #endif

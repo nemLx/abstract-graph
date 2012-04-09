@@ -4,6 +4,20 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <limits.h>
+
+#include "../Graphs/AbstractGraph.h"
+
+#include "../Graphs/Graph.h"
+#include "../Graphs/DiGraph.h"
+
+#define INFINITY INT_MAX
+
+class AbstractGraph;
+
+class Graph;
+
+class DiGraph;
 
 class Algorithm{
 

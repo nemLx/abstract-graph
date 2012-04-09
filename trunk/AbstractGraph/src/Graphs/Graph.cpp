@@ -82,6 +82,33 @@ int Graph::addEdge(int s, int t, int v){
 }
 
 
+int Graph::removeNode(int id){
+	
+	if (!validNode(id)){
+		return 0;
+	}else{
+		
+		Node * node = (Node*)(*N)[id];
+		
+		map<int, Edge*> adjacent (*(node->adjacent));
+		
+		map<int, Edge*>::iterator it;
+		
+		for (it = adjacent.begin(); it != adjacent.end(); it++){
+			removeEdge(it->first);
+		}
+		
+		N->erase(N->find(id));
+		
+		delete node;
+		
+		n--;
+		
+		return 1;
+	}
+	
+}
+
 
 
 

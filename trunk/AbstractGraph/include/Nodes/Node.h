@@ -14,10 +14,9 @@ public:
 	
 	int degree;
 	
-	vector<Node*> * neighborhood;
+	map<int, Node*> * neighborhood;
 	
-	vector<Edge*> * adjacent;
-	
+	map<int, Edge*> * adjacent;
 	
 	
 	
@@ -28,6 +27,8 @@ public:
 	int addAdjacent(Edge * adj, Node * neighbor);
 	
 	int removeAdjacent(Edge * adj, Node * neighbor);
+	
+	void printNode();
 	
 };
 

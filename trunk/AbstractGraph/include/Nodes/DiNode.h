@@ -16,13 +16,13 @@ public:
 	
 	int outDegree;
 	
-	vector<DiNode*> * inNeighborhood;
+	map<int, DiEdge*> * inAdjacent;
 	
-	vector<DiNode*> * outNeighborhood;
+	map<int, DiEdge*> * outAdjacent;
 	
-	vector<DiEdge*> * inAdjacent;
+	map<int, DiNode*> * inNeighborhood;
 	
-	vector<DiEdge*> * outAdjacent;
+	map<int, DiNode*> * outNeighborhood;
 	
 	
 	
@@ -39,6 +39,7 @@ public:
 	
 	int removeOutAdjacent(DiEdge * adj, DiNode * neighbor);
 	
+	void printNode();
 };
 
 

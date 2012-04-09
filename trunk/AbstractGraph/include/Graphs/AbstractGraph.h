@@ -10,9 +10,6 @@
 #include "../Edges/AbstractEdge.h"
 #include "../Nodes/AbstractNode.h"
 
-#include "../Algorithms/Algorithm.h"
-#include "../Algorithms/Dijkstra.h"
-
 using namespace std;
 
 class AbstractGraph{
@@ -29,20 +26,29 @@ public:
 	
 	virtual int addEdge(int s, int t, int v) = 0;
 	
+	virtual int removeNode(int id) = 0;
 	
-	int removeNode(int id);
 	
 	int removeEdge(int id);
 	
 	int setEdgeValue(int id, int v);
 	
-	
 	bool validEdge(int id);
 	
 	bool validNode(int id);
 	
+	bool isDirected();
+	
+	map<int, AbstractNode*> * getNodes();
+	
+	map<int, AbstractEdge*> * getEdges();
+	
+	void printGraph();
+	
 	
 	int shortestPath(int s, int t, vector<int> * path);
+	
+	int mst(vector<int> * edges);
 	
 	
 protected:

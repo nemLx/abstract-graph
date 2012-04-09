@@ -27,10 +27,10 @@ set (GRAPH_SRC
 		include/Graphs/AbstractGraph.h src/Graphs/AbstractGraph.cpp
 		src/Graphs/Graph.cpp include/Graphs/Graph.h
 		src/Graphs/DiGraph.cpp include/Graphs/DiGraph.h
-		include/Nodes/AbstractNode.h
+		include/Nodes/AbstractNode.h src/Nodes/AbstractNode.cpp
 		include/Nodes/Node.h src/Nodes/Node.cpp
 		include/Nodes/DiNode.h src/Nodes/DiNode.cpp
-		include/Edges/AbstractEdge.h
+		include/Edges/AbstractEdge.h src/Edges/AbstractEdge.cpp
 		include/Edges/Edge.h src/Edges/Edge.cpp
 		include/Edges/DiEdge.h src/Edges/DiEdge.cpp
 		include/Algorithms/Algorithm.h
@@ -40,7 +40,7 @@ set (GRAPH_SRC
 	
 
 # Main Binary
-add_library(${PROJECT_NAME} SHARED ${GRAPH_SRC})
+#add_library(${PROJECT_NAME} SHARED ${GRAPH_SRC})
 
 add_executable(${PROJECT_NAME}_test ${GRAPH_SRC} graphTest.cpp)
 

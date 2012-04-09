@@ -11,10 +11,13 @@ public:
 	
 	int value;
 	
-	AbstractNode * from;
+	AbstractEdge(int id);
 	
-	AbstractNode * to;
+	AbstractEdge(int id, int v);
 	
+	virtual ~AbstractEdge(){};
+	
+	virtual void printEdge(){};
 };
 
 #endif

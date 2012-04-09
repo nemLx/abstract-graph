@@ -82,6 +82,36 @@ int DiGraph::addEdge(int s, int t, int v){
 
 
 
+int DiGraph::removeNode(int id){
+	
+	if (!validNode(id)){
+		return 0;
+	}else{
+		
+		DiNode * node = (DiNode*)(*N)[id];
+		
+		map<int, DiEdge*> inAdjacent (*(node->inAdjacent));
+		map<int, DiEdge*> outAdjacent (*(node->outAdjacent));
+		
+		map<int, DiEdge*>::iterator it;
+		
+		for (it = inAdjacent.begin(); it != inAdjacent.end(); it++){
+			removeEdge(it->first);
+		}
+		
+		for (it = outAdjacent.begin(); it != outAdjacent.end(); it++){
+			removeEdge(it->first);
+		}
+		
+		delete node;
+		
+		n--;
+		
+		return 1;
+	}
+}
+
+
 
 
 
