@@ -56,7 +56,10 @@ void EdgeCreationMode::handleClick(double x, double y, unsigned hits, unsigned* 
     if(cl != NULL && cr != NULL) {
       removeHighlight(cl);
       removeHighlight(cr);
-      shapes->push_back(new Line(cl, cr));
+      Line* edge = new Line(cl, cr);
+      shapes->push_back(edge);
+      cl->addEdge(edge);
+      cr->addEdge(edge);
     }
   }
 }

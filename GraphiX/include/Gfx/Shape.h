@@ -69,6 +69,20 @@ public:
   float getY() const;
   
   /**
+   * Set the shape's public id
+   *
+   * @param id    The new public id
+   */
+  void setId(int id);
+  
+  /**
+   * Get the shape's public id
+   *
+   * @return  The public id. -1 if not set
+   */
+  int getId() const;
+  
+  /**
    * Set a new object color
    *
    * @param c   The new color
@@ -140,6 +154,7 @@ private:
   Color color;
   Color highlight;
   bool selected;
+  int pubId;
 };
 }
 #endif /* GRAPHIX_GFX_SHAPE_H__ */

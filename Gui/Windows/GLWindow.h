@@ -14,6 +14,7 @@
 #include <QtOpenGL/QGLWidget>
 #include "graphix.h"
 
+class NodeOptionsMenu;
 class QWidget;
 
 class GLWindow : public QGLWidget
@@ -41,7 +42,7 @@ protected:
   /**
    * Initialize the OpenGL renderer
    */
-  void initalizeGL();
+  virtual void initalizeGL();
   
   /**
    * Resize OpenGL Render window
@@ -49,30 +50,50 @@ protected:
    * @param w   New width
    * @param h   New height
    */
-  void resizeGL(int w, int h);
+  virtual void resizeGL(int w, int h);
   
   /**
    * Paint the GL window
    */
-  void paintGL();
+  virtual void paintGL();
   
   /**
    * Handle mouse press events
+   *
+   * @param evt   The event caught
    */
-  void mousePressEvent(QMouseEvent* evt);
+  virtual void mousePressEvent(QMouseEvent* evt);
   
   /**
    * Handle mouse move events
+   *
+   * @param evt   The event caught
    */
-  void mouseMoveEvent(QMouseEvent* evt);
+  virtual void mouseMoveEvent(QMouseEvent* evt);
   
   /**
    * Handle key press events
+   *
+   * @param evt   The event caught
    */
-  void keyPressEvent(QKeyEvent* evt);
+  virtual void keyPressEvent(QKeyEvent* evt);
+  
+  /**
+   * Override the "right-click" operation
+   *
+   * @param evt   The caught event
+   */
+  virtual void contextMenuEvent(QContextMenuEvent* evt);
+
+protected slots:
+  /**
+   * Delete the selected items
+   */
+  void deleteSelected();
   
 private:
   GRAPHIX::Scene scene;
+  NodeOptionsMenu* nodeRightClick;
 };
 
 #endif /* WINDOWS_GLWINDOW_H__ */

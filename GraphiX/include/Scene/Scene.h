@@ -98,6 +98,25 @@ public:
    * Updates the viewport information
    */
   void updateViewport();
+  
+  /**
+   * Add a public ID to last added shape
+   *
+   * @param id    The public id
+   */
+  void setLastId(int id);
+  
+  /**
+   * Check if there are any selected nodes
+   *
+   * @return  True if there are nodes selected, false otherwise
+   */
+  bool checkNodesSelected() const;
+  
+  /**
+   * Delete selected items
+   */
+  void deleteSelected();
 
 protected:
   /**
@@ -108,7 +127,21 @@ protected:
    */
   virtual unsigned pickScene(float x, float y);
   
+  /**
+   * Remove an item from the shapes list
+   *
+   * @param shape   A pointer to the shape
+   */
+  virtual void removeShapeFromList(Shape* shape);
+  
 private:
+  /**
+   * Remove and delete an item from the list
+   *
+   * @param shape   Pointer to remove/delete
+   */
+  virtual void removeAndDelete(Shape* shape);
+  
   /**
    * Convert from window coordinates to OpenGL coords
    *

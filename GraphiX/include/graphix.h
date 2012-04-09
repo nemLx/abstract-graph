@@ -20,11 +20,13 @@
 
 #include "Gfx/Shape.h"
 #include "Gfx/Circle.h"
+#include "Gfx/Line.h"
 
 #include "Scene/Scene.h"
 
 #include "Control/Mode.h"
 #include "Control/NodeCreationMode.h"
+#include "Control/EdgeCreationMode.h"
 
 #endif /* GRAPHIX_LIB_H__ */
 

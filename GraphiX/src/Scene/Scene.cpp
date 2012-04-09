@@ -10,6 +10,7 @@
 
 #include "Gfx/Shape.h"
 #include "Gfx/Circle.h"
+#include "Gfx/Line.h"
 
 #include "Scene/Scene.h"
 
@@ -131,6 +132,61 @@ void Scene::updateViewport()
   glGetIntegerv(GL_VIEWPORT, viewport);
 }
 
+void Scene::setLastId(int id)
+{
+  if(shapes.empty())
+    return;
+  
+  std::vector<Shape*>::iterator it = shapes.end()-1;
+  (*it)->setId(id);
+}
+
+bool Scene::checkNodesSelected() const
+{
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it)
+    if((*it)->getType() == CIRCLE)
+      return true;
+  
+  return false;
+}
+
+void Scene::deleteSelected()
+{
+  std::vector<Shape*>::iterator it;
+  std::vector<Shape*>::iterator all;
+  
+  std::map<Line*,Line*> removedEdges;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it) {
+    // Make sure this is not simply an already removed edge
+    if(removedEdges[static_cast<Line*>(*it)] != NULL)
+      continue;
+    
+    const std::map<Line*,Line*>* edgeList = NULL;
+    if((*it)->getType() == CIRCLE)
+      edgeList = static_cast<Circle*>(*it)->getEdgeMap();
+    
+    // Update our main list
+    if(edgeList != NULL) {
+      // Also smart to remove all edges first
+      std::map<Line*,Line*>::const_iterator edge;
+      for(edge = edgeList->begin() ; edge != edgeList->end() ; ++edge) {
+        Line* tmp = edge->second;
+        removeShapeFromList(tmp);
+        removedEdges[tmp] = tmp;
+        delete tmp;
+      }
+    }
+    removeShapeFromList(*it);
+    
+    delete *it;
+  }
+  
+  selected.clear();
+}
+
 unsigned Scene::pickScene(float x, float y)
 {
   updateViewport();
@@ -161,6 +217,32 @@ unsigned Scene::pickScene(float x, float y)
   glMatrixMode(GL_MODELVIEW);
   
   return hits;
+}
+
+void Scene::removeShapeFromList(Shape* shape)
+{
+  std::vector<Shape*>::iterator it;
+  for(it = shapes.begin() ; it != shapes.end() ; ++it) {
+    if(*it == shape) {
+      shapes.erase(it);
+      return;
+    }
+  }
+}
+
+void Scene::removeAndDelete(Shape* shape)
+{
+  removeShapeFromList(shape);
+  
+  // For nodes _ALWAYS_ remove edges FIRST
+  if(shapes[0]->getType() == CIRCLE) {
+    const std::map<Line*,Line*>* edgeList = static_cast<Circle*>(shape)->getEdgeMap();
+    std::map<Line*,Line*>::const_iterator it;
+    for(it = edgeList->begin() ; it != edgeList->end() ; ++it)
+      removeAndDelete(it->second);
+  }
+  
+  delete shape;
 }
                
 void Scene::windowToGL(int winX, int winY, double& x, double& y) const
@@ -231,8 +313,8 @@ void Scene::destroy()
   if(pickBuffer != NULL)
     delete pickBuffer;
   
-  for(unsigned i = 0 ; i < shapes.size() ; ++i)
-    delete shapes[i]; 
+  while(shapes.size() > 0)
+    removeAndDelete(shapes[0]);
   
   std::map<MODES, Mode*>::iterator it;
   for(it = modes.begin() ; it != modes.end() ; ++it)
