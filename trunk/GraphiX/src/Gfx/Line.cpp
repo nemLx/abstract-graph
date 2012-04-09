@@ -27,6 +27,11 @@ Line::Line(const Line& rhs)
 
 Line::~Line()
 {
+  // Remove self from end points
+  if(cl != NULL)
+    cl->removeEdge(this);
+  if(cr != NULL)
+    cr->removeEdge(this);
 }
 
 void Line::setWidth(float w)

@@ -11,10 +11,11 @@
 #include <QtGui/QMouseEvent>
 
 #include "GLWindow.h"
+#include "../Menus/NodeOptionsMenu.h"
 #include "graphix.h"
 
 GLWindow::GLWindow(QWidget* parent)
-  : QGLWidget(parent)
+  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this))
 {
 }
 
@@ -48,7 +49,7 @@ void GLWindow::mousePressEvent(QMouseEvent* evt)
   Qt::MouseButton button = evt->button();
   
   // Make sure are coordinates are from the proper perspective
-  QPoint pos(evt->x(), evt->y());
+  QPoint pos(evt->pos());
   mapFromGlobal(pos);
   int x = pos.x();
   int y = pos.y();
@@ -67,5 +68,21 @@ void GLWindow::mouseMoveEvent(QMouseEvent* evt)
 void GLWindow::keyPressEvent(QKeyEvent* evt)
 {
   // Not implemented
+}
+
+void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
+{
+  if(evt == NULL)
+    return;
+  
+  QPoint pos(evt->globalPos());
+  nodeRightClick->updateMenuItems(scene.checkNodesSelected());
+  nodeRightClick->exec(pos);
+}
+
+void GLWindow::deleteSelected()
+{
+  scene.deleteSelected();
+  updateGL();
 }
 

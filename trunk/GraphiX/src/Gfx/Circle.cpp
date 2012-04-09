@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "Gfx/Circle.h"
+#include "Gfx/Line.h"
 
 #define DEG2RAD (3.14159/180)
 
@@ -23,6 +24,7 @@ Circle::Circle(float x, float y, float rad)
 
 Circle::~Circle()
 {
+  destroy();
 }
   
 Circle::Circle(const Circle& rhs)
@@ -33,6 +35,23 @@ Circle::Circle(const Circle& rhs)
 void Circle::setRadius(float rad)
 {
   radius = rad;
+}
+
+void Circle::addEdge(Line* edge)
+{
+  edges[edge] = edge;
+}
+
+void Circle::removeEdge(Line* edge)
+{
+  if(edges[edge] == NULL)
+    return;
+  edges[edge] = NULL;
+}
+
+const std::map<Line*,Line*>* Circle::getEdgeMap() const
+{
+  return &edges;
 }
 
 void Circle::draw() const
@@ -62,5 +81,19 @@ SHAPES Circle::getType() const
 {
   return CIRCLE;
 }
+
+void Circle::destroy()
+{
+  std::map<Line*,Line*>::iterator it;
+  for(it = edges.begin() ; it != edges.end() ; ++it) {
+    Line* tmp = it->second;
+    if(tmp != NULL) {
+      edges.erase(it);
+      it--;      
+      delete tmp;
+    }
+  }
+}
+
 }
 

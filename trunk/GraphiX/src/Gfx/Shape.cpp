@@ -13,14 +13,14 @@
 namespace GRAPHIX
 {
 Shape::Shape(float x, float y)
-  : xCoord(x), yCoord(y), selected(false)
+  : xCoord(x), yCoord(y), selected(false), pubId(-1)
 {
   color.r = color.g = color.b = 255.0;
   color.a = 0.0;
 }
   
 Shape::Shape(float x, float y, Color c)
-  : xCoord(x), yCoord(y), color(c), selected(false)
+  : xCoord(x), yCoord(y), color(c), selected(false), pubId(-1)
 {
 }
 
@@ -46,6 +46,16 @@ float Shape::getX() const
 float Shape::getY() const
 {
   return yCoord;
+}
+
+void Shape::setId(int id)
+{
+  pubId = id;
+}
+
+int Shape::getId() const
+{
+  return pubId;
 }
   
 void Shape::setColor(const Color &c)
