@@ -232,10 +232,13 @@ void Scene::removeShapeFromList(Shape* shape)
 
 void Scene::removeAndDelete(Shape* shape)
 {
+  if(shape == NULL)
+    return;
+  
   removeShapeFromList(shape);
   
   // For nodes _ALWAYS_ remove edges FIRST
-  if(shapes[0]->getType() == CIRCLE) {
+  if(shape->getType() == CIRCLE) {
     const std::map<Line*,Line*>* edgeList = static_cast<Circle*>(shape)->getEdgeMap();
     std::map<Line*,Line*>::const_iterator it;
     for(it = edgeList->begin() ; it != edgeList->end() ; ++it)
