@@ -97,9 +97,9 @@ void Mode::removeAllHighlight()
   
   std::vector<Shape*>::iterator it;
   Color highlight(0.f, 0.f, 0.f, 0.f);
-  
-  for(it = selected->begin() ; it != selected->end() ;)
-    removeHighlight(*it);
+
+  while(selected->size() > 0)
+    removeHighlight((*selected)[0]);
 }
 
 void Mode::removeHighlight(Shape* shape)
