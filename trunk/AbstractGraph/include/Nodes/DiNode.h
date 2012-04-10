@@ -16,13 +16,13 @@ public:
 	
 	int outDegree;
 	
-	map<int, DiEdge*> * inAdjacent;
+	map<DiEdge*, DiNode*> * inAdjacent;
 	
-	map<int, DiEdge*> * outAdjacent;
+	map<DiEdge*, DiNode*> * outAdjacent;
 	
-	map<int, DiNode*> * inNeighborhood;
+	//map<int, DiNode*> * inNeighborhood;
 	
-	map<int, DiNode*> * outNeighborhood;
+	//map<int, DiNode*> * outNeighborhood;
 	
 	
 	
@@ -38,6 +38,10 @@ public:
 	int addOutAdjacent(DiEdge * adj, DiNode * neighbor);
 	
 	int removeOutAdjacent(DiEdge * adj, DiNode * neighbor);
+	
+	//map<int, AbstractNode*> * getReachable();
+	
+	map<AbstractEdge*, AbstractNode*> * getAdjacent();
 	
 	void printNode();
 };

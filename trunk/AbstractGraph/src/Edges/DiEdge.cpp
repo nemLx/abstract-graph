@@ -31,6 +31,15 @@ DiEdge::~DiEdge(){
 }
 
 
+AbstractNode* DiEdge::getFrom(){
+	return (AbstractNode*)from;
+}
+
+AbstractNode* DiEdge::getTo(){
+	return (AbstractNode*)to;
+}
+
+
 void DiEdge::printEdge(){
 	printf("DiEdge: %i, %i->%i value: %i\n", id, from->id, to->id, value);
 }

@@ -1,7 +1,9 @@
 #ifndef _ABSTRACTEDGE_H_
 #define _ABSTRACTEDGE_H_
 
-#include "../Nodes/AbstractNode.h"
+//#include "../Nodes/AbstractNode.h"
+
+class AbstractNode;
 
 class AbstractEdge{
 
@@ -17,7 +19,12 @@ public:
 	
 	virtual ~AbstractEdge(){};
 	
-	virtual void printEdge(){};
+	
+	virtual AbstractNode* getFrom() = 0;
+	
+	virtual AbstractNode* getTo() = 0;
+	
+	virtual void printEdge() = 0;
 };
 
 #endif

@@ -14,9 +14,9 @@ public:
 	
 	int degree;
 	
-	map<int, Node*> * neighborhood;
+	//map<int, Node*> * neighborhood;
 	
-	map<int, Edge*> * adjacent;
+	map<Edge*, Node*> * adjacent;
 	
 	
 	
@@ -27,6 +27,10 @@ public:
 	int addAdjacent(Edge * adj, Node * neighbor);
 	
 	int removeAdjacent(Edge * adj, Node * neighbor);
+	
+	//map<int, AbstractNode*> * getReachable();
+	
+	map<AbstractEdge*, AbstractNode*> * getAdjacent();
 	
 	void printNode();
 	

@@ -90,17 +90,17 @@ int DiGraph::removeNode(int id){
 		
 		DiNode * node = (DiNode*)(*N)[id];
 		
-		map<int, DiEdge*> inAdjacent (*(node->inAdjacent));
-		map<int, DiEdge*> outAdjacent (*(node->outAdjacent));
+		map<DiEdge*, DiNode*> inAdjacent (*(node->inAdjacent));
+		map<DiEdge*, DiNode*> outAdjacent (*(node->outAdjacent));
 		
-		map<int, DiEdge*>::iterator it;
+		map<DiEdge*, DiNode*>::iterator it;
 		
 		for (it = inAdjacent.begin(); it != inAdjacent.end(); it++){
-			removeEdge(it->first);
+			removeEdge(it->first->id);
 		}
 		
 		for (it = outAdjacent.begin(); it != outAdjacent.end(); it++){
-			removeEdge(it->first);
+			removeEdge(it->first->id);
 		}
 		
 		delete node;

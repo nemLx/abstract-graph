@@ -14,30 +14,16 @@ Dijkstra::Dijkstra(int s, int t, AbstractGraph * g, vector<int> * path){
 	
 	this->path = path;
 	
-	if (dynamic_cast<Graph*>(g) == NULL){
-		
-		//directed
-		
-		DiGraph * h = dynamic_cast<DiGraph*>(g);
-		
-		initDirected(s, t, h);
-		
-	}else{
-		
-		//un-directed
-		
-		Graph * h = dynamic_cast<Graph*>(g);
-		
-		initUnDirected(s, t, h);
-	}
+	this->g = g;
+	
+	initVertices();
 }
 
 
 
-void Dijkstra::initDirected(int s, int t, DiGraph * g){
+void Dijkstra::initVertices(){
 	
 	map<int, AbstractNode*> * N = g->getNodes();
-	
 	
 	map<int, AbstractNode*>::iterator itNode = N->begin();
 	
@@ -47,93 +33,25 @@ void Dijkstra::initDirected(int s, int t, DiGraph * g){
 	}
 	
 	
-	map<int, Vertex*>::iterator itVertex = V->begin();
-	
-	while (itVertex != V->end()){
-		
-		Vertex* vertex = itVertex->second;
-		DiNode* node = (DiNode*)(*N)[itVertex->first];
-		
-		map<int, DiEdge*> * adjacent = node->outAdjacent;
-		
-		map<int, DiEdge*>::iterator itAdj = adjacent->begin();
-		
-		while (itAdj != adjacent->end()) {
-			
-			// an adjacent edge
-			DiEdge * edge = itAdj->second;
-			
-			DiNode * to = edge->to;
-			
-			map<int, Vertex*>::iterator curr = vertex->adj->find(to->id);
-			
-			if (curr == vertex->adj->end()){
-				
-				// this node has not been included
-				
-				(*vertex->adj)[to->id] = (*V)[to->id];
-				
-				(*vertex->cost)[to->id] = edge->value;
-				
-				(*vertex->edgeId)[to->id] = edge->id;
-				
-			}else{
-				
-				if ((*vertex->cost)[to->id] > edge->value) {
-					(*vertex->cost)[to->id] = edge->value;
-					(*vertex->edgeId)[to->id] = edge->id;
-				}
-			}
-			
-			itAdj++;
-		}
-		
-		G->push(itVertex->second);
-		
-		itVertex++;
-	}
-	
-}
-
-
-void Dijkstra::initUnDirected(int s, int t, Graph * g){
-	
-	map<int, AbstractNode*> * N = g->getNodes();
-	
-	
-	map<int, AbstractNode*>::iterator itNode = N->begin();
-	
-	while ( itNode != N->end() ){
-		(*V)[itNode->first] = initVertex(itNode->second);
-		itNode++;
-	}
-	
 	
 	map<int, Vertex*>::iterator itVertex = V->begin();
 	
 	while (itVertex != V->end()){
 		
-		Vertex* vertex = itVertex->second;
-		Node* node = (Node*)(*N)[itVertex->first];
-
-		map<int, Edge*> * adjacent = node->adjacent;
+		Vertex * vertex = itVertex->second;
 		
-		map<int, Edge*>::iterator itAdj = adjacent->begin();
+		AbstractNode * node = (*N)[itVertex->first];
+		
+		map<AbstractEdge*, AbstractNode*> * adjacent = node->getAdjacent();
+		
+		map<AbstractEdge*, AbstractNode*>::iterator itAdj = adjacent->begin();
 		
 		while (itAdj != adjacent->end()) {
 			
 			// an adjacent edge
-			Edge * edge = itAdj->second;
+			AbstractEdge * edge = itAdj->first;
 			
-			Node * to;
-			
-			if (edge->to->id != node->id){
-				to = edge->to;
-			}else if (edge->from->id != node->id){
-				to = edge->from;
-			}else{
-				continue;
-			}
+			AbstractNode * to = edge->getTo();
 			
 			map<int, Vertex*>::iterator curr = vertex->adj->find(to->id);
 			
