@@ -41,7 +41,7 @@ qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h Windows/GLWindow.h)
 qt4_wrap_cpp(MENUS_MOC_SRC Menus/NodeOptionsMenu.h)
 set(WINDOWS_SRC Windows/MainDefs.h Windows/MainWindow.h Windows/MainWindow.cpp
   Windows/GLWindow.h Windows/GLWindow.cpp)
-set(MENUS_SRC Menus/NodeOptionsMenu.cpp Menus/NodeOptionsMenu.h)
+set(MENUS_SRC Menus/MenuDefs.h Menus/NodeOptionsMenu.cpp Menus/NodeOptionsMenu.h)
 
 set(SOURCE_FILES ${WINDOWS_MOC_SRC} ${MENUS_MOC_SRC} ${MENUS_SRC} ${WINDOWS_SRC} main.cpp)
 

@@ -11,7 +11,10 @@
 #ifndef WINDOWS_GLWINDOW_H__
 #define WINDOWS_GLWINDOW_H__
 
+#include <QtGui/QColor>
+
 #include <QtOpenGL/QGLWidget>
+
 #include "graphix.h"
 
 class NodeOptionsMenu;
@@ -96,11 +99,32 @@ protected slots:
    */
   void updateLabel();
   
+  /**
+   * Update the color for the selected
+   * items
+   */
+  void updateColor();
+  
+  /**
+   * Update the highlight for the selected
+   * items
+   */
+  void updateHighlight();
+  
 private:
   /**
    * Draw labels
    */
   void drawLabels();
+  
+  /**
+   * Display a color dialog
+   *
+   * @param color   Red, green, blue color values (initial)
+   *     this value will be updated with the NEW color
+   * @return  True if color is valid, false otherwise.
+   */
+  bool showColorDialog(QColor& color);
   
   GRAPHIX::Scene scene;
   NodeOptionsMenu* nodeRightClick;

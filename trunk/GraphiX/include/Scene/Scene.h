@@ -109,6 +109,24 @@ public:
   void updateLabel(const std::string& label);
   
   /**
+   * Update the color of selected items
+   *
+   * @param red   Red value
+   * @param green Green value
+   * @param blue  Blue value
+   */
+  void updateSelectedColor(unsigned red, unsigned green, unsigned blue);
+  
+  /**
+   * Update the highlight of selected items
+   *
+   * @param red   Red value
+   * @param green Green value
+   * @param blue  Blue value
+   */
+  void updateSelectedHighlight(unsigned red, unsigned green, unsigned blue);
+  
+  /**
    * Add a public ID to last added shape
    *
    * @param id    The public id

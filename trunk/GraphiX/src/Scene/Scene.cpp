@@ -141,6 +141,26 @@ void Scene::updateLabel(const std::string& label)
   }
 }
 
+void Scene::updateSelectedColor(unsigned int red, unsigned int green, unsigned int blue)
+{
+  Color c(red, green, blue, 0);
+  
+  std::vector<Shape*>::iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it)
+    (*it)->setColor(c);
+}
+
+void Scene::updateSelectedHighlight(unsigned int red, unsigned int green, unsigned int blue)
+{
+  Color c(red, green, blue, 0);
+  
+  std::vector<Shape*>::iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it)
+    (*it)->setHighlight(c);
+}
+
 void Scene::setLastId(int id)
 {
   if(shapes.empty())
