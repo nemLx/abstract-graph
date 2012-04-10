@@ -90,12 +90,12 @@ int Graph::removeNode(int id){
 		
 		Node * node = (Node*)(*N)[id];
 		
-		map<int, Edge*> adjacent (*(node->adjacent));
+		map<Edge*, Node*> adjacent (*(node->adjacent));
 		
-		map<int, Edge*>::iterator it;
+		map<Edge*, Node*>::iterator it;
 		
 		for (it = adjacent.begin(); it != adjacent.end(); it++){
-			removeEdge(it->first);
+			removeEdge(it->first->id);
 		}
 		
 		N->erase(N->find(id));
@@ -106,7 +106,6 @@ int Graph::removeNode(int id){
 		
 		return 1;
 	}
-	
 }
 
 

@@ -56,19 +56,19 @@ private:
 	
 	vector<int> * path;
 	
+	AbstractGraph * g;
+	
 	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
 	
 	void handleUnvisited(int uwCost, Vertex * w, Vertex * u);
 	
 	void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
 	
-	void initDirected(int s, int t, DiGraph * g);
-	
-	void initUnDirected(int s, int t, Graph * g);
-	
 	Vertex * initVertex(AbstractNode * node);
 	
 	int constructPath();
+	
+	void initVertices();
 };
 
 #endif

@@ -54,6 +54,8 @@ private:
 	
 	int t;
 	
+	AbstractGraph * g;
+	
 	vector<int> * path;
 	
 	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
@@ -62,9 +64,7 @@ private:
 	
 	void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
 	
-	void initDirected(DiGraph * g);
-	
-	void initUnDirected(Graph * g);
+	void initVertices();
 	
 	Vertex * initVertex(AbstractNode * node);
 	

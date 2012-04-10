@@ -21,9 +21,6 @@ public:
 	
 	int removeNode(int id);
 	
-private:
-	
-	
 };
 
 #endif

@@ -18,10 +18,13 @@ public:
 	
 	Edge(int id, Node * s, Node * t, int v);
 	
+	AbstractNode* getFrom();
+	
+	AbstractNode* getTo();
+	
 	void printEdge();
 	
 	~Edge();
-	
 };
 
 #endif

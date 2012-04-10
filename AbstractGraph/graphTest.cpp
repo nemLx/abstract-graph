@@ -87,7 +87,7 @@ void mstTest(){
 	
 	printf("\nMST: \ntotal weight: %i \ntree edges: ", g.mst(mstEdges));
 	
-	for (int i = 0; i < mstEdges->size(); i++){
+	for (int i = 0; i < (int)mstEdges->size(); i++){
 		printf("%i ", mstEdges->at(i));
 	}
 	

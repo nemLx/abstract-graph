@@ -14,8 +14,3 @@ AbstractNode::AbstractNode(int id){
 	
 	this->id = id;
 }
-
-
-void AbstractNode::printNode(){
-	printf("Node: %i \n", id);
-}

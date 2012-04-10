@@ -30,6 +30,14 @@ Edge::~Edge(){
 	to->removeAdjacent(this, from);
 }
 
+AbstractNode* Edge::getFrom(){
+	return (AbstractNode*)from;
+}
+
+AbstractNode* Edge::getTo(){
+	return (AbstractNode*)to;
+}
+
 void Edge::printEdge(){
 	printf("Edge: %i, %i<->%i value: %i \n", id, from->id, to->id, value);
 }

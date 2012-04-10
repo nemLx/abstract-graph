@@ -18,6 +18,10 @@ public:
 	
 	DiEdge(int id, DiNode * s, DiNode * t, int v);
 	
+	AbstractNode* getFrom();
+	
+	AbstractNode* getTo();
+	
 	void printEdge();
 	
 	~DiEdge();

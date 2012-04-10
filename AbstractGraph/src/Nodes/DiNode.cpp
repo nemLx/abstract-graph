@@ -8,13 +8,13 @@ DiNode::DiNode(int id):AbstractNode(id){
 	
 	outDegree = 0;
 	
-	inAdjacent = new map<int, DiEdge*>;
+	inAdjacent = new map<DiEdge*, DiNode*>;
 	
-	outAdjacent = new map<int, DiEdge*>;
+	outAdjacent = new map<DiEdge*, DiNode*>;
 	
-	inNeighborhood = new map<int, DiNode*>;
+	//inNeighborhood = new map<int, DiNode*>;
 	
-	outNeighborhood = new map<int, DiNode*>;
+	//outNeighborhood = new map<int, DiNode*>;
 }
 
 
@@ -25,18 +25,18 @@ DiNode::~DiNode(){
 	
 	delete outAdjacent;
 	
-	delete inNeighborhood;
+	//delete inNeighborhood;
 	
-	delete outNeighborhood;
+	//delete outNeighborhood;
 }
 
 
 
 int DiNode::addInAdjacent(DiEdge * adj, DiNode * neighbor){
 	
-	(*inAdjacent)[adj->id] = adj;
+	(*inAdjacent)[adj] = neighbor;
 	
-	(*inNeighborhood)[neighbor->id] = neighbor;
+	//(*inNeighborhood)[neighbor->id] = neighbor;
 	
 	return 0;
 }
@@ -45,9 +45,9 @@ int DiNode::addInAdjacent(DiEdge * adj, DiNode * neighbor){
 
 int DiNode::removeInAdjacent(DiEdge * adj, DiNode * neighbor){
 	
-	inAdjacent->erase(inAdjacent->find(adj->id));
+	inAdjacent->erase(inAdjacent->find(adj));
 	
-	inNeighborhood->erase(inNeighborhood->find(neighbor->id));
+	//inNeighborhood->erase(inNeighborhood->find(neighbor->id));
 	
 	return 0;
 }
@@ -56,9 +56,9 @@ int DiNode::removeInAdjacent(DiEdge * adj, DiNode * neighbor){
 
 int DiNode::addOutAdjacent(DiEdge * adj, DiNode * neighbor){
 	
-	(*outAdjacent)[adj->id] = adj;
+	(*outAdjacent)[adj] = neighbor;
 	
-	(*outNeighborhood)[neighbor->id] = neighbor;
+	//(*outNeighborhood)[adj->id] = neighbor;
 	
 	return 0;
 }
@@ -67,22 +67,32 @@ int DiNode::addOutAdjacent(DiEdge * adj, DiNode * neighbor){
 
 int DiNode::removeOutAdjacent(DiEdge * adj, DiNode * neighbor){
 	
-	outAdjacent->erase(outAdjacent->find(adj->id));
+	outAdjacent->erase(outAdjacent->find(adj));
 	
-	outNeighborhood->erase(outNeighborhood->find(neighbor->id));
+	//outNeighborhood->erase(outNeighborhood->find(adj->id));
 	
 	return 0;
 }
+
+
+//map<int, AbstractNode*> * DiNode::getReachable(){
+//	return (map<int, AbstractNode*> *)outNeighborhood;
+//}
+
+map<AbstractEdge*, AbstractNode*> * DiNode::getAdjacent(){
+	return (map<AbstractEdge*, AbstractNode*> *)outAdjacent;
+}
+
 
 void DiNode::printNode(){
 	
 	printf("Node: %i || n : ", id);
 	
-	map<int, DiNode*>::iterator it = outNeighborhood->begin();
+	map<DiEdge*, DiNode*>::iterator it = outAdjacent->begin();
 	
-	while (it != outNeighborhood->end()){
+	while (it != outAdjacent->end()){
 		
-		printf("%i ", it->first);
+		printf("%i ", it->second->id);
 		
 		it++;
 	}
