@@ -10,6 +10,8 @@
 
 #include "../../include/Nodes/AbstractNode.h"
 
+
+
 AbstractNode::AbstractNode(int id){
 	
 	this->id = id;

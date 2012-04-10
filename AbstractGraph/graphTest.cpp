@@ -1,3 +1,11 @@
+//
+//  graphTest.cpp
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #include <stdio.h>
 #include <vector>
 
@@ -7,17 +15,18 @@
 
 using namespace std;
 
-void shortestPathTest();
-void mstTest();
 
-int main(){
 
-	shortestPathTest();
-
-	mstTest();
+void printVector(vector<int> * v){
 	
-	return 0;
+	vector<int>::iterator it;
+	
+	for (it = v->begin(); it != v->end(); it++){
+		printf("%i ", *it);
+	}
 }
+
+
 
 void shortestPathTest(){
 	
@@ -51,10 +60,7 @@ void shortestPathTest(){
     
 	printf("\nshortest path from %i to %i: \ndistance: %i \npath: ", from, to, g.shortestPath(from, to, path));
 	
-	int size = path->size();
-	for (int i = 0; i < size; i++){
-		printf("%i ", path->at(size-i-1));
-	}
+	printVector(path);
 	
 	printf("\n");
 	
@@ -87,11 +93,73 @@ void mstTest(){
 	
 	printf("\nMST: \ntotal weight: %i \ntree edges: ", g.mst(mstEdges));
 	
-	for (int i = 0; i < (int)mstEdges->size(); i++){
-		printf("%i ", mstEdges->at(i));
-	}
+	printVector(mstEdges);
 	
 	printf("\n");
 	
 	delete mstEdges;
 }
+
+
+
+void bipartiteTest(){
+	
+	Graph g(30);
+	
+	g.addEdge(1,3);
+	g.addEdge(1,4);
+	g.addEdge(1,5);
+	g.addEdge(2,3);
+	g.addEdge(2,4);
+	g.addEdge(2,5);
+	
+//	g.addEdge(1,2);
+//	g.addEdge(2,3);
+//	g.addEdge(1,3);
+	
+	printf("\n");
+	g.printGraph();
+	
+	vector<int> * partX = new vector<int>;
+	vector<int> * partY = new vector<int>;
+	
+	int isBipartite = g.bipartite(partX, partY);
+	
+	if (isBipartite){
+		
+		printf("partite set X: ");
+		printVector(partX);
+		
+		printf("\n");
+		
+		printf("partite set Y: ");
+		printVector(partY);
+		
+		printf("\n");
+	}else{
+		printf("Not Bipartite \n");
+	}
+	
+}
+
+
+
+int main(){
+	
+	shortestPathTest();
+	
+	mstTest();
+	
+	bipartiteTest();
+	
+	return 0;
+}
+
+
+
+
+
+
+
+
+

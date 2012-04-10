@@ -1,3 +1,11 @@
+//
+//  Algorithm.h
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #ifndef _ALGORITHM_H_
 #define _ALGORITHM_H_
 
@@ -7,17 +15,12 @@
 #include <limits.h>
 
 #include "../Graphs/AbstractGraph.h"
-
 #include "../Graphs/Graph.h"
 #include "../Graphs/DiGraph.h"
 
 #define INFINITY INT_MAX
 
-class AbstractGraph;
 
-class Graph;
-
-class DiGraph;
 
 class Algorithm{
 

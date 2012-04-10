@@ -1,9 +1,19 @@
+//
+//  Dijkstra.h
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #ifndef _DIJKSTRA_H_
 #define _DIJKSTRA_H_
 
 #include "Algorithm.h"
 
 using namespace std;
+
+
 
 class Dijkstra : public Algorithm{
 
@@ -48,7 +58,6 @@ private:
 		}
 	};
 	
-	map<int, Vertex*> * V;
 	
 	int s;
 	
@@ -58,17 +67,25 @@ private:
 	
 	AbstractGraph * g;
 	
+	map<int, Vertex*> * V;
+	
 	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
 	
-	void handleUnvisited(int uwCost, Vertex * w, Vertex * u);
 	
-	void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
+	
+	void initVertexStructure();
+	
+	void initVertices();
 	
 	Vertex * initVertex(AbstractNode * node);
 	
-	int constructPath();
+	void initAdjacent(Vertex * v, AbstractNode * n);
 	
-	void initVertices();
+	void handleUnvisited(int uwCost, Vertex * w, Vertex * u);
+	
+	void refreshMin();
+	
+	int constructPath();
 };
 
 #endif

@@ -1,24 +1,25 @@
+//
+//  Node.h
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #ifndef _NODE_H_
 #define _NODE_H_
 
 #include "AbstractNode.h"
-#include "../Edges/Edge.h"
 
 using namespace std;
+
+
 
 class Edge;
 
 class Node : public AbstractNode{
 
 public:
-	
-	int degree;
-	
-	//map<int, Node*> * neighborhood;
-	
-	map<Edge*, Node*> * adjacent;
-	
-	
 	
 	Node(int id);
 	
@@ -28,12 +29,14 @@ public:
 	
 	int removeAdjacent(Edge * adj, Node * neighbor);
 	
-	//map<int, AbstractNode*> * getReachable();
-	
 	map<AbstractEdge*, AbstractNode*> * getAdjacent();
 	
 	void printNode();
 	
+	
+	int degree;
+	
+	map<Edge*, Node*> * adjacent;
 };
 
 #endif

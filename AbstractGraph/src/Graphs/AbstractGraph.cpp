@@ -12,7 +12,11 @@
 #include "../../include/Algorithms/Dijkstra.h"
 #include "../../include/Algorithms/Prim.h"
 
+using namespace std;
+
+
 AbstractGraph::AbstractGraph(){
+	
 	n = 0;
 	m = 0;
 	nCounter = 0;
@@ -20,25 +24,23 @@ AbstractGraph::AbstractGraph(){
 }
 
 
+
 AbstractGraph::~AbstractGraph(){
+	
 	map<int, AbstractNode*>::iterator itNodes;
 	
 	for (itNodes = N->begin(); itNodes != N->end(); itNodes++){
 		delete itNodes->second;
 	}
 	
-//	map<int, AbstractEdge*>::iterator itEdges;
-//	
-//	for (itEdges = E->begin(); itEdges != E->end(); itEdges++){
-//		delete itEdges->second;
-//	}
-	
 	delete N;
 	delete E;
 }
 
 
+
 int AbstractGraph::setEdgeValue(int id, int v){
+	
 	if(!validEdge(id)){
 		return 0;
 	}else{
@@ -47,7 +49,10 @@ int AbstractGraph::setEdgeValue(int id, int v){
 	}
 }
 
+
+
 bool AbstractGraph::validEdge(int id){
+	
 	if (E->find(id) == E->end()){
 		return false;
 	}else{
@@ -56,6 +61,7 @@ bool AbstractGraph::validEdge(int id){
 }
 
 bool AbstractGraph::validNode(int id){
+	
 	if (N->find(id) == N->end()){
 		return false;
 	}else{
@@ -63,20 +69,6 @@ bool AbstractGraph::validNode(int id){
 	}
 }
 
-int AbstractGraph::shortestPath(int s, int t, vector<int> * path){
-	
-	Dijkstra spSolver(s, t, this, path);
-
-	return spSolver.solve();
-}
-
-
-int AbstractGraph::mst(vector<int> * edges){
-	
-	Prim mstSolver(this, edges);
-	
-	return mstSolver.solve();
-}
 
 
 int AbstractGraph::removeEdge(int id){
@@ -84,31 +76,34 @@ int AbstractGraph::removeEdge(int id){
 	if (!validEdge(id)){
 		return 0;
 	}else{
-		
 		delete (*E)[id];
-		
 		E->erase(E->find(id));
-		
 		m--;
-		
 		return 1;
 	}
 }
 
 
+
 bool AbstractGraph::isDirected(){
+	
 	return directed;
 }
 
 
+
 map<int, AbstractNode*> * AbstractGraph::getNodes(){
+	
 	return N;
 }
 
 
+
 map<int, AbstractEdge*> * AbstractGraph::getEdges(){
+	
 	return E;
 }
+
 
 
 void AbstractGraph::printGraph(){
@@ -130,16 +125,22 @@ void AbstractGraph::printGraph(){
 	}
 }
 
-//int AbstractGraph::addNode(){
-//	return -1;
-//}
-//
-//int AbstractGraph::addEdge(int s, int t){
-//	return -1;
-//}
-//
-//int AbstractGraph::addEdge(int s, int t, int v){
-//	return -1;
-//}
+
+
+int AbstractGraph::shortestPath(int s, int t, vector<int> * path){
+	
+	Dijkstra spSolver(s, t, this, path);
+	
+	return spSolver.solve();
+}
+
+
+
+int AbstractGraph::mst(vector<int> * edges){
+	
+	Prim mstSolver(this, edges);
+	
+	return mstSolver.solve();
+}
 
 

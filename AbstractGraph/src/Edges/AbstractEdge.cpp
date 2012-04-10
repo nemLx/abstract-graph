@@ -10,10 +10,14 @@
 
 #include "../../include/Edges/AbstractEdge.h"
 
+
+
 AbstractEdge::AbstractEdge(int id){
 	
 	this->id = id;
 }
+
+
 
 AbstractEdge::AbstractEdge(int id, int v){
 	

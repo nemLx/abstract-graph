@@ -1,16 +1,26 @@
+//
+//  AbstractGraph.h
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #ifndef _ABSTRACTGRAPH_H_
 #define _ABSTRACTGRAPH_H_
 
 #include <iostream>
-#include <limits.h>
 #include <vector>
 #include <queue>
 #include <map>
 
-#include "../Edges/AbstractEdge.h"
-#include "../Nodes/AbstractNode.h"
-
 using namespace std;
+
+
+
+class AbstractNode;
+
+class AbstractEdge;
 
 class AbstractGraph{
 
@@ -70,3 +80,12 @@ protected:
 };
 
 #endif
+
+
+
+
+
+
+
+
+
