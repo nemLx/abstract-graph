@@ -132,6 +132,15 @@ void Scene::updateViewport()
   glGetIntegerv(GL_VIEWPORT, viewport);
 }
 
+void Scene::updateLabel(const std::string& label)
+{
+  std::vector<Shape*>::iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it) {
+    (*it)->setLabel(label);
+  }
+}
+
 void Scene::setLastId(int id)
 {
   if(shapes.empty())
@@ -150,6 +159,11 @@ bool Scene::checkNodesSelected() const
       return true;
   
   return false;
+}
+
+unsigned Scene::countSelected() const
+{
+  return selected.size();
 }
 
 void Scene::deleteSelected()
@@ -185,6 +199,33 @@ void Scene::deleteSelected()
   }
   
   selected.clear();
+}
+
+std::vector<std::string> Scene::getSelectedLabels() const
+{
+  return getLabels(selected);
+}
+
+std::vector<std::string> Scene::getLabels() const
+{
+  return getLabels(shapes);
+}
+
+std::vector<std::pair<int, int> > Scene::getCoords() const
+{
+  std::vector<std::pair<int, int> > ret;
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = shapes.begin() ; it != shapes.end() ; ++it) {
+    double glX = (*it)->getX();
+    double glY = (*it)->getY();
+    double x = 0;
+    double y = 0;
+    GLToWindow(glX, glY, x, y);
+    ret.push_back(std::pair<int, int>(x, y));
+  }
+  
+  return ret;
 }
 
 unsigned Scene::pickScene(float x, float y)
@@ -259,6 +300,30 @@ void Scene::windowToGL(int winX, int winY, double& x, double& y) const
   gluUnProject(winX, winY, 0, model, projection, viewport, &x, &y, &z);
   
   y *= -1; // Window to OpenGL so invert y
+}
+
+void Scene::GLToWindow(double glX, double glY, double& x, double& y) const
+{
+  double model[16], projection[16];
+  double z;
+  
+  glGetDoublev(GL_MODELVIEW_MATRIX, model);
+  glGetDoublev(GL_PROJECTION_MATRIX, projection);
+  
+  gluProject(glX, glY, 0, model, projection, viewport, &x, &y, &z);
+  
+  y = viewport[3] - y; // OpenGL to window so invert y
+}
+
+std::vector<std::string> Scene::getLabels(const std::vector<Shape*>& vector) const
+{
+  std::vector<std::string> ret;
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = vector.begin() ; it != vector.end() ; ++it)
+    ret.push_back((*it)->getLabel());
+  
+  return ret;
 }
 
 void Scene::copy(const Scene& rhs)

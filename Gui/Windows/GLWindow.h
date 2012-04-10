@@ -91,7 +91,17 @@ protected slots:
    */
   void deleteSelected();
   
+  /**
+   * Update label for selected items
+   */
+  void updateLabel();
+  
 private:
+  /**
+   * Draw labels
+   */
+  void drawLabels();
+  
   GRAPHIX::Scene scene;
   NodeOptionsMenu* nodeRightClick;
 };

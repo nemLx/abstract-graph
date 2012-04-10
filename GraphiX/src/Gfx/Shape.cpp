@@ -86,6 +86,16 @@ Color Shape::getHighlight() const
   return highlight;
 }
 
+void Shape::setLabel(const std::string& str)
+{
+  label = str;
+}
+
+const std::string& Shape::getLabel() const
+{
+  return label;
+}
+
 void Shape::toggleSelected()
 {
   selected = !selected;

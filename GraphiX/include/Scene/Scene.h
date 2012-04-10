@@ -11,8 +11,10 @@
 #ifndef GRAPHIX_SCENE_SCENE_H__
 #define GRAPHIX_SCENE_SCENE_H__
 
-#include <vector>
 #include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "graphix_incl.h"
 #include "../Gfx/Shape.h"
@@ -100,6 +102,13 @@ public:
   void updateViewport();
   
   /**
+   * Update the selected item(s) labels
+   *
+   * @param label   The label to set
+   */
+  void updateLabel(const std::string& label);
+  
+  /**
    * Add a public ID to last added shape
    *
    * @param id    The public id
@@ -114,9 +123,39 @@ public:
   bool checkNodesSelected() const;
   
   /**
+   * Get the number of items selected
+   *
+   * @return  The number of selected items
+   */
+  unsigned countSelected() const;
+  
+  /**
    * Delete selected items
    */
   void deleteSelected();
+  
+  /**
+   * Get a list of labels for currently
+   * selected items
+   *
+   * @return  A vector of labels
+   */
+  std::vector<std::string> getSelectedLabels() const;
+  
+  /**
+   * Get a list of labels
+   *
+   * @return  A vector of labels
+   */
+  std::vector<std::string> getLabels() const;
+  
+  /**
+   * Get a list of ordered coordinates for labels
+   * NOTE: Coords are in terms of window
+   *
+   * @return  A vector of pairs of coordinates
+   */
+  std::vector<std::pair<int, int> > getCoords() const;
 
 protected:
   /**
@@ -151,6 +190,25 @@ private:
    * @param y     Converted y
    */
   void windowToGL(int winX, int winY, double& x, double& y) const;
+  
+  /**
+   * Convert from OpenGL coordinates to window coords
+   *
+   * @param glX   X (opengl) coordinate
+   * @param glY   Y (opengl) coordinate
+   * @param x     Converted x
+   * @param y     Converted y
+   */
+  void GLToWindow(double glX, double glY, double& x, double& y) const;
+  
+  /**
+   * Get a list of labels for a particular
+   * vector set
+   *
+   * @param vector  The vector to traverse
+   * @return  A list of labels
+   */
+  std::vector<std::string> getLabels(const std::vector<Shape*>& vector) const;
   
   /**
    * Copy data (private helper)

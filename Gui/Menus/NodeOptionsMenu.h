@@ -41,8 +41,9 @@ public:
    * Enable/disable menu items
    *
    * @param selected    Determine whether items are selected or not
+   * @param numSelected The number of items selected
    */
-  virtual void updateMenuItems(bool selected);
+  virtual void updateMenuItems(bool selected, unsigned numSelected);
   
 private:
   /**

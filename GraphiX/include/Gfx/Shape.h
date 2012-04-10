@@ -11,6 +11,8 @@
 #ifndef GRAPHIX_GFX_SHAPE_H__
 #define GRAPHIX_GFX_SHAPE_H__
 
+#include <string>
+
 #include "graphix_incl.h"
 #include "Color.h"
 
@@ -121,6 +123,20 @@ public:
   virtual Color getHighlight() const;
   
   /**
+   * Set label
+   *
+   * @param str   The new label of the object
+   */
+  virtual void setLabel(const std::string& str);
+  
+  /**
+   * Retrieve the label associated with the shape
+   *
+   * @return  The label for the shape
+   */
+  virtual const std::string& getLabel() const;
+  
+  /**
    * Toggle selected
    */
   virtual void toggleSelected();
@@ -146,6 +162,8 @@ public:
   
   /**
    * Determine the shape type (pure virtual)
+   *
+   * @return  Returns the type of the object
    */
   virtual SHAPES getType() const = 0;
   
@@ -155,6 +173,7 @@ private:
   Color highlight;
   bool selected;
   int pubId;
+  std::string label;
 };
 }
 #endif /* GRAPHIX_GFX_SHAPE_H__ */
