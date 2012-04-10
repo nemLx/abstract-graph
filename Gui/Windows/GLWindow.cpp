@@ -17,7 +17,10 @@
 #include <QtGui/QMouseEvent>
 
 #include "GLWindow.h"
+
 #include "../Menus/NodeOptionsMenu.h"
+#include "../Menus/MenuDefs.h"
+
 #include "graphix.h"
 
 GLWindow::GLWindow(QWidget* parent)
@@ -112,6 +115,19 @@ void GLWindow::updateColor()
 
 void GLWindow::updateHighlight()
 {
+  QColor color = Qt::white;
+  bool isValid = showColorDialog(color);
+  
+  if(isValid) {
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+    color.getRgb(&red, &green, &blue);
+    
+    scene.updateSelectedBorder(red, green, blue);
+    
+    updateGL();
+  }
 }
 
 void GLWindow::updateLabel()

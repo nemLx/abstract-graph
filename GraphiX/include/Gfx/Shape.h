@@ -102,11 +102,18 @@ public:
   virtual void setColor(float r, float g, float b, float a = 0.f);
   
   /**
-   * Set the color's highlight (i.e. outline)
+   * Set the color's highlight (i.e. when selected)
    *
    * @param color   The color to set the highlight
    */
-  virtual void setHighlight(const Color& h);
+  virtual void setHighlight(const Color& color);
+  
+  /**
+   * Set the border color
+   *
+   * @param color   The border color
+   */
+  virtual void setBorder(const Color& color);
   
   /**
    * Get the object's color
@@ -142,6 +149,14 @@ public:
   virtual void toggleSelected();
   
   /**
+   * Set the selected value
+   * Method added for convenience
+   *
+   * @param val   True or false
+   */
+  virtual void setSelected(bool val);
+  
+  /**
    * Check if shape is selected
    *
    * @return  True if selected, false otherwise
@@ -171,6 +186,7 @@ private:
   float xCoord, yCoord;
   Color color;
   Color highlight;
+  Color border;
   bool selected;
   int pubId;
   std::string label;

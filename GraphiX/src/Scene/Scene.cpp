@@ -151,14 +151,14 @@ void Scene::updateSelectedColor(unsigned int red, unsigned int green, unsigned i
     (*it)->setColor(c);
 }
 
-void Scene::updateSelectedHighlight(unsigned int red, unsigned int green, unsigned int blue)
+void Scene::updateSelectedBorder(unsigned int red, unsigned int green, unsigned int blue)
 {
   Color c(red, green, blue, 0);
   
   std::vector<Shape*>::iterator it;
   
   for(it = selected.begin() ; it != selected.end() ; ++it)
-    (*it)->setHighlight(c);
+    (*it)->setBorder(c);
 }
 
 void Scene::setLastId(int id)
