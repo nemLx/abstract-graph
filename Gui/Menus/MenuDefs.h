@@ -16,7 +16,7 @@
 #define MENU_GENERAL_DELETE tr("Delete Selected")
 
 // Node pop-up menu definitions
-#define MENU_NODE_COLOR tr("Modify Node Color")
-#define MENU_NODE_HIGHLIGHT tr("Modify Node Outline")
+#define MENU_NODE_COLOR tr("Modify Color")
+#define MENU_NODE_HIGHLIGHT tr("Modify Outline")
 
 #endif /* MENUS_MENUDEFS_H__ */

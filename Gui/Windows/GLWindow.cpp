@@ -12,8 +12,9 @@
 #include <utility>
 #include <vector>
 
-#include <QtGui/QMouseEvent>
+#include <QtGui/QColorDialog>
 #include <QtGui/QInputDialog>
+#include <QtGui/QMouseEvent>
 
 #include "GLWindow.h"
 #include "../Menus/NodeOptionsMenu.h"
@@ -92,6 +93,27 @@ void GLWindow::deleteSelected()
   updateGL();
 }
 
+void GLWindow::updateColor()
+{
+  QColor color = Qt::white;
+  bool isValid = showColorDialog(color);
+
+  if(isValid) {
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+    color.getRgb(&red, &green, &blue);
+    
+    scene.updateSelectedColor(red, green, blue);
+    
+    updateGL();
+  }
+}
+
+void GLWindow::updateHighlight()
+{
+}
+
 void GLWindow::updateLabel()
 {
   bool ok;
@@ -125,3 +147,8 @@ void GLWindow::drawLabels()
   }
 }
 
+bool GLWindow::showColorDialog(QColor& color)
+{
+  color = QColorDialog::getColor(color, this, tr("Select Color"));
+  return color.isValid();
+}

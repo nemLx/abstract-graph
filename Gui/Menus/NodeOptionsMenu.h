@@ -2,7 +2,7 @@
  * Application: AbstractGraph
  * Module: GUI
  * File: NodeOptionsMenu.h
- * Description: Interface for the Node options menu
+ * Description: Interface for the Node/Edge options menu
  *
  * @author Dennis J. McWherter, Jr.
  * @version $Id$
@@ -19,7 +19,7 @@ class GLWindow;
  * NodeOptionsMenu
  *
  * The right-click pop-up menu which provides
- * actions for nodes
+ * actions for nodes and edges
  */
 class NodeOptionsMenu : public QMenu
 {
@@ -53,6 +53,8 @@ private:
   
   QAction* label;
   QAction* del;
+  QAction* color;
+  QAction* outline;
 };
 
 #endif /* MENUS_NODEOPTIONSMENU_H__ */

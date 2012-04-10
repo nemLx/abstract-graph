@@ -71,7 +71,7 @@ void EdgeCreationMode::pickLogic()
   unsigned i = 0;
   for(it = shapes->begin(), i = 0 ; it != shapes->end() ; ++it, ++i) {
     SHAPES type = (*it)->getType();
-    if(type == CIRCLE)// || type == LINE)
+    if(type == CIRCLE || type == LINE)
       (*it)->pick(i);
   }
 }
