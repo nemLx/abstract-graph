@@ -76,6 +76,11 @@ void Shape::setHighlight(const Color& h)
   highlight = h;
 }
 
+void Shape::setBorder(const Color& color)
+{
+  border = color;
+}
+
 Color Shape::getColor() const
 {
   return color;
@@ -83,7 +88,9 @@ Color Shape::getColor() const
 
 Color Shape::getHighlight() const
 {
-  return highlight;
+  if(isSelected())
+    return highlight;
+  return border;
 }
 
 void Shape::setLabel(const std::string& str)
@@ -99,6 +106,11 @@ const std::string& Shape::getLabel() const
 void Shape::toggleSelected()
 {
   selected = !selected;
+}
+
+void Shape::setSelected(bool val)
+{
+  selected = val;
 }
 
 bool Shape::isSelected() const

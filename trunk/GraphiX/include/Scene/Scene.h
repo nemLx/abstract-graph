@@ -118,13 +118,13 @@ public:
   void updateSelectedColor(unsigned red, unsigned green, unsigned blue);
   
   /**
-   * Update the highlight of selected items
+   * Update the border of selected items
    *
    * @param red   Red value
    * @param green Green value
    * @param blue  Blue value
    */
-  void updateSelectedHighlight(unsigned red, unsigned green, unsigned blue);
+  void updateSelectedBorder(unsigned red, unsigned green, unsigned blue);
   
   /**
    * Add a public ID to last added shape
