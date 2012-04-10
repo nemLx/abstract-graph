@@ -1,31 +1,25 @@
+//
+//  DiNode.h
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #ifndef _DINODE_H_
 #define _DINODE_H_
 
 #include "AbstractNode.h"
-#include "../Edges/DiEdge.h"
 
 using namespace std;
+
+
 
 class DiEdge;
 
 class DiNode : public AbstractNode{
 	
 public:
-	
-	int inDegree;
-	
-	int outDegree;
-	
-	map<DiEdge*, DiNode*> * inAdjacent;
-	
-	map<DiEdge*, DiNode*> * outAdjacent;
-	
-	//map<int, DiNode*> * inNeighborhood;
-	
-	//map<int, DiNode*> * outNeighborhood;
-	
-	
-	
 	
 	DiNode(int id);
 	
@@ -39,11 +33,18 @@ public:
 	
 	int removeOutAdjacent(DiEdge * adj, DiNode * neighbor);
 	
-	//map<int, AbstractNode*> * getReachable();
-	
 	map<AbstractEdge*, AbstractNode*> * getAdjacent();
 	
 	void printNode();
+	
+	
+	int inDegree;
+	
+	int outDegree;
+	
+	map<DiEdge*, DiNode*> * inAdjacent;
+	
+	map<DiEdge*, DiNode*> * outAdjacent;
 };
 
 

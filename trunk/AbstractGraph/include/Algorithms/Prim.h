@@ -1,9 +1,19 @@
+//
+//  Prim.h
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #ifndef _PRIM_H_
 #define _PRIM_H_
 
 #include "Algorithm.h"
 
 using namespace std;
+
+
 
 class Prim : public Algorithm{
 	
@@ -48,25 +58,31 @@ private:
 		}
 	};
 	
-	map<int, Vertex*> * V;
+	
 	
 	int s;
 	
-	int t;
+	vector<int> * path;
 	
 	AbstractGraph * g;
 	
-	vector<int> * path;
+	map<int, Vertex*> * V;
 	
 	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
 	
-	void handleUnvisited(int uwCost, Vertex * w, Vertex * u);
 	
-	void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
+	
+	void initVertexStructure();
 	
 	void initVertices();
 	
 	Vertex * initVertex(AbstractNode * node);
+	
+	void initAdjacent(Vertex * v, AbstractNode * n);
+	
+	void handleUnvisited(int uwCost, Vertex * w, Vertex * u);
+	
+	void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
 	
 	int constructMST();
 };

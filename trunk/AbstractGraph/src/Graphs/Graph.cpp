@@ -8,8 +8,11 @@
 
 #include <iostream>
 #include "../../include/Graphs/Graph.h"
+#include "../../include/Algorithms/Bipartite.h"
 
 using namespace std;
+
+
 
 Graph::Graph():AbstractGraph(){
 	
@@ -82,6 +85,7 @@ int Graph::addEdge(int s, int t, int v){
 }
 
 
+
 int Graph::removeNode(int id){
 	
 	if (!validNode(id)){
@@ -106,6 +110,15 @@ int Graph::removeNode(int id){
 		
 		return 1;
 	}
+}
+
+
+
+int Graph::bipartite(vector<int> * setX, vector<int> * setY){
+	
+	Bipartite bpSolver(this, setX, setY);
+	
+	return bpSolver.solve();
 }
 
 

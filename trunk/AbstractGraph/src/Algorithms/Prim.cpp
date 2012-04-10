@@ -1,6 +1,16 @@
+//
+//  Prim.cpp
+//  AbstractGraph
+//
+//  Created by Jiageng Li on 4/8/12.
+//  Copyright (c) 2012 University of Illinois at Urbana-Champaign. All rights reserved.
+//
+
 #include "../../include/Algorithms/Prim.h"
 
 using namespace std;
+
+
 
 Prim::Prim(AbstractGraph * g, vector<int> * path){
 	
@@ -12,75 +22,81 @@ Prim::Prim(AbstractGraph * g, vector<int> * path){
 	
 	this->g = g;
 	
-	initVertices();
+	initVertexStructure();
 }
+
+
+void Prim::initVertexStructure(){
+	
+	initVertices();
+	
+	map<int, AbstractNode*> * N = g->getNodes();
+	map<int, Vertex*>::iterator it = V->begin();
+	
+	while (it != V->end()){
+		
+		Vertex * vertex = it->second;
+		
+		AbstractNode * node = (*N)[it->first];
+		
+		initAdjacent(vertex, node);
+		
+		G->push(it->second);
+		
+		it++;
+	}
+}
+
+
+
+void Prim::initAdjacent(Vertex * v, AbstractNode * n){
+	
+	map<AbstractEdge*, AbstractNode*> * adjacent = n->getAdjacent();
+	map<AbstractEdge*, AbstractNode*>::iterator it = adjacent->begin();
+	
+	while (it != adjacent->end()) {
+		
+		AbstractEdge * edge = it->first;
+		AbstractNode * to = it->second;
+		map<int, Vertex*>::iterator curr = v->adj->find(to->id);
+		
+		if (curr == v->adj->end()){
+			
+			// this node has not been included
+			(*v->adj)[to->id] = (*V)[to->id];
+			(*v->cost)[to->id] = edge->value;
+			(*v->edgeId)[to->id] = edge->id;
+			
+		}else if ((*v->cost)[to->id] > edge->value) {
+			
+			// this node has been visited but the new edge offer
+			// lower cost
+			(*v->cost)[to->id] = edge->value;
+			(*v->edgeId)[to->id] = edge->id;
+		}
+		
+		it++;
+	}
+}
+
 
 
 void Prim::initVertices(){
 	
 	map<int, AbstractNode*> * N = g->getNodes();
+	map<int, AbstractNode*>::iterator it = N->begin();
 	
-	map<int, AbstractNode*>::iterator itNode = N->begin();
+	s = it->first;
 	
-	s = itNode->first;
-	
-	while ( itNode != N->end() ){
-		(*V)[itNode->first] = initVertex(itNode->second);
-		itNode++;
-	}
-	
-	
-	
-	map<int, Vertex*>::iterator itVertex = V->begin();
-	
-	while (itVertex != V->end()){
-		
-		Vertex * vertex = itVertex->second;
-		
-		AbstractNode * node = (*N)[itVertex->first];
-		
-		map<AbstractEdge*, AbstractNode*> * adjacent = node->getAdjacent();
-		
-		map<AbstractEdge*, AbstractNode*>::iterator itAdj = adjacent->begin();
-		
-		while (itAdj != adjacent->end()) {
-			
-			// an adjacent edge
-			AbstractEdge * edge = itAdj->first;
-			
-			AbstractNode * to = edge->getTo();
-			
-			map<int, Vertex*>::iterator curr = vertex->adj->find(to->id);
-			
-			if (curr == vertex->adj->end()){
-				
-				// this node has not been included
-				
-				(*vertex->adj)[to->id] = (*V)[to->id];
-				
-				(*vertex->cost)[to->id] = edge->value;
-				
-				(*vertex->edgeId)[to->id] = edge->id;
-				
-			}else{
-				
-				if ((*vertex->cost)[to->id] > edge->value) {
-					(*vertex->cost)[to->id] = edge->value;
-					(*vertex->edgeId)[to->id] = edge->id;
-				}
-			}
-			
-			itAdj++;
-		}
-		
-		G->push(itVertex->second);
-		
-		itVertex++;
+	while ( it != N->end() ){
+		(*V)[it->first] = initVertex(it->second);
+		it++;
 	}
 }
 
 
 Prim::Vertex * Prim::initVertex(AbstractNode * node){
+	
 	Vertex * v = new Vertex();
     
     v->id = node->id;
@@ -116,6 +132,7 @@ int Prim::solve(){
         u->visited = true;
         G->pop();
 		
+		//	placeholders
         int uwCost = 0;
         Vertex * w = NULL;
 		
@@ -136,30 +153,40 @@ int Prim::solve(){
 			it++;
 		}
 		
+		// update the priority queue
 		refreshMin(G);
     }
 	
+	// construct MST and return the total weight
 	return constructMST();
 }
 
+
+
 void Prim::handleUnvisited(int uwCost, Vertex * w, Vertex * u){
+	
 	if (w->dist > uwCost){
 		w->dist = uwCost;
 		w->next = u;
 	}
 }
 
+
+
 void Prim::refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G){
+	
 	Vertex * v = G->top();
     G->pop();
     G->push(v);
 }
 
 
+
 int Prim::constructMST(){
 	
 	int totalWeight = 0;
-	
+	Vertex * curr;
+	Vertex * ancestor;
 	map<int, Vertex*>::iterator it = V->begin();
 	
 	while (it != V->end()) {
@@ -169,11 +196,11 @@ int Prim::constructMST(){
 			continue;
 		}
 		
-		Vertex * curr = it->second;
+		curr = it->second;
+		ancestor = (*V)[curr->next->id];
 		
-		path->push_back((*((*V)[curr->next->id])->edgeId)[curr->id]);
-		
-		totalWeight += (*((*V)[curr->next->id])->cost)[curr->id];
+		path->push_back( (*(ancestor)->edgeId)[curr->id] );
+		totalWeight += (*(ancestor)->cost)[curr->id];
 		
 		it++;
 	}

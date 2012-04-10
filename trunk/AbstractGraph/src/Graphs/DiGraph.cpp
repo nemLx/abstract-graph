@@ -10,6 +10,8 @@
 
 using namespace std;
 
+
+
 DiGraph::DiGraph():AbstractGraph(){
 	
 	directed = true;
