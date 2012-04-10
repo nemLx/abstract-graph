@@ -8,7 +8,12 @@
  * @version $Id$
  */
 
+#include <string>
+#include <utility>
+#include <vector>
+
 #include <QtGui/QMouseEvent>
+#include <QtGui/QInputDialog>
 
 #include "GLWindow.h"
 #include "../Menus/NodeOptionsMenu.h"
@@ -42,6 +47,7 @@ void GLWindow::resizeGL(int w, int h)
 void GLWindow::paintGL()
 {
   scene.updateScene();
+  drawLabels();
 }
 
 void GLWindow::mousePressEvent(QMouseEvent* evt)
@@ -76,7 +82,7 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
     return;
   
   QPoint pos(evt->globalPos());
-  nodeRightClick->updateMenuItems(scene.checkNodesSelected());
+  nodeRightClick->updateMenuItems(scene.checkNodesSelected(), scene.countSelected());
   nodeRightClick->exec(pos);
 }
 
@@ -84,5 +90,38 @@ void GLWindow::deleteSelected()
 {
   scene.deleteSelected();
   updateGL();
+}
+
+void GLWindow::updateLabel()
+{
+  bool ok;
+  QString label;
+  std::vector<std::string> labels = scene.getSelectedLabels();
+  QString existingLabel(labels[0].c_str());
+
+  if(labels.size() == 1)
+    label = QInputDialog::getText(this, tr("Add/Edit Label"), tr("Update Label:"),  QLineEdit::Normal, existingLabel, &ok);
+  else
+    label = QInputDialog::getText(this, tr("Add/Edit Label"), tr("Update Label:"),  QLineEdit::Normal, tr(""), &ok);
+  
+  if(ok) {
+    scene.updateLabel(label.toStdString());
+    updateGL();
+  }
+}
+
+void GLWindow::drawLabels()
+{
+  std::vector<std::string> labels = scene.getLabels();
+  std::vector<std::pair<int, int> > coords = scene.getCoords();
+  
+  if(labels.size() != coords.size())
+    return;
+  
+  for(unsigned i = 0 ; i < labels.size() ; ++i) {
+    if(labels[i].empty())
+      continue;
+    renderText(coords[i].first, coords[i].second, QString(labels[i].c_str()));
+  }
 }
 
