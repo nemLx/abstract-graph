@@ -146,7 +146,7 @@ void bipartiteTest(){
 
 void maxFlowTest(){
 
-	Graph g(7);
+	Graph g(6);
 	
 	g.addEdge(0, 1, 3);
 	g.addEdge(0, 2, 2);
