@@ -12,6 +12,7 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <algorithm>
 #include <limits.h>
 
 #include "../Graphs/AbstractGraph.h"

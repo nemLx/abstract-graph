@@ -7,6 +7,7 @@
 //
 
 #include "../../include/Graphs/DiGraph.h"
+#include "../../include/Algorithms/FordFulkerson.h"
 
 using namespace std;
 
@@ -111,6 +112,15 @@ int DiGraph::removeNode(int id){
 		
 		return 1;
 	}
+}
+
+
+
+int DiGraph::maxFlow(int s, int t, vector< pair<int, int> > * edgeFlow){
+	
+	FordFulkerson maxFlowSolver(this, s, t, edgeFlow);
+	
+	return maxFlowSolver.solve();
 }
 
 
