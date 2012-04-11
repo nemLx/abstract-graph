@@ -54,7 +54,7 @@ private:
   QAction* label;
   QAction* del;
   QAction* color;
-  QAction* outline;
+  QAction* deselect;
 };
 
 #endif /* MENUS_NODEOPTIONSMENU_H__ */

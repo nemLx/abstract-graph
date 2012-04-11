@@ -16,13 +16,13 @@
 
 namespace GRAPHIX
 {
-EdgeCreationMode::EdgeCreationMode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected)
-  : Mode(shapes, selected)
+EdgeCreationMode::EdgeCreationMode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected, const Color& highlight)
+  : Mode(shapes, selected, highlight)
 {
 }
 
 EdgeCreationMode::EdgeCreationMode(const EdgeCreationMode& rhs)
-  : Mode(rhs.getShapesVector(), rhs.getSelectedVector())
+  : Mode(rhs.getShapesVector(), rhs.getSelectedVector(), rhs.getHighlight())
 {
 }
 

@@ -109,6 +109,24 @@ public:
   void updateLabel(const std::string& label);
   
   /**
+   * Update background color
+   *
+   * @param red   Red value
+   * @param green Green value
+   * @param blue  Blue value
+   */
+  void updateBackground(unsigned red, unsigned green, unsigned blue);
+  
+  /**
+   * Update the highlight color
+   *
+   * @param red   Red value
+   * @param green Green value
+   * @param blue  Blue value
+   */
+  void updateHighlightColor(unsigned red, unsigned green, unsigned blue);
+  
+  /**
    * Update the color of selected items
    *
    * @param red   Red value
@@ -116,15 +134,6 @@ public:
    * @param blue  Blue value
    */
   void updateSelectedColor(unsigned red, unsigned green, unsigned blue);
-  
-  /**
-   * Update the border of selected items
-   *
-   * @param red   Red value
-   * @param green Green value
-   * @param blue  Blue value
-   */
-  void updateSelectedBorder(unsigned red, unsigned green, unsigned blue);
   
   /**
    * Add a public ID to last added shape
@@ -146,6 +155,16 @@ public:
    * @return  The number of selected items
    */
   unsigned countSelected() const;
+  
+  /**
+   * Select all
+   */
+  void selectAll();
+  
+  /**
+   * Deselect all
+   */
+  void deselectAll();
   
   /**
    * Delete selected items
@@ -250,6 +269,8 @@ private:
   int viewport[4];
   unsigned* pickBuffer;
   unsigned bufferSize;
+  Color highlight;
+  Color background;
 };
 }
 #endif /* GRAPHIX_SCENE_SCENE_H__ */

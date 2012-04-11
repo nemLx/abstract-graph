@@ -15,13 +15,13 @@
 
 namespace GRAPHIX
 {
-NodeCreationMode::NodeCreationMode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected)
-  : Mode(shapes, selected)
+NodeCreationMode::NodeCreationMode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected, const Color& highlight)
+  : Mode(shapes, selected, highlight)
 {
 }
 
 NodeCreationMode::NodeCreationMode(const NodeCreationMode& rhs)
-  : Mode(rhs.getShapesVector(), rhs.getSelectedVector())
+  : Mode(rhs.getShapesVector(), rhs.getSelectedVector(), rhs.getHighlight())
 {
 }
 

@@ -27,25 +27,38 @@ void NodeOptionsMenu::updateMenuItems(bool selected, unsigned numSelected)
   label->setEnabled(numSelected == 1);
   del->setEnabled(selected);
   color->setEnabled(selected);
-  outline->setEnabled(selected);
+  deselect->setEnabled(selected);
 }
 
 void NodeOptionsMenu::init()
 {
-  label   = new QAction(MENU_GENERAL_LABEL, this);
-  del     = new QAction(MENU_GENERAL_DELETE, this);
-  color   = new QAction(MENU_NODE_COLOR, this);
-  outline = new QAction(MENU_NODE_HIGHLIGHT, this);
+  label    = new QAction(MENU_GENERAL_LABEL, this);
+  del      = new QAction(MENU_GENERAL_DELETE, this);
+  color    = new QAction(MENU_NODE_COLOR, this);
+  deselect = new QAction(MENU_GENERAL_DESELECT, this);
+  
+  // Non-Conditional actions
+  // (i.e. not class members/always enabled)
+  QAction* highlight  = new QAction(MENU_NODE_HIGHLIGHT, this);
+  QAction* background = new QAction(MENU_NODE_BACKGROUND, this);
+  QAction* selectall  = new QAction(MENU_GENERAL_SELECTALL, this);
   
   connect(label, SIGNAL(triggered()), parent(), SLOT(updateLabel()));
   connect(del, SIGNAL(triggered()), parent(), SLOT(deleteSelected()));
   connect(color, SIGNAL(triggered()), parent(), SLOT(updateColor()));
-  connect(outline, SIGNAL(triggered()), parent(), SLOT(updateHighlight()));
+  connect(highlight, SIGNAL(triggered()), parent(), SLOT(updateHighlight()));
+  connect(background, SIGNAL(triggered()), parent(), SLOT(updateBackground()));
+  connect(selectall, SIGNAL(triggered()), parent(), SLOT(selectAll()));
+  connect(deselect, SIGNAL(triggered()), parent(), SLOT(deselectAll()));
   
   this->addAction(label);
   this->addSeparator();
   this->addAction(color);
-  this->addAction(outline);
+  this->addAction(highlight);
+  this->addAction(background);
+  this->addSeparator();
+  this->addAction(selectall);
+  this->addAction(deselect);
   this->addSeparator();
   this->addAction(del);
 }

@@ -109,13 +109,6 @@ public:
   virtual void setHighlight(const Color& color);
   
   /**
-   * Set the border color
-   *
-   * @param color   The border color
-   */
-  virtual void setBorder(const Color& color);
-  
-  /**
    * Get the object's color
    *
    * @return  The object's color
@@ -186,7 +179,6 @@ private:
   float xCoord, yCoord;
   Color color;
   Color highlight;
-  Color border;
   bool selected;
   int pubId;
   std::string label;

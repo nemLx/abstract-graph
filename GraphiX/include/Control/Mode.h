@@ -40,8 +40,9 @@ public:
    *
    * @param shapes    A pointer to a shapes vector
    * @param selected  A pointer to the selected vector
+   * @param highlight The color to highlight nodes
    */
-  Mode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected);
+  Mode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected, const Color& highlight);
   
   /**
    * Destructor
@@ -82,6 +83,11 @@ public:
   virtual void selectLogic(unsigned hits, unsigned* pickBuffer);
   
   /**
+   * Highlight all shapes
+   */
+  virtual void highlightAll();
+  
+  /**
    * Highlight a particular shape
    *
    * @param shape   Pointer to the shape to be colored
@@ -107,9 +113,18 @@ public:
    */
   virtual MODES getMode() const = 0;
   
+protected:
+  /**
+   * Get the highlight
+   *
+   * @return  The highlight reference
+   */
+  const Color& getHighlight() const;
+  
 private:
   std::vector<Shape*>* shapes;
   std::vector<Shape*>* selected;
+  const Color& highlightColor;
 };
 }
 

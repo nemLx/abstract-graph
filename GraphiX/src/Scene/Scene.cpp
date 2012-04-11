@@ -22,12 +22,13 @@
 namespace GRAPHIX
 {
 Scene::Scene()
+  : highlight(Color(0.0, 0.0, 255.0, 0.0)), background(Color(139.0, 137.0, 137.0, 0.0))
 {
   bufferSize = GRAPHIX_DEFAULT_PICK_BUFFER_SIZE;
   pickBuffer = new unsigned[bufferSize];
   
-  modes[NODECREATION] = new NodeCreationMode(&shapes, &selected);
-  modes[EDGECREATION] = new EdgeCreationMode(&shapes, &selected);
+  modes[NODECREATION] = new NodeCreationMode(&shapes, &selected, highlight);
+  modes[EDGECREATION] = new EdgeCreationMode(&shapes, &selected, highlight);
   
   // Default in Node Creation Mode for now
   currentMode = modes[NODECREATION];
@@ -40,7 +41,7 @@ Scene::Scene()
   glEnable(GL_LINE_SMOOTH);
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glClearColor(139.0/255.0, 137.0/255.0, 137.0/255.0, 0.0);
+  glClearColor(background.r/255.0, background.g/255.0, background.b/255.0, 0.0);
 }
 
 Scene::~Scene()
@@ -65,7 +66,7 @@ Scene& Scene::operator=(const Scene& rhs)
 unsigned* Scene::updateScene()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(139.0/255.0, 137.0/255.0, 137.0/255.0, 0.0);
+  glClearColor(background.r/255.0, background.g/255.0, background.b/255.0, 0.0);
   glLoadIdentity();
   
   std::vector<Shape*>::const_iterator it;
@@ -109,7 +110,7 @@ void Scene::registerClick(int xW, int yW)
   currentMode->handleClick(x, y, hits, pickBuffer);
 }
 
-void Scene::updateMode(GRAPHIX::MODES mode)
+void Scene::updateMode(MODES mode)
 {
   currentMode = modes[mode];
   currentMode->removeAllHighlight();
@@ -141,6 +142,20 @@ void Scene::updateLabel(const std::string& label)
   }
 }
 
+void Scene::updateBackground(unsigned int red, unsigned int green, unsigned int blue)
+{
+  background.r = red;
+  background.g = green;
+  background.b = blue;
+}
+
+void Scene::updateHighlightColor(unsigned int red, unsigned int green, unsigned int blue)
+{
+  highlight.r = red;
+  highlight.g = green;
+  highlight.b = blue;
+}
+
 void Scene::updateSelectedColor(unsigned int red, unsigned int green, unsigned int blue)
 {
   Color c(red, green, blue, 0);
@@ -149,16 +164,6 @@ void Scene::updateSelectedColor(unsigned int red, unsigned int green, unsigned i
   
   for(it = selected.begin() ; it != selected.end() ; ++it)
     (*it)->setColor(c);
-}
-
-void Scene::updateSelectedBorder(unsigned int red, unsigned int green, unsigned int blue)
-{
-  Color c(red, green, blue, 0);
-  
-  std::vector<Shape*>::iterator it;
-  
-  for(it = selected.begin() ; it != selected.end() ; ++it)
-    (*it)->setBorder(c);
 }
 
 void Scene::setLastId(int id)
@@ -184,6 +189,16 @@ bool Scene::checkNodesSelected() const
 unsigned Scene::countSelected() const
 {
   return selected.size();
+}
+
+void Scene::selectAll()
+{
+  currentMode->highlightAll();
+}
+
+void Scene::deselectAll()
+{
+  currentMode->removeAllHighlight();
 }
 
 void Scene::deleteSelected()

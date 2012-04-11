@@ -24,8 +24,9 @@ public:
    *
    * @param shapes    A pointer to a shapes vector
    * @param selected  A pointer to the selected vector
+   * @param highlight The color to highlight nodes
    */
-  NodeCreationMode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected);
+  NodeCreationMode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected, const Color& highlight);
   
   /**
    * Copy constructor

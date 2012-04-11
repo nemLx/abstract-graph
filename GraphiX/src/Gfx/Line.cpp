@@ -15,7 +15,7 @@ namespace GRAPHIX
 Line::Line(Circle* cl, Circle* cr)
   : Shape(-1, -1), cl(cl), cr(cr), width(.1f)
 {
-  setHighlight(Color(1, 0, 0, 0));
+  setHighlight(Color(1.0, 0.0, 0.0, 0.0));
 }
 
 Line::Line(const Line& rhs)
@@ -46,7 +46,7 @@ void Line::draw() const
   glEnable(GL_LINE_SMOOTH);
   glLineWidth(width);
   glBegin(GL_LINES);
-    glColor3f(color.r, color.g, color.b);
+    glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
     glVertex2f(cl->getX(), cl->getY());
     glVertex2f(cr->getX(), cr->getY());
   glEnd();
