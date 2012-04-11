@@ -95,14 +95,17 @@ bool FordFulkerson::constructPath(int s, int t){
 		u = Q->front();
 		vector<int> * neighbors = (*adjacent)[u];
 		
-		//printf("%i: ", u);
-		
 		for (int i = 0; i < (int)neighbors->size(); i++){
 			
 			v = neighbors->at(i);
 			pair<int, int> con(u, v);
 			
-			if ((*state)[v] == UNEXPLORED && (*capacity)[con] > (*flow)[con]){
+			if ((*state)[v] != UNEXPLORED) {
+				continue;
+			}
+			
+			if ( (*capacity)[con] > (*flow)[con] || ( (*ancestor)[v] == u && (*flow)[con] < 0 ) ) {
+				
 				Q->push(v);
 				(*state)[v] = EXPLORING;
 				(*ancestor)[v] = u;
