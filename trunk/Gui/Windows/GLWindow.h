@@ -106,10 +106,24 @@ protected slots:
   void updateColor();
   
   /**
-   * Update the highlight for the selected
-   * items
+   * Update the highlight color
    */
   void updateHighlight();
+  
+  /**
+   * Update the background color
+   */
+  void updateBackground();
+  
+  /**
+   * Select all
+   */
+  void selectAll();
+  
+  /**
+   * Deselect all
+   */
+  void deselectAll();
   
 private:
   /**

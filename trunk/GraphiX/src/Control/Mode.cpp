@@ -13,8 +13,8 @@
 
 namespace GRAPHIX
 {
-Mode::Mode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected)
-  : shapes(shapes), selected(selected)
+Mode::Mode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected, const Color& highlight)
+  : shapes(shapes), selected(selected), highlightColor(highlight)
 {
 }
 
@@ -78,14 +78,21 @@ void Mode::selectLogic(unsigned hits, unsigned* pickBuffer)
     removeAllHighlight();
 }
 
+void Mode::highlightAll()
+{
+  removeAllHighlight();
+  
+  std::vector<Shape*>::iterator it;
+  
+  for(it = shapes->begin() ; it != shapes->end() ; ++it)
+    highlight(*it);
+}
+
 void Mode::highlight(Shape* shape)
 {
   if(shape == NULL || shape->isSelected())
-    return;
-  
-  Color highlight(0.0, 0.0, 255.0, 0.0);
-  
-  shape->setHighlight(highlight);
+    return;  
+  shape->setHighlight(highlightColor);
   shape->toggleSelected();
   selected->push_back(shape);
 }
@@ -96,7 +103,6 @@ void Mode::removeAllHighlight()
     return;
   
   std::vector<Shape*>::iterator it;
-  Color highlight(0.f, 0.f, 0.f, 0.f);
 
   while(selected->size() > 0)
     removeHighlight((*selected)[0]);
@@ -119,6 +125,11 @@ void Mode::removeHighlight(Shape* shape)
       break;
     }
   }
+}
+
+const Color& Mode::getHighlight() const
+{
+  return highlightColor;
 }
 
 }

@@ -123,8 +123,25 @@ void GLWindow::updateHighlight()
     int green = 0;
     int blue = 0;
     color.getRgb(&red, &green, &blue);
+
+    scene.updateHighlightColor(red, green, blue);
+
+    updateGL();
+  }
+}
+
+void GLWindow::updateBackground()
+{
+  QColor color = Qt::white;
+  bool isValid = showColorDialog(color);
+  
+  if(isValid) {
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+    color.getRgb(&red, &green, &blue);
     
-    scene.updateSelectedBorder(red, green, blue);
+    scene.updateBackground(red, green, blue);
     
     updateGL();
   }
@@ -146,6 +163,18 @@ void GLWindow::updateLabel()
     scene.updateLabel(label.toStdString());
     updateGL();
   }
+}
+
+void GLWindow::selectAll()
+{
+  scene.selectAll();
+  updateGL();
+}
+
+void GLWindow::deselectAll()
+{
+  scene.deselectAll();
+  updateGL();
 }
 
 void GLWindow::drawLabels()

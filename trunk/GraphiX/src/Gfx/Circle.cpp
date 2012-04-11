@@ -65,14 +65,14 @@ void Circle::draw() const
   glBegin(GL_TRIANGLE_FAN);
     glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
     glVertex2f(x, y);
-    for(int i = 0 ; i < 360 ; ++i)
+    for(int i = 0 ; i <= 360 ; ++i)
       glVertex2f(x + sin(i*DEG2RAD)*radius, y + cos(i*DEG2RAD)*radius);
   glEnd();
   
   // Outline our figure
   glBegin(GL_LINE_LOOP);
-    glColor3f(border.r, border.g, border.b);
-    for(int i = 0 ; i < 360 ; ++i)
+    glColor3f(border.r/255.0, border.g/255.0, border.b/255.0);
+    for(int i = 0 ; i <= 360 ; ++i)
       glVertex2f(x + sin(i*DEG2RAD)*radius, y + cos(i*DEG2RAD)*radius);
   glEnd();
 }
