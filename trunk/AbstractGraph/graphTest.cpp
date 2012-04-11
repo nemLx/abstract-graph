@@ -104,7 +104,7 @@ void mstTest(){
 
 void bipartiteTest(){
 	
-	Graph g(30);
+	Graph g(7);
 	
 	g.addEdge(1,3);
 	g.addEdge(1,4);
@@ -146,7 +146,7 @@ void bipartiteTest(){
 
 void maxFlowTest(){
 
-	DiGraph g(6);
+	Graph g(7);
 	
 	g.addEdge(0, 1, 3);
 	g.addEdge(0, 2, 2);

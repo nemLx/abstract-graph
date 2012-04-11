@@ -148,6 +148,10 @@ int AbstractGraph::mst(vector<int> * edges){
 
 int AbstractGraph::maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutEdges){
 	
+	if (s == t){
+		return 0;
+	}
+	
 	FordFulkerson maxFlowMinCutSolver(this, s, t, edgeFlow, cutEdges);
 	
 	return maxFlowMinCutSolver.solve();
