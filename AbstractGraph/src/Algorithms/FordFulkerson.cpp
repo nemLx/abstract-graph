@@ -12,7 +12,7 @@
 
 
 
-FordFulkerson::FordFulkerson(DiGraph * g, int s, int t, vector< pair<int, int> > * edgeFlow){
+FordFulkerson::FordFulkerson(AbstractGraph * g, int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet){
 	
 	this->g = g;
 	
@@ -21,6 +21,8 @@ FordFulkerson::FordFulkerson(DiGraph * g, int s, int t, vector< pair<int, int> >
 	this->t = t;
 	
 	this->edgeFlow = edgeFlow;
+	
+	this->cutSet = cutSet;
 	
 	Q = new queue<int>;
 	
@@ -33,6 +35,10 @@ FordFulkerson::FordFulkerson(DiGraph * g, int s, int t, vector< pair<int, int> >
 	ancestor = new map<int, int>;
 	
 	adjacent = new map<int, vector<int>* >;
+	
+	visited = new map<int, bool>;
+	
+	reachable = new vector<int>;
 	
 	init();
 }
@@ -61,6 +67,7 @@ void FordFulkerson::init(){
 			(*capacity)[con] += adjEdge->value;
 			(*flow)[con] = 0;
 			
+			(*visited)[adjEdge->id] = false;
 			itAdj++;
 		}
 		
@@ -100,6 +107,7 @@ bool FordFulkerson::constructPath(int s, int t){
 			}
 		}
 		
+		reachable->push_back(u);
 		(*state)[u] = EXPLORED;
 		Q->pop();
 	}
@@ -126,6 +134,12 @@ void FordFulkerson::resetBfs(){
 		itA->second = -1;
 		itA++;
 	}
+	
+	if (reachable != NULL){
+		delete reachable;
+	}
+	
+	reachable = new vector<int>;
 }
 
 
@@ -158,6 +172,8 @@ int FordFulkerson::solve(){
 	
 	constructFlow();
 	
+	constructCut();
+	
 	return maxFlow;
 }
 
@@ -181,7 +197,12 @@ void FordFulkerson::constructFlow(){
 			pair<int, int> con(curr->id, adjNode->id);
 			int adjFlow = (*flow)[con];
 			
-			if (adjFlow == 0) {
+			if ((*visited)[adjEdge->id]){
+				itAdj++;
+				continue;
+			}
+			
+			if (adjFlow <= 0) {
 				edgeFlow->push_back(pair<int, int>(adjEdge->id, 0));
 			}else if (adjFlow > adjEdge->value){
 				edgeFlow->push_back(pair<int, int>(adjEdge->id, adjEdge->value));
@@ -190,12 +211,20 @@ void FordFulkerson::constructFlow(){
 				edgeFlow->push_back(pair<int, int>(adjEdge->id, adjFlow));
 			}
 			
+			(*visited)[adjEdge->id] = true;
 			itAdj++;
 		}
 		
 		it++;
 	}
-	
+}
+
+
+
+void FordFulkerson::constructCut(){
+	for (int i = 0; i < (int)reachable->size(); i++){
+		cutSet->push_back(reachable->at(i));
+	}
 }
 
 
