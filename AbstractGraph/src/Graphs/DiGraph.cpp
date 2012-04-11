@@ -106,6 +106,8 @@ int DiGraph::removeNode(int id){
 			removeEdge(it->first->id);
 		}
 		
+		N->erase(N->find(id));
+		
 		delete node;
 		
 		n--;

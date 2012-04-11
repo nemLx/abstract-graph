@@ -55,7 +55,7 @@ void FordFulkerson::init(){
 		AbstractNode * curr = it->second;
 		map<AbstractEdge*, AbstractNode*>* adj = curr->getAdjacent();
 		map<AbstractEdge*, AbstractNode*>::iterator itAdj = adj->begin();
-		vector<int> * neighbors = new vector<int>(0);
+		vector<int> * neighbors = new vector<int>;
 		
 		while (itAdj != adj->end()) {
 			
@@ -95,6 +95,8 @@ bool FordFulkerson::constructPath(int s, int t){
 		u = Q->front();
 		vector<int> * neighbors = (*adjacent)[u];
 		
+		//printf("%i: ", u);
+		
 		for (int i = 0; i < (int)neighbors->size(); i++){
 			
 			v = neighbors->at(i);
@@ -104,10 +106,11 @@ bool FordFulkerson::constructPath(int s, int t){
 				Q->push(v);
 				(*state)[v] = EXPLORING;
 				(*ancestor)[v] = u;
+				reachable->push_back(v);
 			}
 		}
 		
-		reachable->push_back(u);
+		
 		(*state)[u] = EXPLORED;
 		Q->pop();
 	}
@@ -165,6 +168,8 @@ int FordFulkerson::solve(){
 			
 			(*flow)[forward] += inc;
 			(*flow)[backward] -= inc;
+			
+			(*adjacent)[u]->push_back((*ancestor)[u]);
 		}
 		
 		maxFlow += inc;
@@ -222,6 +227,7 @@ void FordFulkerson::constructFlow(){
 
 
 void FordFulkerson::constructCut(){
+	cutSet->push_back(s);
 	for (int i = 0; i < (int)reachable->size(); i++){
 		cutSet->push_back(reachable->at(i));
 	}
