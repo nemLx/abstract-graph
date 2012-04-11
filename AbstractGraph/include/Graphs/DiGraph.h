@@ -30,6 +30,8 @@ public:
 	int addEdge(int s, int t, int v);
 	
 	int removeNode(int id);
+	
+	int maxFlow(int s, int t, vector< pair<int, int> > * edgeFlow);
 };
 
 #endif

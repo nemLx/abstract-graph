@@ -127,7 +127,7 @@ void bipartiteTest(){
 	
 	if (isBipartite){
 		
-		printf("partite set X: ");
+		printf("\npartite set X: ");
 		printVector(partX);
 		
 		printf("\n");
@@ -144,6 +144,44 @@ void bipartiteTest(){
 
 
 
+void maxFlowTest(){
+
+	DiGraph g(6);
+	
+	g.addEdge(0, 1, 3);
+	g.addEdge(0, 2, 2);
+	g.addEdge(1, 2, 1);
+	g.addEdge(1, 3, 3);
+	g.addEdge(1, 4, 4);
+	g.addEdge(2, 4, 2);
+	g.addEdge(3, 5, 2);
+	g.addEdge(4, 5, 4);
+	g.addEdge(0, 1, 2);
+	
+	printf("\n");
+	g.printGraph();
+	
+	int from = 0;
+	int to = 5;
+	
+	vector< pair<int, int> > * edgeFlow = new vector<pair<int, int> >;
+	int maxFlow = g.maxFlow(from, to, edgeFlow);
+	
+	printf("\nMaxflow from %i to %i : %i \n", from, to, maxFlow);
+	
+	if (maxFlow){
+		
+		vector< pair<int, int> >::iterator it;
+		
+		for (it = edgeFlow->begin(); it != edgeFlow->end(); it++){
+			printf("Edge: %i : Flow: %i \n", it->first, it->second);
+		}
+	}
+	
+}
+
+
+
 int main(){
 	
 	shortestPathTest();
@@ -151,6 +189,8 @@ int main(){
 	mstTest();
 	
 	bipartiteTest();
+	
+	maxFlowTest();
 	
 	return 0;
 }
