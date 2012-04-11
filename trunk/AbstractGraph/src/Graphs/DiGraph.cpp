@@ -116,14 +116,6 @@ int DiGraph::removeNode(int id){
 
 
 
-int DiGraph::maxFlow(int s, int t, vector< pair<int, int> > * edgeFlow){
-	
-	FordFulkerson maxFlowSolver(this, s, t, edgeFlow);
-	
-	return maxFlowSolver.solve();
-}
-
-
 
 
 

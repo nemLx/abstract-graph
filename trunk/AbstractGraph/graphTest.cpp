@@ -165,7 +165,9 @@ void maxFlowTest(){
 	int to = 5;
 	
 	vector< pair<int, int> > * edgeFlow = new vector<pair<int, int> >;
-	int maxFlow = g.maxFlow(from, to, edgeFlow);
+	vector<int> * cutSet = new vector<int>;
+	
+	int maxFlow = g.maxFlowMinCut(from, to, edgeFlow, cutSet);
 	
 	printf("\nMaxflow from %i to %i : %i \n", from, to, maxFlow);
 	
@@ -175,6 +177,15 @@ void maxFlowTest(){
 		
 		for (it = edgeFlow->begin(); it != edgeFlow->end(); it++){
 			printf("Edge: %i : Flow: %i \n", it->first, it->second);
+		}
+		
+		printf("Cut set containing source: ");
+		
+		vector<int>::iterator itCut = cutSet->begin();
+		
+		while (itCut != cutSet->end()) {
+			printf("%i ", *itCut);
+			itCut++;
 		}
 	}
 	

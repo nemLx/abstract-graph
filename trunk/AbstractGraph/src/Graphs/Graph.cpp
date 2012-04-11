@@ -9,6 +9,7 @@
 #include <iostream>
 #include "../../include/Graphs/Graph.h"
 #include "../../include/Algorithms/Bipartite.h"
+#include "../../include/Algorithms/FordFulkerson.h"
 
 using namespace std;
 
@@ -120,6 +121,8 @@ int Graph::bipartite(vector<int> * setX, vector<int> * setY){
 	
 	return bpSolver.solve();
 }
+
+
 
 
 

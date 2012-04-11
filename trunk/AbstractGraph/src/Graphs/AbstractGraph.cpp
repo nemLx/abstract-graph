@@ -11,6 +11,7 @@
 #include "../../include/Graphs/AbstractGraph.h"
 #include "../../include/Algorithms/Dijkstra.h"
 #include "../../include/Algorithms/Prim.h"
+#include "../../include/Algorithms/FordFulkerson.h"
 
 using namespace std;
 
@@ -141,6 +142,15 @@ int AbstractGraph::mst(vector<int> * edges){
 	Prim mstSolver(this, edges);
 	
 	return mstSolver.solve();
+}
+
+
+
+int AbstractGraph::maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutEdges){
+	
+	FordFulkerson maxFlowMinCutSolver(this, s, t, edgeFlow, cutEdges);
+	
+	return maxFlowMinCutSolver.solve();
 }
 
 

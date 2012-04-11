@@ -60,6 +60,8 @@ public:
 	
 	int mst(vector<int> * edges);
 	
+	int maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet);
+	
 	
 protected:
 	
