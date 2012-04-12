@@ -82,6 +82,14 @@ public:
   void registerClick(int x, int y);
   
   /**
+   * Move node to new positions
+   *
+   * @param x   X coordinate (window coord)
+   * @param y   Y coordinate (window coord)
+   */
+  void moveNodes(int x, int y);
+  
+  /**
    * Update the mode
    *
    * @param mode    The new mode to enter
@@ -166,9 +174,11 @@ public:
   /**
    * Get the number of items selected
    *
+   * @param type  Type of items to check (default = ANY)
+   *
    * @return  The number of selected items
    */
-  unsigned countSelected() const;
+  unsigned countSelected(SHAPES type = ANY) const;
   
   /**
    * Select all
