@@ -23,6 +23,8 @@ public:
 	
 	DiGraph(int nodeCount);
 	
+	~DiGraph();
+	
 	int addNode();
 	
 	int addEdge(int s, int t);

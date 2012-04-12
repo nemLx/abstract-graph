@@ -33,6 +33,22 @@ Bipartite::Bipartite(Graph * g, vector<int> * partX, vector<int> * partY){
 
 
 
+Bipartite::~Bipartite(){
+	
+	map<int, Vertex*>::iterator it = V->begin();
+	
+	while (it != V->end()) {
+		delete it->second->adj;
+		
+		delete it->second;
+		it++;
+	}
+	
+	delete V;
+}
+
+
+
 void Bipartite::initVertexStructure(){
 	
 	initVertices();

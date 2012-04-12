@@ -45,6 +45,27 @@ FordFulkerson::FordFulkerson(AbstractGraph * g, int s, int t, vector< pair<int, 
 
 
 
+FordFulkerson::~FordFulkerson(){
+	
+	map<int, vector<int>*>::iterator it = adjacent->begin();
+	
+	while (it != adjacent->end()) {
+		delete it->second;
+		it++;
+	}
+	
+	delete adjacent;
+	delete Q;
+	delete flow;
+	delete capacity;
+	delete state;
+	delete ancestor;
+	delete visited;
+	delete reachable;
+}
+
+
+
 void FordFulkerson::init(){
 	
 	map<int, AbstractNode*> * N = g->getNodes();
@@ -112,7 +133,6 @@ bool FordFulkerson::constructPath(int s, int t){
 				reachable->push_back(v);
 			}
 		}
-		
 		
 		(*state)[u] = EXPLORED;
 		Q->pop();

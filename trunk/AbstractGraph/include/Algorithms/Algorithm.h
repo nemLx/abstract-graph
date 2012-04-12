@@ -12,6 +12,7 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <set>
 #include <algorithm>
 #include <limits.h>
 
@@ -28,7 +29,6 @@ class Algorithm{
 public:
 	
 	virtual int solve() = 0;
-	
 };
 
 #endif

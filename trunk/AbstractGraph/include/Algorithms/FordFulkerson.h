@@ -20,6 +20,8 @@ public:
 	
 	FordFulkerson(AbstractGraph * g, int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet);
 	
+	~FordFulkerson();
+	
 	int solve();
 	
 private:

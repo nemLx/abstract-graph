@@ -10,6 +10,7 @@
 #include "../../include/Graphs/Graph.h"
 #include "../../include/Algorithms/Bipartite.h"
 #include "../../include/Algorithms/FordFulkerson.h"
+#include "../../include/Algorithms/HopcroftKarp.h"
 
 using namespace std;
 
@@ -19,8 +20,8 @@ Graph::Graph():AbstractGraph(){
 	
 	directed = false;
 	
-	N = new map<int, AbstractNode*>();
-	E = new map<int, AbstractEdge*>();
+	N = new map<int, AbstractNode*>;
+	E = new map<int, AbstractEdge*>;
 }
 
 
@@ -29,12 +30,28 @@ Graph::Graph(int nodeCount):AbstractGraph(){
 	
 	directed = false;
 	
-	N = new map<int, AbstractNode*>();
-	E = new map<int, AbstractEdge*>();
+	N = new map<int, AbstractNode*>;
+	E = new map<int, AbstractEdge*>;
 	
 	while (n < nodeCount){
 		addNode();
 	}
+}
+
+
+
+Graph::~Graph(){
+	
+	map<int, AbstractNode*> nCopy(*N);
+	map<int, AbstractNode*>::iterator itNode = nCopy.begin();
+	
+	while (itNode !=nCopy.end()) {
+		removeNode(itNode->second->id);
+		itNode++;
+	}
+	
+	delete N;
+	delete E;
 }
 
 
@@ -120,6 +137,21 @@ int Graph::bipartite(vector<int> * setX, vector<int> * setY){
 	Bipartite bpSolver(this, setX, setY);
 	
 	return bpSolver.solve();
+}
+
+
+
+int Graph::maxMatching(vector<int> * matching){
+	
+	vector<int>	partX;
+	vector<int> partY;
+	
+	if (this->bipartite(&partX, &partY)){
+		HopcroftKarp mmSolver(this, &partX, &partY, matching);
+		return mmSolver.solve();
+	}else{
+		return -1;
+	}
 }
 
 

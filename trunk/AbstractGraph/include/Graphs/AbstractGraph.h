@@ -28,8 +28,6 @@ public:
 	
 	AbstractGraph();
 	
-	~AbstractGraph();
-	
 	virtual int addNode() = 0;
 	
 	virtual int addEdge(int s, int t) = 0;

@@ -26,6 +26,27 @@ Prim::Prim(AbstractGraph * g, vector<int> * path){
 }
 
 
+
+Prim::~Prim(){
+	
+	map<int, Vertex*>::iterator it = V->begin();
+	
+	while (it != V->end()) {
+		delete it->second->adj;
+		delete it->second->cost;
+		delete it->second->edgeId;
+		
+		delete it->second;
+		
+		it++;
+	}
+	
+	delete V;
+	delete G;	
+}
+
+
+
 void Prim::initVertexStructure(){
 	
 	initVertices();
