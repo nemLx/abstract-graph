@@ -24,7 +24,7 @@
 #include "graphix.h"
 
 GLWindow::GLWindow(QWidget* parent)
-  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), lastX(0), lastY(0)
+  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false)
 {
 }
 
@@ -34,6 +34,8 @@ GLWindow::~GLWindow()
 
 void GLWindow::updateMode(GRAPHIX::MODES mode)
 {
+  if(locked)
+    return;
   scene.updateMode(mode);
   updateGL();
 }
@@ -68,15 +70,13 @@ void GLWindow::mousePressEvent(QMouseEvent* evt)
   if(button == Qt::LeftButton) {
     scene.registerClick(x, y);
     updateGL();
-    lastX = x;
-    lastY = y;
   }
 }
 
 void GLWindow::mouseMoveEvent(QMouseEvent* evt)
 {
   // Move exactly one node at a time for now
-  if(scene.countSelected(GRAPHIX::CIRCLE) != 1)
+  if(scene.countSelected(GRAPHIX::CIRCLE) != 1 || scene.getMode() == GRAPHIX::VIEWONLY)
     return;
   
   // Make sure are coordinates are from the proper perspective
@@ -100,8 +100,9 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
   if(evt == NULL)
     return;
   
-  unsigned numSelected = scene.countSelected();
-  bool selected = numSelected > 0;
+  GRAPHIX::MODES currMode = scene.getMode();
+  unsigned numSelected = (currMode == GRAPHIX::VIEWONLY) ? 0 : scene.countSelected();
+  bool selected = numSelected > 0 && currMode != GRAPHIX::VIEWONLY;
   
   QPoint pos(evt->globalPos());
   nodeRightClick->updateMenuItems(selected, numSelected);

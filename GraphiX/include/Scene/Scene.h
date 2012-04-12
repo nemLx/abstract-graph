@@ -70,7 +70,7 @@ public:
    * @param x       X coordinate (window coord)
    * @param y       Y coordinate (window coord)
    */
-  void addShape(SHAPES shape, int x, int y);
+  virtual void addShape(SHAPES shape, int x, int y);
   
   /**
    * Register a click with the scene
@@ -79,7 +79,14 @@ public:
    * @param x   X coordinate (window coord)
    * @param y   Y coordinate (window coord)
    */
-  void registerClick(int x, int y);
+  virtual void registerClick(int x, int y);
+  
+  /**
+   * Get the current mode type
+   *
+   * @return  The current mode
+   */
+  virtual MODES getMode() const;
   
   /**
    * Move node to new positions
@@ -87,14 +94,23 @@ public:
    * @param x   X coordinate (window coord)
    * @param y   Y coordinate (window coord)
    */
-  void moveNodes(int x, int y);
+  virtual void moveNodes(int x, int y);
+  
+  /**
+   * Move a particular node
+   *
+   * @param id    The node's public id
+   * @param x     X coordinate (window coord)
+   * @param y     Y coordinate (window coord)
+   */
+  virtual void moveNode(int id, int x, int y);
   
   /**
    * Update the mode
    *
    * @param mode    The new mode to enter
    */
-  void updateMode(GRAPHIX::MODES mode);
+  virtual void updateMode(GRAPHIX::MODES mode);
   
   /**
    * updateGLSize
@@ -102,26 +118,26 @@ public:
    * @param w   New width
    * @param h   New height
    */
-  void updateGLSize(int w, int h);
+  virtual void updateGLSize(int w, int h);
   
   /**
    * Updates the viewport information
    */
-  void updateViewport();
+  virtual void updateViewport();
   
   /**
    * Update the selected item(s) labels
    *
    * @param label   The label to set
    */
-  void updateLabel(const std::string& label);
+  virtual void updateLabel(const std::string& label);
   
   /**
    * Update edge weights
    *
    * @param weight  The new edge weight
    */
-  void updateWeight(int weight);
+  virtual void updateWeight(int weight);
   
   /**
    * Update background color
@@ -130,7 +146,7 @@ public:
    * @param green Green value
    * @param blue  Blue value
    */
-  void updateBackground(unsigned red, unsigned green, unsigned blue);
+  virtual void updateBackground(unsigned red, unsigned green, unsigned blue);
   
   /**
    * Update the highlight color
@@ -139,7 +155,7 @@ public:
    * @param green Green value
    * @param blue  Blue value
    */
-  void updateHighlightColor(unsigned red, unsigned green, unsigned blue);
+  virtual void updateHighlightColor(unsigned red, unsigned green, unsigned blue);
   
   /**
    * Update the color of selected items
@@ -148,28 +164,28 @@ public:
    * @param green Green value
    * @param blue  Blue value
    */
-  void updateSelectedColor(unsigned red, unsigned green, unsigned blue);
+  virtual void updateSelectedColor(unsigned red, unsigned green, unsigned blue);
   
   /**
    * Add a public ID to last added shape
    *
    * @param id    The public id
    */
-  void setLastId(int id);
+  virtual void setLastId(int id);
   
   /**
    * Check if there are any selected nodes
    *
    * @return  True if there are nodes selected, false otherwise
    */
-  bool checkNodesSelected() const;
+  virtual bool checkNodesSelected() const;
   
   /**
    * Check edges selected
    *
    * @return  True if edges are selected, false otherwise
    */
-  bool checkEdgesSelected() const;
+  virtual bool checkEdgesSelected() const;
   
   /**
    * Get the number of items selected
@@ -178,29 +194,29 @@ public:
    *
    * @return  The number of selected items
    */
-  unsigned countSelected(SHAPES type = ANY) const;
+  virtual unsigned countSelected(SHAPES type = ANY) const;
   
   /**
    * Select all
    */
-  void selectAll();
+  virtual void selectAll();
   
   /**
    * Deselect all
    */
-  void deselectAll();
+  virtual void deselectAll();
   
   /**
    * Delete selected items
    */
-  void deleteSelected();
+  virtual void deleteSelected();
   
   /**
    * Get a list of edge weights
    *
    * @return  A vector of weights
    */
-  std::vector<int> getWeights() const;
+  virtual std::vector<int> getWeights() const;
   
   /**
    * Get a list of labels for currently
@@ -208,14 +224,14 @@ public:
    *
    * @return  A vector of labels
    */
-  std::vector<std::string> getSelectedLabels() const;
+  virtual std::vector<std::string> getSelectedLabels() const;
   
   /**
    * Get a list of labels
    *
    * @return  A vector of labels
    */
-  std::vector<std::string> getLabels() const;
+  virtual std::vector<std::string> getLabels() const;
   
   /**
    * Get a list of ordered coordinates for labels
@@ -225,7 +241,7 @@ public:
    *
    * @return  A vector of pairs of coordinates
    */
-  std::vector<std::pair<int, int> > getCoords(SHAPES type = ANY) const;
+  virtual std::vector<std::pair<int, int> > getCoords(SHAPES type = ANY) const;
 
 protected:
   /**

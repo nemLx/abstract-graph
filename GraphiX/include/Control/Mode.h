@@ -14,19 +14,19 @@
 #include <vector>
 
 #include "graphix_incl.h"
-
-class Shape;
+#include "Gfx/Color.h"
 
 namespace GRAPHIX
 {
-  
+class Shape;
 /**
  * The types of modes supported
  */
 enum GRAPHIX_EXPORT MODES
 {
   NODECREATION,
-  EDGECREATION
+  EDGECREATION,
+  VIEWONLY
 };
   
 /**

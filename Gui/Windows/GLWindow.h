@@ -152,7 +152,7 @@ private:
   
   GRAPHIX::Scene scene;
   NodeOptionsMenu* nodeRightClick;
-  int lastX, lastY;
+  bool locked;
 };
 
 #endif /* WINDOWS_GLWINDOW_H__ */
