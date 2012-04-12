@@ -63,6 +63,25 @@ void Line::setDirection(bool right)
   direction = right;
 }
 
+void Line::updateCirclePositions()
+{
+  if(cl == NULL || cr == NULL)
+    return;
+  
+  // Make sure our names reflect reality
+  if(cl->getX() < cr->getX()) {
+    Circle* tmp = cl;
+    cl = cr;
+    cr = tmp;
+  }
+
+  // If circles have moved, make sure we know our midpoint
+  float midX = (float)(cl->getX() + cr->getX())/2;
+  float midY = (float)(cl->getY() + cr->getY())/2;
+  setX(midX);
+  setY(midY);
+}
+
 void Line::draw() const
 {
   Color color(getHighlight());
@@ -82,22 +101,4 @@ SHAPES Line::getType() const
   return LINE;
 }
 
-void Line::updateCirclePositions()
-{
-  if(cl == NULL || cr == NULL)
-    return;
-  
-  // Make sure our names reflect reality
-  if(cl->getX() < cr->getX()) {
-    Circle* tmp = cl;
-    cl = cr;
-    cr = tmp;
-  }
-  
-  // If circles have moved, make sure we know our midpoint
-  float midX = (float)(cl->getX() + cr->getX())/2;
-  float midY = (float)(cl->getY() + cr->getY())/2;
-  setX(midX);
-  setY(midY);
-}
 }

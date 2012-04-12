@@ -76,6 +76,12 @@ public:
   virtual void setDirection(bool right);
   
   /**
+   * Update the sides each circle is
+   * on
+   */
+  virtual void updateCirclePositions();
+  
+  /**
    * Draw a circle
    */
   virtual void draw() const;
@@ -85,13 +91,7 @@ public:
    */
   virtual SHAPES getType() const;
   
-private:
-  /**
-   * Update the sides each circle is
-   * on
-   */
-  virtual void updateCirclePositions();
-  
+private:  
   Circle* cl, *cr;
   float width;
   bool directed, direction;

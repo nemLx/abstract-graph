@@ -62,8 +62,8 @@ public:
    *
    * @param val   The new value
    */
-  void setX(float val);
-  void setY(float val);
+  virtual void setX(float val);
+  virtual void setY(float val);
 
   /**
    * Get X and Y coordinates respectively
