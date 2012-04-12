@@ -37,6 +37,11 @@ void Circle::setRadius(float rad)
   radius = rad;
 }
 
+float Circle::getRadius() const
+{
+  return radius;
+}
+
 void Circle::addEdge(Line* edge)
 {
   edges[edge] = edge;

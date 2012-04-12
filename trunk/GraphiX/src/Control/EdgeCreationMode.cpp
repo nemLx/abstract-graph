@@ -76,10 +76,10 @@ void EdgeCreationMode::pickLogic()
   }
 }
 
-void EdgeCreationMode::selectLogic(unsigned hits, unsigned* pickBuffer)
+unsigned EdgeCreationMode::selectLogic(unsigned hits, unsigned* pickBuffer)
 {
   // Default for now
-  Mode::selectLogic(hits, pickBuffer);
+  return Mode::selectLogic(hits, pickBuffer);
 }
 
 MODES EdgeCreationMode::getMode() const

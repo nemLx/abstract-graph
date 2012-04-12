@@ -25,6 +25,7 @@ NodeOptionsMenu::~NodeOptionsMenu()
 void NodeOptionsMenu::updateMenuItems(bool selected, unsigned numSelected)
 {
   label->setEnabled(numSelected == 1);
+  weight->setEnabled(selected);
   del->setEnabled(selected);
   color->setEnabled(selected);
   deselect->setEnabled(selected);
@@ -33,6 +34,7 @@ void NodeOptionsMenu::updateMenuItems(bool selected, unsigned numSelected)
 void NodeOptionsMenu::init()
 {
   label    = new QAction(MENU_GENERAL_LABEL, this);
+  weight   = new QAction(MENU_GENERAL_WEIGHT, this);
   del      = new QAction(MENU_GENERAL_DELETE, this);
   color    = new QAction(MENU_NODE_COLOR, this);
   deselect = new QAction(MENU_GENERAL_DESELECT, this);
@@ -44,6 +46,7 @@ void NodeOptionsMenu::init()
   QAction* selectall  = new QAction(MENU_GENERAL_SELECTALL, this);
   
   connect(label, SIGNAL(triggered()), parent(), SLOT(updateLabel()));
+  connect(weight, SIGNAL(triggered()), parent(), SLOT(updateWeight()));
   connect(del, SIGNAL(triggered()), parent(), SLOT(deleteSelected()));
   connect(color, SIGNAL(triggered()), parent(), SLOT(updateColor()));
   connect(highlight, SIGNAL(triggered()), parent(), SLOT(updateHighlight()));
@@ -52,6 +55,7 @@ void NodeOptionsMenu::init()
   connect(deselect, SIGNAL(triggered()), parent(), SLOT(deselectAll()));
   
   this->addAction(label);
+  this->addAction(weight);
   this->addSeparator();
   this->addAction(color);
   this->addAction(highlight);

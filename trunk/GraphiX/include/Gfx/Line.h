@@ -40,8 +40,40 @@ public:
   
   /**
    * Update the line width
+   *
+   * @param w   The new width of the line
    */
   virtual void setWidth(float w);
+  
+  /**
+   * Update edge weight
+   *
+   * @param weight   The new weight (-1 to disable)
+   */
+  virtual void updateWeight(int weight);
+  
+  /**
+   * Get the edge weight
+   *
+   * @return  The weight of the edge
+   */
+  virtual int getWeight() const;
+  
+  /**
+   * Set directed
+   *
+   * @param set   If true, then directed line. False otherwise
+   */
+  virtual void setDirected(bool set);
+  
+  /**
+   * Set the direction of the line
+   *
+   * @param right If true, the graph is directed to 
+   *  the right. To the left otherwise.
+   * NOTE: Only works IFF setDirected is true
+   */
+  virtual void setDirection(bool right);
   
   /**
    * Draw a circle
@@ -54,8 +86,16 @@ public:
   virtual SHAPES getType() const;
   
 private:
+  /**
+   * Update the sides each circle is
+   * on
+   */
+  virtual void updateCirclePositions();
+  
   Circle* cl, *cr;
   float width;
+  bool directed, direction;
+  int weight;
 };
 }
 

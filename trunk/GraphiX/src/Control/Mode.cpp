@@ -55,10 +55,10 @@ void Mode::pickLogic()
   }
 }
 
-void Mode::selectLogic(unsigned hits, unsigned* pickBuffer)
+unsigned Mode::selectLogic(unsigned hits, unsigned* pickBuffer)
 {
   if(pickBuffer == NULL || shapes == NULL || selected == NULL)
-    return;
+    return 0;
   
   // Find selected nodes
   for(unsigned i = 0 ; i < hits ; ++i) {
@@ -76,6 +76,8 @@ void Mode::selectLogic(unsigned hits, unsigned* pickBuffer)
   
   if(hits < 1)
     removeAllHighlight();
+  
+  return hits;
 }
 
 void Mode::highlightAll()
