@@ -7,7 +7,7 @@
 //
 
 #include "../../include/Graphs/DiGraph.h"
-#include "../../include/Algorithms/FordFulkerson.h"
+#include "../../include/Algorithms/HopcroftKarp.h"
 
 using namespace std;
 
@@ -33,6 +33,23 @@ DiGraph::DiGraph(int nodeCount):AbstractGraph(){
 	while (n < nodeCount){
 		addNode();
 	}
+}
+
+
+
+DiGraph::~DiGraph(){
+	
+	map<int, AbstractNode*> nCopy(*N);
+	
+	map<int, AbstractNode*>::iterator itNode = nCopy.begin();
+	
+	while (itNode != nCopy.end()) {
+		removeNode(itNode->second->id);
+		itNode++;
+	}
+	
+	delete N;
+	delete E;
 }
 
 

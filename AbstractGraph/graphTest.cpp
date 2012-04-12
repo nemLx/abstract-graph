@@ -53,18 +53,16 @@ void shortestPathTest(){
 	printf("\n");
 	g.printGraph();
     
-    vector<int> * path = new vector<int>();
+    vector<int> path;
 	
 	int from = 1;
 	int to = 7;
     
-	printf("\nshortest path from %i to %i: \ndistance: %i \npath: ", from, to, g.shortestPath(from, to, path));
+	printf("\nshortest path from %i to %i: \ndistance: %i \npath: ", from, to, g.shortestPath(from, to, &path));
 	
-	printVector(path);
+	printVector(&path);
 	
 	printf("\n");
-	
-	delete path;
 }
 
 void mstTest(){
@@ -89,15 +87,13 @@ void mstTest(){
 	printf("\n");
 	g.printGraph();
 	
-	vector<int> * mstEdges = new vector<int>();
+	vector<int> mstEdges;
 	
-	printf("\nMST: \ntotal weight: %i \ntree edges: ", g.mst(mstEdges));
+	printf("\nMST: \ntotal weight: %i \ntree edges: ", g.mst(&mstEdges));
 	
-	printVector(mstEdges);
+	printVector(&mstEdges);
 	
 	printf("\n");
-	
-	delete mstEdges;
 }
 
 
@@ -120,20 +116,20 @@ void bipartiteTest(){
 	printf("\n");
 	g.printGraph();
 	
-	vector<int> * partX = new vector<int>;
-	vector<int> * partY = new vector<int>;
+	vector<int> partX;
+	vector<int> partY;
 	
-	int isBipartite = g.bipartite(partX, partY);
+	int isBipartite = g.bipartite(&partX, &partY);
 	
 	if (isBipartite){
 		
 		printf("\npartite set X: ");
-		printVector(partX);
+		printVector(&partX);
 		
 		printf("\n");
 		
 		printf("partite set Y: ");
-		printVector(partY);
+		printVector(&partY);
 		
 		printf("\n");
 	}else{
@@ -146,7 +142,7 @@ void bipartiteTest(){
 
 void maxFlowTest(){
 
-	Graph g(6);
+	DiGraph g(7);
 	
 	g.addEdge(0, 1, 3);
 	g.addEdge(0, 2, 2);
@@ -164,10 +160,10 @@ void maxFlowTest(){
 	int from = 0;
 	int to = 5;
 	
-	vector< pair<int, int> > * edgeFlow = new vector<pair<int, int> >;
-	vector<int> * cutSet = new vector<int>;
+	vector< pair<int, int> > edgeFlow;
+	vector<int> cutSet;
 	
-	int maxFlow = g.maxFlowMinCut(from, to, edgeFlow, cutSet);
+	int maxFlow = g.maxFlowMinCut(from, to, &edgeFlow, &cutSet);
 	
 	printf("\nMaxflow from %i to %i : %i \n", from, to, maxFlow);
 	
@@ -175,20 +171,55 @@ void maxFlowTest(){
 		
 		vector< pair<int, int> >::iterator it;
 		
-		for (it = edgeFlow->begin(); it != edgeFlow->end(); it++){
+		for (it = edgeFlow.begin(); it != edgeFlow.end(); it++){
 			printf("Edge: %i : Flow: %i \n", it->first, it->second);
 		}
 		
 		printf("Cut set containing source: ");
 		
-		vector<int>::iterator itCut = cutSet->begin();
+		vector<int>::iterator itCut = cutSet.begin();
 		
-		while (itCut != cutSet->end()) {
+		while (itCut != cutSet.end()) {
 			printf("%i ", *itCut);
 			itCut++;
 		}
+		
+		printf("\n");
+	}
+}
+
+
+
+void bipartiteMatchingTest(){
+	
+	Graph g(10);
+	
+	g.addEdge(0, 1);
+	g.addEdge(2, 3);
+	g.addEdge(4, 5);
+	g.addEdge(6, 7);
+	g.addEdge(8, 9);
+	
+//	g.addEdge(0, 3);
+//	g.addEdge(2, 3);
+//	g.addEdge(4, 3);
+//	g.addEdge(6, 9);
+//	g.addEdge(4, 9);
+	
+	printf("\n");
+	g.printGraph();
+	
+	vector<int> matching;
+	
+	int maxMatching = g.maxMatching(&matching);
+	
+	if (maxMatching){
+		printf("maximum matching size: %i \nmatching: ", maxMatching);
+		
+		printVector(&matching);
 	}
 	
+	printf("\n");
 }
 
 
@@ -202,6 +233,8 @@ int main(){
 	bipartiteTest();
 	
 	maxFlowTest();
+	
+	bipartiteMatchingTest();
 	
 	return 0;
 }

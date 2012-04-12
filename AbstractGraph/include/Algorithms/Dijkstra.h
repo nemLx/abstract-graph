@@ -21,6 +21,8 @@ public:
 	
 	Dijkstra(int s, int t, AbstractGraph * g, vector<int> * path);
 	
+	~Dijkstra();
+	
 	int solve();
 	
 private:

@@ -21,6 +21,8 @@ public:
 	
 	Prim(AbstractGraph * g, vector<int> * path);
 	
+	~Prim();
+	
 	int solve();
 	
 private:

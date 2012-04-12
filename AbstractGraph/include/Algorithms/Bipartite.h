@@ -20,6 +20,8 @@ public:
 	
 	Bipartite(Graph * g, vector<int> * partX, vector<int> * partY);
 	
+	~Bipartite();
+	
 	int solve();
 	
 private:

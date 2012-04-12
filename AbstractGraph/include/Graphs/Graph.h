@@ -22,6 +22,8 @@ public:
 	Graph();
 	
 	Graph(int nodeCount);
+	
+	~Graph();
 
 	int addNode();
 	
@@ -32,6 +34,8 @@ public:
 	int removeNode(int id);
 	
 	int bipartite(vector<int> * setX, vector<int> * setY);
+	
+	int maxMatching(vector<int> * matching);
 };
 
 #endif

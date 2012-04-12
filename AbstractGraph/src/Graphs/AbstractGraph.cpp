@@ -26,20 +26,6 @@ AbstractGraph::AbstractGraph(){
 
 
 
-AbstractGraph::~AbstractGraph(){
-	
-	map<int, AbstractNode*>::iterator itNodes;
-	
-	for (itNodes = N->begin(); itNodes != N->end(); itNodes++){
-		delete itNodes->second;
-	}
-	
-	delete N;
-	delete E;
-}
-
-
-
 int AbstractGraph::setEdgeValue(int id, int v){
 	
 	if(!validEdge(id)){
