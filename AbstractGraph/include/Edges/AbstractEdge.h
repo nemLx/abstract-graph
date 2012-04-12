@@ -21,6 +21,9 @@ public:
 	
 	AbstractEdge(int id, int v);
 	
+	
+	virtual ~AbstractEdge(){};
+	
 	virtual AbstractNode* getFrom() = 0;
 	
 	virtual AbstractNode* getTo() = 0;

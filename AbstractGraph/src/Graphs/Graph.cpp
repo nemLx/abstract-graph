@@ -11,6 +11,7 @@
 #include "../../include/Algorithms/Bipartite.h"
 #include "../../include/Algorithms/FordFulkerson.h"
 #include "../../include/Algorithms/HopcroftKarp.h"
+#include "../../include/Algorithms/Prim.h"
 
 using namespace std;
 
@@ -112,7 +113,7 @@ int Graph::removeNode(int id){
 		
 		Node * node = (Node*)(*N)[id];
 		
-		map<Edge*, Node*> adjacent (*(node->adjacent));
+		map<Edge*, Node*> adjacent (*(map<Edge*, Node*> *)(node->getAdjacent()));
 		
 		map<Edge*, Node*>::iterator it;
 		
@@ -128,6 +129,15 @@ int Graph::removeNode(int id){
 		
 		return 1;
 	}
+}
+
+
+
+int Graph::mst(vector<int> * edges){
+	
+	Prim mstSolver(this, edges);
+	
+	return mstSolver.solve();
 }
 
 

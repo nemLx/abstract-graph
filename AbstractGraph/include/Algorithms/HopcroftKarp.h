@@ -15,6 +15,12 @@
 #define NULLNODE -1
 
 
+
+/*
+ * implementation of the Hopcroft-Karp algorithm
+ * which find the maximum matching in a bipartite
+ * graph, given the partite sets
+ */
 class HopcroftKarp : public Algorithm{
 
 public:
@@ -27,25 +33,73 @@ public:
 	
 private:
 	
+	/*
+	 * points to working copy of graph
+	 */
 	AbstractGraph * g;
 	
+	
+	
+	/*
+	 * points to vector of ints containing edges
+	 * in the matching
+	 */
 	vector<int> * matching;
 	
-	vector<int>	* partX;
 	
-	vector<int>	* partY;
 	
-	// storing ids of the two end nodes of an edge in the matching
+	/*
+	 * points to vector used to store partite
+	 * set X
+	 */
+	vector<int> * partX;
+	
+	
+	
+	/*
+	 * points to vector used to store partite
+	 * set Y
+	 */
+	vector<int> * partY;
+	
+	
+	
+	/* 
+	 * storing ids of the two end nodes of an edge in the matching
+	 */
 	map<int, int> * matched;
 	
+	
+	
+	/*
+	 * a distance between two nodes used by the algorithm
+	 */
 	map<int, int> * dist;
 	
+	
+	
+	/*
+	 * maps id of a vertex to a set of ids of its neighbors
+	 */
 	map<int, set<int>* > * adjacent;
 	
+	
+	
+	/*
+	 * maps a pair of ids of nodes representing the
+	 * edge between them to the id of the edge
+	 * in the original graph
+	 */
 	map<pair<int, int>, int> * mappedEdges;
 	
 	
+	
+	/*
+	 * see implementation for comments below
+	 */
 	void init();
+	
+	void resetBfs(queue<int> * q);
 	
 	bool bfs();
 	

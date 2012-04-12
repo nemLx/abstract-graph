@@ -15,6 +15,10 @@ using namespace std;
 
 
 
+/*
+ * implementation of Dijkstra's algorithm of
+ * shortest path between two nodes
+ */
 class Dijkstra : public Algorithm{
 
 public:
@@ -30,24 +34,44 @@ private:
 	struct Vertex {
 		int id;
 		
-		//	pointer to adjacent vertices
+		/*	
+		 * pointer to adjacent vertices
+		 */
 		map<int, Vertex*> * adj;
 		
-		//	costs of each adjacent edge
+		/*
+		 * costs of each adjacent edge
+		 */	
 		map<int, int> * cost;
 		
+		/*
+		 * maps each neighbor's id to the
+		 * id of the edge connecting them
+		 */
 		map<int, int> * edgeId;
 		
-		//	true if visited
+		/*
+		 * true if visited by the algorithm
+		 */
 		bool visited;
 		
-		//	distance to src
+		/*
+		 * current best distance to source
+		 */
 		int dist;
 		
-		//	marks a previous node in the path
+		/*
+		 * points to the last step in the shortest path
+		 */
 		Vertex * next;
 	};
 	
+	
+	
+	/*
+	 * functor used by the priority queue, vertices
+	 * are ordered according to lowest distance to source
+	 */
 	class comp{
 	public:
 		bool operator() (Vertex * lhs, Vertex * rhs) const{
@@ -61,20 +85,54 @@ private:
 	};
 	
 	
+	
+	/*
+	 * id of source node
+	 */
 	int s;
 	
+	
+	
+	/*
+	 * id of destination node
+	 */
 	int t;
 	
+	
+	/*
+	 * points to the vector used to store edge ids
+	 * along the shortest path
+	 */
 	vector<int> * path;
 	
+	
+	
+	/*
+	 * points to a working copy of the graph
+	 */
 	AbstractGraph * g;
 	
+	
+	
+	/*
+	 * maps id to each vertex in the graph
+	 */
 	map<int, Vertex*> * V;
 	
+	
+	
+	/*
+	 * priority queue used by the algorithm,
+	 * vertices ordered in precedence of distance
+	 * to the source
+	 */
 	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
 	
 	
 	
+	/*
+	 * see implementation for comments below
+	 */
 	void initVertexStructure();
 	
 	void initVertices();

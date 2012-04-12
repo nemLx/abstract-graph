@@ -13,10 +13,13 @@
 #include "Algorithm.h"
 
 
-
+/*
+ * A algorithm determines bipartiteness and
+ * finds the partite sets if they exist
+ */
 class Bipartite : public Algorithm{
 	
-public:	
+public:
 	
 	Bipartite(Graph * g, vector<int> * partX, vector<int> * partY);
 	
@@ -26,36 +29,110 @@ public:
 	
 private:
 	
-	enum State {UNEXPLORED, EXPLORING, EXPLORED};
+	/*
+	 * state information used in BFS
+	 */
+	enum State {
+		UNEXPLORED,	// visited it and all neighbors
+		EXPLORING,	// visited it but not all neighbors
+		EXPLORED	// not visited at all
+	};
 	
-	enum Partition {X, Y, N};
 	
+	
+	/*
+	 * partition information facilitating
+	 * partite set assignment to vertices
+	 */
+	enum Partition {
+		X,	// partite set X 
+		Y, 	// partite set Y
+		N	// not in any partite set
+	};
+	
+	
+	
+	/*
+	 * a vertex structure used by this particular
+	 * algorithm
+	 */
 	struct Vertex{
 		
+		/*
+		 * id of the corresponding node in the
+		 * graph passed in
+		 */
 		int id;
 		
+		/*
+		 * state in BFS
+		 */
 		State state;
 		
+		/*
+		 * partite set belonging
+		 */
 		Partition partition;
 		
-		//	pointer to adjacent vertices
+		/*
+		 * contains all adjacent vertices
+		 * in the form of a id to vertex map
+		 */
 		map<int, Vertex*> * adj;
 	};
 	
+	
+	
+	/*
+	 * points to working copy of graph
+	 */
 	Graph * g;
 	
-	map<int, Vertex*> * V;
 	
+	
+	/*	 
+	 * a queue of vertices used by BFS 
+	 */
 	queue<Vertex*> * Q;
 	
+	
+	
+	/*
+	 * a map between all ids and vertices
+	 * id is the id of the corresponding
+	 * node of the vertex in the graph
+	 */
+	map<int, Vertex*> * V;
+	
+	
+	
+	/*
+	 * points to vector used to store partite
+	 * set X
+	 */
 	vector<int> * partX;
 	
+	
+	
+	/*
+	 * points to vector used to store partite
+	 * set Y
+	 */
 	vector<int> * partY;
 	
+	
+	
+	/*
+	 * used to balance the distribution of vertices
+	 * between the two partite sets
+	 */
 	int parity;
 	
 	
 	
+	/*
+	 * see implementation for comments on functions below
+	 */
 	void initVertexStructure();
 	
 	void initVertices();
@@ -63,12 +140,12 @@ private:
 	Vertex* initVertex(AbstractNode* n);
 	
 	void initAdjacent(Vertex* v, AbstractNode* n);
-
-	bool solve(Vertex * root);
 	
 	void reset(Vertex * root);
 	
 	Partition otherPartition(Vertex* v);
+	
+	bool solve(Vertex * root);
 	
 	void constructSets();
 };

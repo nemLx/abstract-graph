@@ -23,7 +23,10 @@
 #define INFINITY INT_MAX
 
 
-
+/*
+ * a super algorithm class, all algorithm
+ * implementation must extend this class
+ */
 class Algorithm{
 
 public:

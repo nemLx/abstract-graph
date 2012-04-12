@@ -52,11 +52,15 @@ HopcroftKarp::~HopcroftKarp(){
 
 
 
+/*
+ * initializes the vertex structure, mirroing the
+ * nodes and adajcents in the original graph
+ */
 void HopcroftKarp::init(){
 	
 	map<int, AbstractNode*> * N = g->getNodes();
 	map<int, AbstractNode*>::iterator it = N->begin();
-	
+
 	while ( it != N->end() ){
 		
 		AbstractNode * curr = it->second;
@@ -82,10 +86,12 @@ void HopcroftKarp::init(){
 
 
 
-bool HopcroftKarp::bfs(){
+/*
+ * preps the queue for bfs
+ */
+void HopcroftKarp::resetBfs(queue<int> * q){
 	
-	queue<int> q;
-	int u, v, uMatched;
+	int u, uMatched;
 	
 	for (int i = 0; i < (int)partX->size(); i++){
 		u = partX->at(i);
@@ -93,19 +99,36 @@ bool HopcroftKarp::bfs(){
 		
 		if (uMatched == NULLNODE){
 			(*dist)[u] = 0;
-			q.push(u);
+			q->push(u);
 		}else{
 			(*dist)[u] = INFINITY;
 		}
 	}
 	
 	(*dist)[NULLNODE] = INFINITY;
+}
+
+
+
+/*
+ * bfs from all nodes in set X
+ */
+bool HopcroftKarp::bfs(){
+	
+	queue<int> q;
+	int u, v, uMatched;
+	
+	resetBfs(&q);
 	
 	while (!q.empty()) {
 		
 		v = q.front();
 		q.pop();
 		
+		/*
+		 * skipp the null node, which
+		 * is not a legal node in g
+		 */
 		if (v == NULLNODE){
 			continue;
 		}
@@ -132,6 +155,12 @@ bool HopcroftKarp::bfs(){
 
 
 
+/*
+ * does a dfs from a particular node
+ * 
+ * return true if finds a dfs match
+ * of any match of its neighbors
+ */
 bool HopcroftKarp::dfs(int v){
 	
 	int u, uMatched;
