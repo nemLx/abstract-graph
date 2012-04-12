@@ -126,8 +126,17 @@ void MainWindow::buildModesMenu()
   modeCEdge->setShortcut(QKeySequence(tr("Ctrl+2")));
   connect(modeCEdge, SIGNAL(triggered()), this, SLOT(setEdgeCreateMode()));
   
+  QAction* modeView = new QAction(MAINWINDOW_MODES_VIEWONLY, this);
+  modeView->setShortcut(QKeySequence(tr("Ctrl+3")));
+  connect(modeView, SIGNAL(triggered()), this, SLOT(setViewMode()));
+  
   modesMenu->addAction(modeCNode);
   modesMenu->addAction(modeCEdge);
+  modesMenu->addAction(modeView);
+  
+  // Enable/disable conditional items
+  addActionToMap(MAINWINDOW_MODES_NODE_ID, modeCNode);
+  addActionToMap(MAINWINDOW_MODES_EDGE_ID, modeCEdge);
 }
 
 void MainWindow::buildAlgMenu()
@@ -252,5 +261,10 @@ void MainWindow::setNodeCreateMode()
 void MainWindow::setEdgeCreateMode()
 {
   updateMode(GRAPHIX::EDGECREATION);
+}
+
+void MainWindow::setViewMode()
+{
+  updateMode(GRAPHIX::VIEWONLY);
 }
 

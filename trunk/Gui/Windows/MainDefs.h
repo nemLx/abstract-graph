@@ -34,6 +34,7 @@
 // Modes Menu Actions
 #define MAINWINDOW_MODES_NODECREATION tr("N&ode Creation")
 #define MAINWINDOW_MODES_EDGECREATION tr("E&dge Creation")
+#define MAINWINDOW_MODES_VIEWONLY tr("V&iew Only")
 
 // Algorithm Menu Actions
 #define MAINWINDOW_ALG_SHORTEST tr("S&hortest Path")
@@ -51,8 +52,12 @@
 #define MAINWINDOW_ALG_DEBRUIJN tr("de Bruijn Cycles")
 
 // IDs for hashing (only for ones which need it)
-// MainWindow gets 0x1000 block
+// File gets 0x1000 block
 #define MAINWINDOW_FILE_EXPORT_ID 0x1001
 #define MAINWINDOW_FILE_CLOSETAB_ID 0x1002
+
+// Modes menu gets 0x2000 block
+#define MAINWINDOW_MODES_NODE_ID 0x2001
+#define MAINWINDOW_MODES_EDGE_ID 0x2002
 
 #endif /* WINDOWS_MAINDEFS_H__ */

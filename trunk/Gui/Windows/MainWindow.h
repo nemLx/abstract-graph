@@ -85,6 +85,11 @@ protected slots:
    */
   void setEdgeCreateMode();
   
+  /**
+   * Set to view only mode
+   */
+  void setViewMode();
+  
 private:
   /**
    * Initialize action items (private helper)

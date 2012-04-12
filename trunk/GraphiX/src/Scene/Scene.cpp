@@ -16,6 +16,7 @@
 
 #include "Control/NodeCreationMode.h"
 #include "Control/EdgeCreationMode.h"
+#include "Control/ViewMode.h"
 
 #define GRAPHIX_DEFAULT_PICK_BUFFER_SIZE 16
 
@@ -29,6 +30,7 @@ Scene::Scene()
   
   modes[NODECREATION] = new NodeCreationMode(&shapes, &selected, highlight);
   modes[EDGECREATION] = new EdgeCreationMode(&shapes, &selected, highlight);
+  modes[VIEWONLY] = new ViewMode(&shapes, &selected, highlight);
   
   // Default in Node Creation Mode for now
   currentMode = modes[NODECREATION];
@@ -110,6 +112,11 @@ void Scene::registerClick(int xW, int yW)
   currentMode->handleClick(x, y, hits, pickBuffer);
 }
 
+MODES Scene::getMode() const
+{
+  return currentMode->getMode();
+}
+
 void Scene::moveNodes(int xW, int yW)
 {
   updateViewport();
@@ -123,6 +130,26 @@ void Scene::moveNodes(int xW, int yW)
       (*it)->setX(x);
       (*it)->setY(y);
     }
+  }
+}
+
+void Scene::moveNode(int id, int x, int y)
+{
+  // Find the node
+  Shape* shape = NULL;
+  std::vector<Shape*>::iterator it;
+  for(it = shapes.begin() ; it != shapes.end() ; ++it) {
+    if((*it)->getType() == CIRCLE) {
+      if((*it)->getId() == id) {
+        shape = *it;
+        break;
+      }
+    }
+  }
+  
+  if(shape != NULL) {
+    shape->setX(x);
+    shape->setY(y);
   }
 }
 
