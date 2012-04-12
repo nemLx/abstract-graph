@@ -8,6 +8,8 @@
  * @version $Id$
  */
 
+#include <climits>
+
 #include "Gfx/Shape.h"
 #include "Control/Mode.h"
 
@@ -57,7 +59,7 @@ void Mode::pickLogic()
 
 unsigned Mode::selectLogic(unsigned hits, unsigned* pickBuffer)
 {
-  if(pickBuffer == NULL || shapes == NULL || selected == NULL)
+  if(pickBuffer == NULL || shapes == NULL || selected == NULL || hits == UINT_MAX)
     return 0;
   
   // Find selected nodes
@@ -67,7 +69,7 @@ unsigned Mode::selectLogic(unsigned hits, unsigned* pickBuffer)
     
     if(shape == NULL)
       continue;
-    
+
     if(shape->isSelected())
       removeHighlight(shape);
     else

@@ -42,6 +42,14 @@ public:
    * Destructor
    */
   virtual ~Circle();
+  
+  /**
+   * Set X and Y coordinates respectively
+   *
+   * @param x/y   X or Y coordinates respectively
+   */
+  virtual void setX(float x);
+  virtual void setY(float Y);
 
   /**
    * Update radius
@@ -93,6 +101,11 @@ public:
   virtual SHAPES getType() const;
   
 private:
+  /**
+   * Update the positions of the edges
+   */
+  void updateEdgePosition();
+  
   /**
    * Delete any associated edges with this circle
    * and all general clean up

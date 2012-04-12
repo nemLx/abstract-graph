@@ -31,6 +31,18 @@ Circle::Circle(const Circle& rhs)
   : Shape(rhs.getX(), rhs.getY()), radius(rhs.radius)
 {
 }
+
+void Circle::setX(float x)
+{
+  Shape::setX(x);
+  updateEdgePosition();
+}
+
+void Circle::setY(float y)
+{
+  Shape::setY(y);
+  updateEdgePosition();
+}
   
 void Circle::setRadius(float rad)
 {
@@ -85,6 +97,15 @@ void Circle::draw() const
 SHAPES Circle::getType() const
 {
   return CIRCLE;
+}
+
+void Circle::updateEdgePosition()
+{
+  std::map<Line*,Line*>::iterator it;
+  
+  for(it = edges.begin() ; it != edges.end() ; ++it)
+    if(it->second != NULL)
+      (it->second)->updateCirclePositions();
 }
 
 void Circle::destroy()
