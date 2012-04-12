@@ -123,24 +123,3 @@ int AbstractGraph::shortestPath(int s, int t, vector<int> * path){
 
 
 
-int AbstractGraph::mst(vector<int> * edges){
-	
-	Prim mstSolver(this, edges);
-	
-	return mstSolver.solve();
-}
-
-
-
-int AbstractGraph::maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutEdges){
-	
-	if (s == t){
-		return 0;
-	}
-	
-	FordFulkerson maxFlowMinCutSolver(this, s, t, edgeFlow, cutEdges);
-	
-	return maxFlowMinCutSolver.solve();
-}
-
-

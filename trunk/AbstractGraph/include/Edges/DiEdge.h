@@ -31,7 +31,8 @@ public:
 	AbstractNode* getTo();
 	
 	void printEdge();
-	
+
+private:
 	
 	DiNode * from;
 	

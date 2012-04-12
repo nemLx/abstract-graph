@@ -22,6 +22,8 @@ public:
 	
 	AbstractNode(int id);
 	
+	virtual ~AbstractNode(){};
+	
 	virtual void printNode() = 0;
 	
 	virtual map<AbstractEdge*, AbstractNode*> * getAdjacent() = 0;

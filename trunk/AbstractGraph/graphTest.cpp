@@ -30,7 +30,7 @@ void printVector(vector<int> * v){
 
 void shortestPathTest(){
 	
-	DiGraph g(8);
+	DiGraph g(11);
 	
 	g.addEdge(1,1,1);
 	g.removeEdge(0);
@@ -67,7 +67,7 @@ void shortestPathTest(){
 
 void mstTest(){
 	
-	Graph g(8);
+	Graph g(9);
 	
 	g.removeNode(0);
 	

@@ -35,8 +35,11 @@ public:
 	
 	map<AbstractEdge*, AbstractNode*> * getAdjacent();
 	
+	map<DiEdge*, DiNode*> * getInAdjacent();
+	
 	void printNode();
 	
+private:
 	
 	int inDegree;
 	

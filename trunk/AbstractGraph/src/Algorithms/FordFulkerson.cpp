@@ -12,7 +12,7 @@
 
 
 
-FordFulkerson::FordFulkerson(AbstractGraph * g, int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet){
+FordFulkerson::FordFulkerson(DiGraph * g, int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet){
 	
 	this->g = g;
 	
@@ -66,6 +66,10 @@ FordFulkerson::~FordFulkerson(){
 
 
 
+/*
+ * initializes the vertex structure, mirroing the
+ * nodes and adajcents in the original graph
+ */
 void FordFulkerson::init(){
 	
 	map<int, AbstractNode*> * N = g->getNodes();
@@ -86,9 +90,17 @@ void FordFulkerson::init(){
 			
 			neighbors->push_back(adjNode->id);
 			(*capacity)[con] += adjEdge->value;
+			
+			/*
+			 * flow is all initialized to 0
+			 */
 			(*flow)[con] = 0;
 			
+			/*
+			 * visited is all initialized to false
+			 */
 			(*visited)[adjEdge->id] = false;
+			
 			itAdj++;
 		}
 		
@@ -103,6 +115,11 @@ void FordFulkerson::init(){
 
 
 
+/*
+ * finds a path that could send more flow, in either
+ * the graph or the residual graph, here the residual
+ * graph is represented by flow in the opposite direction
+ */
 bool FordFulkerson::constructPath(int s, int t){
 	
 	int u;
@@ -116,16 +133,24 @@ bool FordFulkerson::constructPath(int s, int t){
 		u = Q->front();
 		vector<int> * neighbors = (*adjacent)[u];
 		
+		/*
+		 * visiting each neighbor of u
+		 */
 		for (int i = 0; i < (int)neighbors->size(); i++){
 			
 			v = neighbors->at(i);
 			pair<int, int> con(u, v);
 			
+			/*
+			 * skipp if visited a node before
+			 */
 			if ((*state)[v] != UNEXPLORED) {
 				continue;
 			}
 			
-			if ( (*capacity)[con] > (*flow)[con] || ( (*ancestor)[v] == u && (*flow)[con] < 0 ) ) {
+			if ( 	(*capacity)[con] > (*flow)[con] ||	// there is room left
+					( (*ancestor)[v] == u && (*flow)[con] < 0 ) // a backward edge
+				) {
 				
 				Q->push(v);
 				(*state)[v] = EXPLORING;
@@ -138,11 +163,18 @@ bool FordFulkerson::constructPath(int s, int t){
 		Q->pop();
 	}
 	
+	/*
+	 * if destination is explored, then there is
+	 * a path between s and t
+	 */
 	return (*state)[t] == EXPLORED;
 }
 
 
 
+/*
+ * preps the states and ancestors for BFS
+ */
 void FordFulkerson::resetBfs(){
 	
 	map<int, State>::iterator itS = state->begin();
@@ -170,6 +202,10 @@ void FordFulkerson::resetBfs(){
 
 
 
+/*
+ * continues to loop to find more path,
+ * until there is no more path to be found
+ */
 int FordFulkerson::solve(){
 	
 	int u = -1;
@@ -179,11 +215,17 @@ int FordFulkerson::solve(){
 		
 		int inc = INFINITY;
 		
+		/*
+		 * finds the bottleneck flow on the path
+		 */
 		for (u = t; (*ancestor)[u] > -1; u = (*ancestor)[u]) {
 			pair<int, int> con((*ancestor)[u], u);
 			inc = min(inc, (*capacity)[con]-(*flow)[con]);
 		}
 		
+		/*
+		 * updates the flow with the bottleneck along the path
+		 */
 		for (u = t; (*ancestor)[u] > -1; u = (*ancestor)[u]) {
 			
 			pair<int, int> forward((*ancestor)[u], u);
@@ -195,11 +237,13 @@ int FordFulkerson::solve(){
 			(*adjacent)[u]->push_back((*ancestor)[u]);
 		}
 		
+		/*
+		 * updates max flow with the new increment
+		 */
 		maxFlow += inc;
 	}
 	
 	constructFlow();
-	
 	constructCut();
 	
 	return maxFlow;
@@ -207,6 +251,10 @@ int FordFulkerson::solve(){
 
 
 
+/*
+ * construct the actual flow by reading the
+ * flow on the edges
+ */
 void FordFulkerson::constructFlow(){
 	
 	map<int, AbstractNode*> * N = g->getNodes();
@@ -225,17 +273,26 @@ void FordFulkerson::constructFlow(){
 			pair<int, int> con(curr->id, adjNode->id);
 			int adjFlow = (*flow)[con];
 			
+			/*
+			 * visite adjacent edge only once
+			 */
 			if ((*visited)[adjEdge->id]){
 				itAdj++;
 				continue;
 			}
 			
-			if (adjFlow <= 0) {
+			if (adjFlow <= 0) {	
+				// no flow or a backwardedge
 				edgeFlow->push_back(pair<int, int>(adjEdge->id, 0));
-			}else if (adjFlow > adjEdge->value){
+			}else if (adjFlow > adjEdge->value){	
+				/*
+				 * flow is greater than capacity, only possible
+				 * with multi edges, then distribute them
+				 */
 				edgeFlow->push_back(pair<int, int>(adjEdge->id, adjEdge->value));
 				(*flow)[con] -= adjEdge->value;
 			}else{
+				// flow is smaller than bottleneck yet positive
 				edgeFlow->push_back(pair<int, int>(adjEdge->id, adjFlow));
 			}
 			
@@ -249,6 +306,9 @@ void FordFulkerson::constructFlow(){
 
 
 
+/*
+ * fill up the min cut vertices by reachable
+ */
 void FordFulkerson::constructCut(){
 	cutSet->push_back(s);
 	for (int i = 0; i < (int)reachable->size(); i++){

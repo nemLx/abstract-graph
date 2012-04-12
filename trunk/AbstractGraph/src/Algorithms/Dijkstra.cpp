@@ -37,11 +37,9 @@ Dijkstra::~Dijkstra(){
 	
 	while (it != V->end()) {
 		
-		
 		delete it->second->adj;
 		delete it->second->cost;
 		delete it->second->edgeId;
-		
 		delete it->second;
 		
 		it++;
@@ -53,6 +51,10 @@ Dijkstra::~Dijkstra(){
 
 
 
+/*
+ * initializes the vertex structure, mirroing the
+ * nodes and adajcents in the original graph
+ */
 void Dijkstra::initVertexStructure(){
 	
 	initVertices();
@@ -63,9 +65,13 @@ void Dijkstra::initVertexStructure(){
 	while (itVertex != V->end()){
 		
 		Vertex * vertex = itVertex->second;
-		
 		AbstractNode * node = (*N)[itVertex->first];
 		
+		/*
+		 * according to the adjacent structure
+		 * in the original graph, initialize
+		 * the adjacents for all vertices
+		 */
 		initAdjacent(vertex, node);
 		
 		G->push(itVertex->second);
@@ -76,6 +82,29 @@ void Dijkstra::initVertexStructure(){
 
 
 
+/*
+ * create a new vertex for each node in g
+ */
+void Dijkstra::initVertices(){
+	
+	map<int, AbstractNode*> * N = g->getNodes();
+	
+	map<int, AbstractNode*>::iterator itNode = N->begin();
+	
+	while ( itNode != N->end() ){
+		(*V)[itNode->first] = initVertex(itNode->second);
+		itNode++;
+	}
+}
+
+
+
+/*
+ * populate adj for each vertex according to
+ * adjacents in the original graph
+ * 
+ * adjacents is defined only for reachable nodes
+ */
 void Dijkstra::initAdjacent(Vertex * v, AbstractNode * n){
 	
 	map<AbstractEdge*, AbstractNode*> * adjacent = n->getAdjacent();
@@ -109,20 +138,9 @@ void Dijkstra::initAdjacent(Vertex * v, AbstractNode * n){
 
 
 
-void Dijkstra::initVertices(){
-	
-	map<int, AbstractNode*> * N = g->getNodes();
-	
-	map<int, AbstractNode*>::iterator itNode = N->begin();
-	
-	while ( itNode != N->end() ){
-		(*V)[itNode->first] = initVertex(itNode->second);
-		itNode++;
-	}
-}
-
-
-
+/*
+ * initializes a new vertex
+ */
 Dijkstra::Vertex * Dijkstra::initVertex(AbstractNode * node){
 	
 	Vertex * v = new Vertex();
@@ -142,6 +160,10 @@ Dijkstra::Vertex * Dijkstra::initVertex(AbstractNode * node){
 
 int Dijkstra::solve(){
     
+	if (s == t){
+		return 0;
+	}
+	
 	//	init src node
     (*V)[s]->dist = 0;
     refreshMin();
@@ -209,8 +231,17 @@ void Dijkstra::refreshMin(){
 
 
 
+/*
+ * simply constructs path form the 
+ * dist and next structure after the 
+ * algorithm sets them up
+ */
 int Dijkstra::constructPath(){
 	
+	/*
+	 * the destination node cannot
+	 * reach the source
+	 */
 	if ((*V)[t]->dist == INFINITY) {
 		return -1;
 	}

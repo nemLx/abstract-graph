@@ -75,6 +75,13 @@ map<AbstractEdge*, AbstractNode*> * DiNode::getAdjacent(){
 
 
 
+map<DiEdge*, DiNode*> * DiNode::getInAdjacent(){
+	
+	return inAdjacent;
+}
+
+
+
 void DiNode::printNode(){
 	
 	printf("Node: %i || n : ", id);

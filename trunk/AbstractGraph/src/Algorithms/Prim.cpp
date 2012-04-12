@@ -12,7 +12,7 @@ using namespace std;
 
 
 
-Prim::Prim(AbstractGraph * g, vector<int> * path){
+Prim::Prim(Graph * g, vector<int> * path){
 	
 	G = new priority_queue<Vertex*, vector<Vertex*>, comp>();
 	
@@ -47,6 +47,10 @@ Prim::~Prim(){
 
 
 
+/*
+ * initializes the vertex structure, mirroing the
+ * nodes and adajcents in the original graph
+ */
 void Prim::initVertexStructure(){
 	
 	initVertices();
@@ -70,6 +74,12 @@ void Prim::initVertexStructure(){
 
 
 
+/*
+ * populate adj for each vertex according to
+ * adjacents in the original graph
+ * 
+ * adjacents is defined only for reachable nodes
+ */
 void Prim::initAdjacent(Vertex * v, AbstractNode * n){
 	
 	map<AbstractEdge*, AbstractNode*> * adjacent = n->getAdjacent();
@@ -102,6 +112,9 @@ void Prim::initAdjacent(Vertex * v, AbstractNode * n){
 
 
 
+/*
+ * create a new vertex for each node in g
+ */
 void Prim::initVertices(){
 	
 	map<int, AbstractNode*> * N = g->getNodes();
@@ -116,6 +129,10 @@ void Prim::initVertices(){
 }
 
 
+
+/*
+ * initializes a new vertex
+ */
 Prim::Vertex * Prim::initVertex(AbstractNode * node){
 	
 	Vertex * v = new Vertex();
@@ -203,6 +220,10 @@ void Prim::refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G){
 
 
 
+/*
+ * finds all the MST edges from all the path
+ * constructed by Prim's
+ */
 int Prim::constructMST(){
 	
 	int totalWeight = 0;

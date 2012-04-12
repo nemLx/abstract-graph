@@ -8,6 +8,7 @@
 
 #include "../../include/Graphs/DiGraph.h"
 #include "../../include/Algorithms/HopcroftKarp.h"
+#include "../../include/Algorithms/FordFulkerson.h"
 
 using namespace std;
 
@@ -110,8 +111,8 @@ int DiGraph::removeNode(int id){
 		
 		DiNode * node = (DiNode*)(*N)[id];
 		
-		map<DiEdge*, DiNode*> inAdjacent (*(node->inAdjacent));
-		map<DiEdge*, DiNode*> outAdjacent (*(node->outAdjacent));
+		map<DiEdge*, DiNode*> inAdjacent (*(map<DiEdge*, DiNode*> *)(node->getInAdjacent()));
+		map<DiEdge*, DiNode*> outAdjacent (*(map<DiEdge*, DiNode*> *)(node->getAdjacent()));
 		
 		map<DiEdge*, DiNode*>::iterator it;
 		
@@ -133,6 +134,18 @@ int DiGraph::removeNode(int id){
 	}
 }
 
+
+
+int DiGraph::maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutEdges){
+	
+	if (s == t){
+		return 0;
+	}
+	
+	FordFulkerson maxFlowMinCutSolver(this, s, t, edgeFlow, cutEdges);
+	
+	return maxFlowMinCutSolver.solve();
+}
 
 
 

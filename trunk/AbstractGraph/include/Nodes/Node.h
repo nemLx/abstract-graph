@@ -32,7 +32,8 @@ public:
 	map<AbstractEdge*, AbstractNode*> * getAdjacent();
 	
 	void printNode();
-	
+
+private:
 	
 	int degree;
 	
