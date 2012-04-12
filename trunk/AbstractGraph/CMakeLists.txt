@@ -38,6 +38,7 @@ set (GRAPH_SRC
 		include/Algorithms/Prim.h src/Algorithms/Prim.cpp
 	    include/Algorithms/Bipartite.h src/Algorithms/Bipartite.cpp
         include/Algorithms/FordFulkerson.h src/Algorithms/FordFulkerson.cpp
+        include/Algorithms/HopcroftKarp.h src/Algorithms/HopcroftKarp.cpp
         )
 	
 
