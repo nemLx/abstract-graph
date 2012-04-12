@@ -13,6 +13,7 @@
 
 // General strings
 #define MENU_GENERAL_LABEL tr("Add/Edit Label")
+#define MENU_GENERAL_WEIGHT tr("Add/Edit Weight")
 #define MENU_GENERAL_DELETE tr("Delete Selected")
 #define MENU_GENERAL_DESELECT tr("Deselect All")
 #define MENU_GENERAL_SELECTALL tr("Select All")

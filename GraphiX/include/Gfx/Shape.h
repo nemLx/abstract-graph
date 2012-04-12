@@ -23,6 +23,7 @@ namespace GRAPHIX
  */
 enum GRAPHIX_EXPORT SHAPES
 {
+  ANY, /* Place holder for certain fxns */
   CIRCLE,
   LINE
 };

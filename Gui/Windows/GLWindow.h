@@ -100,6 +100,11 @@ protected slots:
   void updateLabel();
   
   /**
+   * Update edge weights
+   */
+  void updateWeight();
+  
+  /**
    * Update the color for the selected
    * items
    */
@@ -130,6 +135,11 @@ private:
    * Draw labels
    */
   void drawLabels();
+  
+  /**
+   * Draw weights
+   */
+  void drawWeights();
   
   /**
    * Display a color dialog

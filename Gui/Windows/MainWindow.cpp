@@ -119,9 +119,11 @@ void MainWindow::buildEditMenu()
 void MainWindow::buildModesMenu()
 {
   QAction* modeCNode = new QAction(MAINWINDOW_MODES_NODECREATION, this);
+  modeCNode->setShortcut(QKeySequence(tr("Ctrl+1")));
   connect(modeCNode, SIGNAL(triggered()), this, SLOT(setNodeCreateMode()));
 
   QAction* modeCEdge = new QAction(MAINWINDOW_MODES_EDGECREATION, this);
+  modeCEdge->setShortcut(QKeySequence(tr("Ctrl+2")));
   connect(modeCEdge, SIGNAL(triggered()), this, SLOT(setEdgeCreateMode()));
   
   modesMenu->addAction(modeCNode);

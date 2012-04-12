@@ -52,6 +52,7 @@ private:
   void init();
   
   QAction* label;
+  QAction* weight;
   QAction* del;
   QAction* color;
   QAction* deselect;

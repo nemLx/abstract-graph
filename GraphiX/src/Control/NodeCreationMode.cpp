@@ -38,7 +38,7 @@ void NodeCreationMode::handleClick(double x, double y, unsigned hits, unsigned* 
   // In node creation mode, so add some circles!
   // (But don't overlap)
   if(hits < 1) {
-    double rad = .1f; // Static .1f radius for now
+    double rad = .08f; // Static .08f radius for now
     shapes->push_back(new Circle(x, y, rad));
   }
   
@@ -57,10 +57,10 @@ void NodeCreationMode::pickLogic()
   }
 }
 
-void NodeCreationMode::selectLogic(unsigned hits, unsigned* pickBuffer)
+unsigned NodeCreationMode::selectLogic(unsigned hits, unsigned* pickBuffer)
 {
   // In NODE creation mode, do nothing?? - Temporarily highlighting
-  Mode::selectLogic(hits, pickBuffer);
+  return Mode::selectLogic(hits, pickBuffer);
 }
 
 MODES NodeCreationMode::getMode() const

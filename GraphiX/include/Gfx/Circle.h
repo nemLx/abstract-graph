@@ -51,6 +51,13 @@ public:
   virtual void setRadius(float rad);
   
   /**
+   * Return the radius
+   *
+   * @return  The current radius value
+   */
+  virtual float getRadius() const;
+  
+  /**
    * Add an edge to the edge list
    * NOTE: This method does not update display, but only
    *  the node's internal edge list

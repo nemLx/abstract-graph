@@ -138,7 +138,20 @@ void Scene::updateLabel(const std::string& label)
   std::vector<Shape*>::iterator it;
   
   for(it = selected.begin() ; it != selected.end() ; ++it) {
-    (*it)->setLabel(label);
+    if((*it)->getType() != LINE) // Lines have weights only
+      (*it)->setLabel(label);
+  }
+}
+
+void Scene::updateWeight(int weight)
+{
+  std::vector<Shape*>::iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it) {
+    if((*it)->getType() == LINE) {
+      Line* line = static_cast<Line*>(*it);
+      line->updateWeight(weight);
+    }
   }
 }
 
@@ -181,6 +194,17 @@ bool Scene::checkNodesSelected() const
   
   for(it = selected.begin() ; it != selected.end() ; ++it)
     if((*it)->getType() == CIRCLE)
+      return true;
+  
+  return false;
+}
+
+bool Scene::checkEdgesSelected() const
+{
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = selected.begin() ; it != selected.begin() ; ++it)
+    if((*it)->getType() == LINE)
       return true;
   
   return false;
@@ -236,6 +260,21 @@ void Scene::deleteSelected()
   selected.clear();
 }
 
+std::vector<int> Scene::getWeights() const
+{
+  std::vector<int> ret;
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = shapes.begin() ; it != shapes.end() ; ++it) {
+    if((*it)->getType() == LINE) {
+      Line* line = static_cast<Line*>(*it);
+      ret.push_back(line->getWeight());
+    }
+  }
+  
+  return ret;
+}
+
 std::vector<std::string> Scene::getSelectedLabels() const
 {
   return getLabels(selected);
@@ -246,18 +285,20 @@ std::vector<std::string> Scene::getLabels() const
   return getLabels(shapes);
 }
 
-std::vector<std::pair<int, int> > Scene::getCoords() const
+std::vector<std::pair<int, int> > Scene::getCoords(SHAPES type) const
 {
   std::vector<std::pair<int, int> > ret;
   std::vector<Shape*>::const_iterator it;
   
   for(it = shapes.begin() ; it != shapes.end() ; ++it) {
-    double glX = (*it)->getX();
-    double glY = (*it)->getY();
-    double x = 0;
-    double y = 0;
-    GLToWindow(glX, glY, x, y);
-    ret.push_back(std::pair<int, int>(x, y));
+    if((*it)->getType() == type || type == ANY) {
+      double glX = (*it)->getX();
+      double glY = (*it)->getY();
+      double x = 0;
+      double y = 0;
+      GLToWindow(glX, glY, x, y);
+      ret.push_back(std::pair<int, int>(x, y));
+    }
   }
   
   return ret;

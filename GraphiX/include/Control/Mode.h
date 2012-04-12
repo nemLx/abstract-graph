@@ -79,8 +79,9 @@ public:
    *
    * @param hits        Number of items picked
    * @param pickBuffer  Pointer to the pick buffer
+   * @return  The number of items selected
    */
-  virtual void selectLogic(unsigned hits, unsigned* pickBuffer);
+  virtual unsigned selectLogic(unsigned hits, unsigned* pickBuffer);
   
   /**
    * Highlight all shapes

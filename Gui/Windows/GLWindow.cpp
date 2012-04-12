@@ -52,6 +52,7 @@ void GLWindow::paintGL()
 {
   scene.updateScene();
   drawLabels();
+  drawWeights();
 }
 
 void GLWindow::mousePressEvent(QMouseEvent* evt)
@@ -85,8 +86,11 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
   if(evt == NULL)
     return;
   
+  unsigned numSelected = scene.countSelected();
+  bool selected = numSelected > 0;
+  
   QPoint pos(evt->globalPos());
-  nodeRightClick->updateMenuItems(scene.checkNodesSelected(), scene.countSelected());
+  nodeRightClick->updateMenuItems(selected, numSelected);
   nodeRightClick->exec(pos);
 }
 
@@ -149,7 +153,7 @@ void GLWindow::updateBackground()
 
 void GLWindow::updateLabel()
 {
-  bool ok;
+  bool ok = false;
   QString label;
   std::vector<std::string> labels = scene.getSelectedLabels();
   QString existingLabel(labels[0].c_str());
@@ -161,6 +165,23 @@ void GLWindow::updateLabel()
   
   if(ok) {
     scene.updateLabel(label.toStdString());
+    updateGL();
+  }
+}
+
+void GLWindow::updateWeight()
+{
+  bool ok;
+  int weight;
+  std::vector<int> weights = scene.getWeights();
+  
+  if(weights.size() == 1)
+    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight (-1 to disable):"), weights[0], -1, 10000, 1, &ok);
+  else
+    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight (-1 to disable):"), 0, -1, 10000, 1, &ok);
+  
+  if(ok && weight > -2) {
+    scene.updateWeight(weight);
     updateGL();
   }
 }
@@ -189,6 +210,23 @@ void GLWindow::drawLabels()
     if(labels[i].empty())
       continue;
     renderText(coords[i].first, coords[i].second, QString(labels[i].c_str()));
+  }
+}
+
+void GLWindow::drawWeights()
+{
+  std::vector<int> weights = scene.getWeights();
+  std::vector<std::pair<int, int> > coords = scene.getCoords(GRAPHIX::LINE);
+  
+  if(weights.size() != coords.size())
+    return;
+  
+  for(unsigned i = 0 ; i < weights.size() ; ++i) {
+    if(weights[i] < 0)
+      continue;
+    QString weight("Weight: ");
+    weight.append(QString::number(weights[i]));
+    renderText(coords[i].first, coords[i].second, weight);
   }
 }
 

@@ -8,21 +8,25 @@
  * @version $Id$
  */
 
+#include <cmath>
+
 #include "Gfx/Line.h"
 
 namespace GRAPHIX
 {
 Line::Line(Circle* cl, Circle* cr)
-  : Shape(-1, -1), cl(cl), cr(cr), width(.1f)
+  : Shape(-1, -1), cl(cl), cr(cr), width(.1f), directed(false), direction(false), weight(-1)
 {
   setHighlight(Color(1.0, 0.0, 0.0, 0.0));
+  updateCirclePositions();
 }
 
 Line::Line(const Line& rhs)
   : Shape(rhs.getX(), rhs.getY()), cl(rhs.cl), cr(rhs.cr),
-  width(rhs.width)
+  width(rhs.width), directed(rhs.directed), direction(rhs.direction), weight(rhs.weight)
 {
   setHighlight(rhs.getHighlight());
+  updateCirclePositions();
 }
 
 Line::~Line()
@@ -37,6 +41,26 @@ Line::~Line()
 void Line::setWidth(float w)
 {
   width = w;
+}
+
+void Line::updateWeight(int wgt)
+{
+  weight = wgt;
+}
+
+int Line::getWeight() const
+{
+  return weight;
+}
+
+void Line::setDirected(bool set)
+{
+  directed = set;
+}
+
+void Line::setDirection(bool right)
+{
+  direction = right;
 }
 
 void Line::draw() const
@@ -58,4 +82,22 @@ SHAPES Line::getType() const
   return LINE;
 }
 
+void Line::updateCirclePositions()
+{
+  if(cl == NULL || cr == NULL)
+    return;
+  
+  // Make sure our names reflect reality
+  if(cl->getX() < cr->getX()) {
+    Circle* tmp = cl;
+    cl = cr;
+    cr = tmp;
+  }
+  
+  // If circles have moved, make sure we know our midpoint
+  float midX = (float)(cl->getX() + cr->getX())/2;
+  float midY = (float)(cl->getY() + cr->getY())/2;
+  setX(midX);
+  setY(midY);
+}
 }

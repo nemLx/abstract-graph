@@ -109,6 +109,13 @@ public:
   void updateLabel(const std::string& label);
   
   /**
+   * Update edge weights
+   *
+   * @param weight  The new edge weight
+   */
+  void updateWeight(int weight);
+  
+  /**
    * Update background color
    *
    * @param red   Red value
@@ -150,6 +157,13 @@ public:
   bool checkNodesSelected() const;
   
   /**
+   * Check edges selected
+   *
+   * @return  True if edges are selected, false otherwise
+   */
+  bool checkEdgesSelected() const;
+  
+  /**
    * Get the number of items selected
    *
    * @return  The number of selected items
@@ -172,6 +186,13 @@ public:
   void deleteSelected();
   
   /**
+   * Get a list of edge weights
+   *
+   * @return  A vector of weights
+   */
+  std::vector<int> getWeights() const;
+  
+  /**
    * Get a list of labels for currently
    * selected items
    *
@@ -190,9 +211,11 @@ public:
    * Get a list of ordered coordinates for labels
    * NOTE: Coords are in terms of window
    *
+   * @param type  Specify type of item to obtain (default = ANY)
+   *
    * @return  A vector of pairs of coordinates
    */
-  std::vector<std::pair<int, int> > getCoords() const;
+  std::vector<std::pair<int, int> > getCoords(SHAPES type = ANY) const;
 
 protected:
   /**
