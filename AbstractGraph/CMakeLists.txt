@@ -43,7 +43,7 @@ set (GRAPH_SRC
 	
 
 # Main Binary
-#add_library(${PROJECT_NAME} SHARED ${GRAPH_SRC})
+add_library(${PROJECT_NAME} SHARED ${GRAPH_SRC})
 
 add_executable(${PROJECT_NAME}_test ${GRAPH_SRC} graphTest.cpp)
 
