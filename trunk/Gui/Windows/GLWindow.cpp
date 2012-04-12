@@ -24,7 +24,7 @@
 #include "graphix.h"
 
 GLWindow::GLWindow(QWidget* parent)
-  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this))
+  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), lastX(0), lastY(0)
 {
 }
 
@@ -68,12 +68,26 @@ void GLWindow::mousePressEvent(QMouseEvent* evt)
   if(button == Qt::LeftButton) {
     scene.registerClick(x, y);
     updateGL();
+    lastX = x;
+    lastY = y;
   }
 }
 
 void GLWindow::mouseMoveEvent(QMouseEvent* evt)
 {
-  // Not implemented
+  // Move exactly one node at a time for now
+  if(scene.countSelected(GRAPHIX::CIRCLE) != 1)
+    return;
+  
+  // Make sure are coordinates are from the proper perspective
+  QPoint pos(evt->pos());
+  mapFromGlobal(pos);
+  int x = pos.x();
+  int y = pos.y();
+  
+  // Move selected nodes
+  scene.moveNodes(x, y);
+  updateGL();
 }
 
 void GLWindow::keyPressEvent(QKeyEvent* evt)

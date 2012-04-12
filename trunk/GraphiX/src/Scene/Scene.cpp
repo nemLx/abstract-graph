@@ -110,6 +110,22 @@ void Scene::registerClick(int xW, int yW)
   currentMode->handleClick(x, y, hits, pickBuffer);
 }
 
+void Scene::moveNodes(int xW, int yW)
+{
+  updateViewport();
+  double x = 0, y = 0;
+  windowToGL(xW, yW, x, y);
+  
+  std::vector<Shape*>::iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it) {
+    if((*it)->getType() != LINE) {
+      (*it)->setX(x);
+      (*it)->setY(y);
+    }
+  }
+}
+
 void Scene::updateMode(MODES mode)
 {
   currentMode = modes[mode];
@@ -210,9 +226,20 @@ bool Scene::checkEdgesSelected() const
   return false;
 }
 
-unsigned Scene::countSelected() const
+unsigned Scene::countSelected(SHAPES type) const
 {
-  return selected.size();
+  if(type == ANY)
+    return selected.size();
+  
+  unsigned selCount = 0;
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it) {
+    if((*it)->getType() == type)
+      selCount++;
+  }
+  
+  return selCount;
 }
 
 void Scene::selectAll()
