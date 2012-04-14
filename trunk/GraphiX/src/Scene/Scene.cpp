@@ -23,7 +23,7 @@
 namespace GRAPHIX
 {
 Scene::Scene()
-  : highlight(Color(0.0, 0.0, 255.0, 0.0)), background(Color(139.0, 137.0, 137.0, 0.0))
+  : highlight(Color(0.0, 0.0, 255.0, 0.0)), background(Color(255.0, 255.0, 255.0, 0.0))
 {
   bufferSize = GRAPHIX_DEFAULT_PICK_BUFFER_SIZE;
   pickBuffer = new unsigned[bufferSize];
@@ -103,13 +103,13 @@ void Scene::addShape(SHAPES shape, int xW, int yW)
     shapes.push_back(newShape);
 }
 
-void Scene::registerClick(int xW, int yW)
+ACTION Scene::registerClick(int xW, int yW)
 {
   updateViewport();
   double x = 0, y = 0;
   windowToGL(xW, yW, x, y);
   unsigned hits = pickScene(xW, viewport[3]-yW);
-  currentMode->handleClick(x, y, hits, pickBuffer);
+  return currentMode->handleClick(x, y, hits, pickBuffer);
 }
 
 MODES Scene::getMode() const

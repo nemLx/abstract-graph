@@ -34,14 +34,16 @@ std::vector<Shape*>* Mode::getSelectedVector() const
   return selected;
 }
 
-void Mode::handleClick(double x, double y, unsigned hits, unsigned* pickBuffer)
+ACTION Mode::handleClick(double x, double y, unsigned hits, unsigned* pickBuffer)
 {
   if(hits < 1) {
     removeAllHighlight();
-    return;
+    return UNDEFINED;
   }
   
   selectLogic(hits, pickBuffer);
+  
+  return UNDEFINED;
 }
 
 void Mode::pickLogic()

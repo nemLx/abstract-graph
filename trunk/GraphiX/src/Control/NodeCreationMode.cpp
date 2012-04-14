@@ -29,20 +29,25 @@ NodeCreationMode::~NodeCreationMode()
 {
 }
 
-void NodeCreationMode::handleClick(double x, double y, unsigned hits, unsigned* pickBuffer)
+ACTION NodeCreationMode::handleClick(double x, double y, unsigned hits, unsigned* pickBuffer)
 {
   std::vector<Shape*>* shapes = getShapesVector();
   if(shapes == NULL)
-    return;
+    return UNDEFINED;
+  
+  ACTION ret = UNDEFINED;
   
   // In node creation mode, so add some circles!
   // (But don't overlap)
   if(hits < 1) {
     double rad = .08f; // Static .08f radius for now
     shapes->push_back(new Circle(x, y, rad));
+    ret = ADDNODE;
   }
   
   selectLogic(hits, pickBuffer);
+  
+  return ret;
 }
 
 void NodeCreationMode::pickLogic()

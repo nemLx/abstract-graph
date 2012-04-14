@@ -36,14 +36,19 @@ find_package(OpenGL REQUIRED)
 find_library(GRAPHIX_LIB "The location of GraphiX Library")
 find_path(GRAPHIX_INCLUDE_DIR "The location of the GraphiX Library include directory")
 
+# And algorithms
+find_library(ABSTRACTGRAPH_LIB "The location of the AbstractGraph Library")
+find_path(ABSTRACTGRAPH_INCLUDE_DIR "The location of the AbstractGraph Library include directory")
+
 # Source Files
 qt4_wrap_cpp(WINDOWS_MOC_SRC Windows/MainWindow.h Windows/GLWindow.h)
 qt4_wrap_cpp(MENUS_MOC_SRC Menus/NodeOptionsMenu.h)
 set(WINDOWS_SRC Windows/MainDefs.h Windows/MainWindow.h Windows/MainWindow.cpp
   Windows/GLWindow.h Windows/GLWindow.cpp)
 set(MENUS_SRC Menus/MenuDefs.h Menus/NodeOptionsMenu.cpp Menus/NodeOptionsMenu.h)
+set(GLU_SRC Glu/AlgorithmsGlu.h Glu/AlgorithmsGlu.cpp)
 
-set(SOURCE_FILES ${WINDOWS_MOC_SRC} ${MENUS_MOC_SRC} ${MENUS_SRC} ${WINDOWS_SRC} main.cpp)
+set(SOURCE_FILES ${WINDOWS_MOC_SRC} ${MENUS_MOC_SRC} ${MENUS_SRC} ${WINDOWS_SRC} ${GLU_SRC} main.cpp)
 
 # Main Executable
 if(WIN32)
@@ -57,9 +62,11 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(@GRAPHIX_INCLUDE_DIR@)
+include_directories(@ABSTRACTGRAPH_INCLUDE_DIR@)
 
 # Libraries
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} @GRAPHIX_LIB@)
+target_link_libraries(${PROJECT_NAME} @ABSTRACTGRAPH_LIB@)
 

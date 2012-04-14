@@ -18,6 +18,18 @@
 
 namespace GRAPHIX
 {
+
+/**
+ * Enum of valid actions which took
+ * place
+ */
+enum GRAPHIX_EXPORT ACTION
+{
+  ADDNODE,
+  ADDEDGE,
+  UNDEFINED
+};
+
 class Shape;
 /**
  * The types of modes supported
@@ -64,8 +76,10 @@ public:
    * @param y           Y coordinate (unit)
    * @param hits        Number of hits from picking
    * @param pickBuffer  The pick buffer
+   *
+   * @return  The action which took place
    */
-  virtual void handleClick(double x, double y, unsigned hits, unsigned* pickBuffer);
+  virtual ACTION handleClick(double x, double y, unsigned hits, unsigned* pickBuffer);
   
   /**
    * Determine which objects to draw during picking
