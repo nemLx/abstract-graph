@@ -30,12 +30,14 @@ EdgeCreationMode::~EdgeCreationMode()
 {
 }
 
-void EdgeCreationMode::handleClick(double x, double y, unsigned hits, unsigned* pickBuffer)
+ACTION EdgeCreationMode::handleClick(double x, double y, unsigned hits, unsigned* pickBuffer)
 {
   std::vector<Shape*>* selected = getSelectedVector();
   std::vector<Shape*>* shapes = getShapesVector();
   
   selectLogic(hits, pickBuffer);
+  
+  ACTION ret = UNDEFINED;
   
   if(selected != NULL && shapes != NULL) {
     Circle* cl = NULL;
@@ -60,8 +62,11 @@ void EdgeCreationMode::handleClick(double x, double y, unsigned hits, unsigned* 
       shapes->push_back(edge);
       cl->addEdge(edge);
       cr->addEdge(edge);
+      ret = ADDEDGE;
     }
   }
+  
+  return ret;
 }
 
 void EdgeCreationMode::pickLogic()

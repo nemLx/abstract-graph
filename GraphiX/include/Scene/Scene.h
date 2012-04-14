@@ -78,8 +78,10 @@ public:
    *
    * @param x   X coordinate (window coord)
    * @param y   Y coordinate (window coord)
+   *
+   * @return  The action which happened after the click
    */
-  virtual void registerClick(int x, int y);
+  virtual ACTION registerClick(int x, int y);
   
   /**
    * Get the current mode type

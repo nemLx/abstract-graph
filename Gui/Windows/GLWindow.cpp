@@ -18,13 +18,12 @@
 
 #include "GLWindow.h"
 
-#include "../Menus/NodeOptionsMenu.h"
-#include "../Menus/MenuDefs.h"
-
-#include "graphix.h"
+#include "Menus/NodeOptionsMenu.h"
+#include "Menus/MenuDefs.h"
 
 GLWindow::GLWindow(QWidget* parent)
-  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false)
+  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false),
+  gluAlg(scene, this)
 {
 }
 
@@ -38,6 +37,16 @@ void GLWindow::updateMode(GRAPHIX::MODES mode)
     return;
   scene.updateMode(mode);
   updateGL();
+}
+
+bool GLWindow::isLocked() const
+{
+  return locked;
+}
+
+void GLWindow::lock(bool lock)
+{
+  locked = lock;
 }
 
 void GLWindow::initalizeGL()
@@ -68,7 +77,8 @@ void GLWindow::mousePressEvent(QMouseEvent* evt)
   int y = pos.y();
   
   if(button == Qt::LeftButton) {
-    scene.registerClick(x, y);
+    GRAPHIX::ACTION act = scene.registerClick(x, y);
+    gluAlg.handleAction(act);
     updateGL();
   }
 }
@@ -239,8 +249,7 @@ void GLWindow::drawWeights()
   for(unsigned i = 0 ; i < weights.size() ; ++i) {
     if(weights[i] < 0)
       continue;
-    QString weight("Weight: ");
-    weight.append(QString::number(weights[i]));
+    QString weight(QString::number(weights[i]));
     renderText(coords[i].first, coords[i].second, weight);
   }
 }

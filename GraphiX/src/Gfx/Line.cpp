@@ -86,14 +86,12 @@ void Line::draw() const
 {
   Color color(getHighlight());
   
-  glEnable(GL_LINE_SMOOTH);
   glLineWidth(width);
   glBegin(GL_LINES);
     glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
     glVertex2f(cl->getX(), cl->getY());
     glVertex2f(cr->getX(), cr->getY());
   glEnd();
-  glDisable(GL_LINE_SMOOTH);
 }
 
 SHAPES Line::getType() const

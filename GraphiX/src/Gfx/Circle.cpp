@@ -87,6 +87,7 @@ void Circle::draw() const
   glEnd();
   
   // Outline our figure
+  glLineWidth(2.f);
   glBegin(GL_LINE_LOOP);
     glColor3f(border.r/255.0, border.g/255.0, border.b/255.0);
     for(int i = 0 ; i <= 360 ; ++i)

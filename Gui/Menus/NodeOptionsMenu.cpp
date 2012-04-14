@@ -10,7 +10,7 @@
 
 #include "NodeOptionsMenu.h"
 #include "MenuDefs.h"
-#include "../Windows/GLWindow.h"
+#include "Windows/GLWindow.h"
 
 NodeOptionsMenu::NodeOptionsMenu(GLWindow* parent)
   : QMenu(parent)
@@ -45,6 +45,10 @@ void NodeOptionsMenu::init()
   QAction* background = new QAction(MENU_NODE_BACKGROUND, this);
   QAction* selectall  = new QAction(MENU_GENERAL_SELECTALL, this);
   
+  // Shortcuts
+  del->setShortcut(QKeySequence::Delete);
+  selectall->setShortcut(QKeySequence::SelectAll);
+  
   connect(label, SIGNAL(triggered()), parent(), SLOT(updateLabel()));
   connect(weight, SIGNAL(triggered()), parent(), SLOT(updateWeight()));
   connect(del, SIGNAL(triggered()), parent(), SLOT(deleteSelected()));
@@ -54,6 +58,7 @@ void NodeOptionsMenu::init()
   connect(selectall, SIGNAL(triggered()), parent(), SLOT(selectAll()));
   connect(deselect, SIGNAL(triggered()), parent(), SLOT(deselectAll()));
   
+  // Add actions to the menu
   this->addAction(label);
   this->addAction(weight);
   this->addSeparator();

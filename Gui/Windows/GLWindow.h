@@ -15,7 +15,11 @@
 
 #include <QtOpenGL/QGLWidget>
 
+// GraphiX Library
 #include "graphix.h"
+
+// Glu
+#include "Glu/AlgorithmsGlu.h"
 
 class NodeOptionsMenu;
 class QWidget;
@@ -40,6 +44,20 @@ public:
    * Update the mode of all tabs
    */
   virtual void updateMode(GRAPHIX::MODES mode);
+  
+  /**
+   * Check if graph locked
+   *
+   * @return  True if locked, false otherwise
+   */
+  virtual bool isLocked() const;
+  
+  /**
+   * Set the graph lock
+   *
+   * @param lock   True to lock graph, false otherwise
+   */
+  virtual void lock(bool lock);
 
 protected:
   /**
@@ -153,6 +171,7 @@ private:
   GRAPHIX::Scene scene;
   NodeOptionsMenu* nodeRightClick;
   bool locked;
+  AlgorithmsGlu gluAlg;
 };
 
 #endif /* WINDOWS_GLWINDOW_H__ */

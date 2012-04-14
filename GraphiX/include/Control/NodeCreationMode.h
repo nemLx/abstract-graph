@@ -46,7 +46,7 @@ public:
    * @param hits        Number of hits from picking
    * @param pickBuffer  The pick buffer
    */
-  virtual void handleClick(double x, double y, unsigned hits, unsigned* pickBuffer);
+  virtual ACTION handleClick(double x, double y, unsigned hits, unsigned* pickBuffer);
   
   /**
    * Determine which objects to draw during picking (pure virtual)
