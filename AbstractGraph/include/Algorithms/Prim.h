@@ -68,15 +68,11 @@ private:
 	 * functor used by the priority queue, vertices
 	 * are ordered according to lowest distance to source
 	 */
-	class comp{
+	class comp 
+	: std::binary_function<Vertex*, Vertex*, bool>{
 	public:
-		bool operator() (Vertex * lhs, Vertex * rhs) const{
-			
-			if (lhs->dist > rhs->dist){
-				return true;
-			}else{
-				return false;
-			}
+		bool operator() (const Vertex * lhs, const Vertex * rhs) const{
+			return lhs->dist < rhs->dist;
 		}
 	};
 	
@@ -115,7 +111,8 @@ private:
 	 * vertices ordered in precedence of distance
 	 * to the source
 	 */
-	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
+	//priority_queue<Vertex*, vector<Vertex*>, comp> * G;
+	set<Vertex*, comp> * Q;
 	
 	
 	
@@ -132,7 +129,7 @@ private:
 	
 	void handleUnvisited(int uwCost, Vertex * w, Vertex * u);
 	
-	void refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G);
+	void refreshMin(Vertex * v);
 	
 	int constructMST();
 };

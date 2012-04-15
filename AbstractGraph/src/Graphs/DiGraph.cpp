@@ -71,6 +71,10 @@ int DiGraph::addNode(){
 
 int DiGraph::addEdge(int s, int t){
 	
+	if (!validNode(s) || !validNode(t)){
+		return -1;
+	}
+	
 	DiNode * from = (DiNode *)(*N)[s];
 	DiNode * to = (DiNode *)(*N)[t];
 	
@@ -87,6 +91,10 @@ int DiGraph::addEdge(int s, int t){
 
 
 int DiGraph::addEdge(int s, int t, int v){
+	
+	if (!validNode(s) || !validNode(t)){
+		return -1;
+	}
 	
 	DiNode * from = (DiNode *)(*N)[s];
 	DiNode * to = (DiNode *)(*N)[t];
@@ -106,7 +114,7 @@ int DiGraph::addEdge(int s, int t, int v){
 int DiGraph::removeNode(int id){
 	
 	if (!validNode(id)){
-		return 0;
+		return -1;
 	}else{
 		
 		DiNode * node = (DiNode*)(*N)[id];

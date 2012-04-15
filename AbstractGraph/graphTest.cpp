@@ -225,9 +225,9 @@ void bipartiteMatchingTest(){
 
 int main(){
 	
-	shortestPathTest();
+//	shortestPathTest();
 	
-//	mstTest();
+	mstTest();
 	
 //	bipartiteTest();
 	

@@ -14,7 +14,8 @@ using namespace std;
 
 Prim::Prim(Graph * g, vector<int> * path){
 	
-	G = new priority_queue<Vertex*, vector<Vertex*>, comp>();
+	//G = new priority_queue<Vertex*, vector<Vertex*>, comp>();
+	Q = new set<Vertex*, comp>;
 	
 	V = new map<int, Vertex*>;
 	
@@ -42,7 +43,7 @@ Prim::~Prim(){
 	}
 	
 	delete V;
-	delete G;	
+	delete Q;	
 }
 
 
@@ -66,7 +67,8 @@ void Prim::initVertexStructure(){
 		
 		initAdjacent(vertex, node);
 		
-		G->push(it->second);
+		//G->push(it->second);
+		Q->insert(vertex);
 		
 		it++;
 	}
@@ -153,12 +155,12 @@ int Prim::solve(){
     
 	//	init src node
     (*V)[s]->dist = 0;
-    refreshMin(G);
+    refreshMin((*V)[s]);
     
 	//	keep updating distances while there is node left
-    while (G->size() > 0){
+    while (!Q->empty()){
         
-        Vertex * u = G->top();
+        Vertex * u = *(Q->begin());
 		
 		//	the node with smallest cost is dist, meaning
 		//	it is disconnected from the src, break
@@ -168,7 +170,8 @@ int Prim::solve(){
         
 		//	mark visited, and remove from queue
         u->visited = true;
-        G->pop();
+        //G->pop();
+		Q->erase(u);
 		
 		//	placeholders
         int uwCost = 0;
@@ -186,13 +189,12 @@ int Prim::solve(){
 			
 			if ( !w->visited ){
 				handleUnvisited(uwCost, w, u);
+				// update the priority queue
+				refreshMin(w);
             }
 			
 			it++;
 		}
-		
-		// update the priority queue
-		refreshMin(G);
     }
 	
 	// construct MST and return the total weight
@@ -211,11 +213,10 @@ void Prim::handleUnvisited(int uwCost, Vertex * w, Vertex * u){
 
 
 
-void Prim::refreshMin(priority_queue<Vertex*, vector<Vertex*>, comp> * G){
+void Prim::refreshMin(Vertex * v){
 	
-	Vertex * v = G->top();
-    G->pop();
-    G->push(v);
+	Q->erase(v);
+	Q->insert(v);
 }
 
 
