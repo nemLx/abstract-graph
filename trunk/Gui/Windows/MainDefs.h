@@ -55,6 +55,15 @@
 #define MAINWINDOW_ALG_PRUFER tr("Prufer Code (Trees)")
 #define MAINWINDOW_ALG_DEBRUIJN tr("de Bruijn Cycles")
 
+// Toolbar text
+#define MAINWINDOW_TLBR_NODECREATE tr("Node Creation Mode")
+#define MAINWINDOW_TLBR_EDGECREATE tr("Edge Creation Mode")
+#define MAINWINDOW_TLBR_NODELABEL tr("Node Label")
+#define MAINWINDOW_TLBR_EDGELABEL tr("Edge Label")
+#define MAINWINDOW_TLBR_NODECOLOR tr("Node Color")
+#define MAINWINDOW_TLBR_EDGECOLOR tr("Edge Color")
+#define MAINWINDOW_TLBR_EDGEWEIGHT tr("Edge Weight")
+
 // IDs for hashing (only for ones which need it)
 // File gets 0x1000 block
 #define MAINWINDOW_FILE_EXPORT_ID 0x1001

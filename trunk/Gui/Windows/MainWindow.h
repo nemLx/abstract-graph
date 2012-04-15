@@ -28,6 +28,7 @@ class QActionGroup;
 class QMenu;
 class QResizeEvent;
 class QTabWidget;
+class QToolBar;
 
 /**
  * MainWindow
@@ -98,6 +99,21 @@ protected slots:
   void setViewMode();
   
   /**
+   * Set node label
+   */
+  void setNodeLabel();
+  
+  /**
+   * Set edge weight
+   */
+  void setEdgeWeight();
+  
+  /**
+   * Set color of selected
+   */
+  void setColor();
+  
+  /**
    * Run Shortest Path Algorithm
    */
   void runShortestPath();
@@ -117,6 +133,11 @@ private:
    * Initialize content [i.e. tab widget] (private helper)
    */
   void initContent();
+  
+  /**
+   * Initialize toolbar (private helper)
+   */
+  void initToolBar();
   
   /**
    * Build file menu (private helper)
@@ -192,8 +213,11 @@ private:
    */
   void updateMenus(GLWindow* tab);
   
+  /** Private members **/
   int currentTabIdx;
   
+  QToolBar* toolBar;
+
   QTabWidget* glTabs;
 
   QMenu* fileMenu;

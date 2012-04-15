@@ -19,10 +19,14 @@ MainWindow::MainWindow(const QString& title)
   : currentTabIdx(-1)
 {
   this->setWindowTitle(title);
+  this->setWindowIcon(QIcon(":/appicon.png"));
   
   initMenus();
   initActions();
   initContent();
+  initToolBar();
+  
+  this->setUnifiedTitleAndToolBarOnMac(true);
 }
 
 MainWindow::~MainWindow()
@@ -60,6 +64,54 @@ void MainWindow::initContent()
   connect(glTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeGLWindow(int)));
   connect(glTabs, SIGNAL(currentChanged(int)), this, SLOT(updateCurrentTab(int)));
   this->setCentralWidget(glTabs);
+}
+
+void MainWindow::initToolBar()
+{
+  toolBar = this->addToolBar(tr("Tools"));
+  toolBar->setFloatable(true);
+  toolBar->setMovable(true);
+  toolBar->setAllowedAreas(Qt::AllToolBarAreas);
+  toolBar->setEnabled(false);
+  
+  // Actions
+  QAction* nodeCreate = new QAction(QIcon(":/nodeCreation.png"), MAINWINDOW_TLBR_NODECREATE, toolBar);
+  QAction* edgeCreate = new QAction(QIcon(":/edgeCreation.png"), MAINWINDOW_TLBR_EDGECREATE, toolBar);
+  QAction* nodeLabel  = new QAction(QIcon(":/nodeLabel.png"), MAINWINDOW_TLBR_NODELABEL, toolBar);
+  QAction* edgeLabel  = new QAction(QIcon(":/edgeLabel.png"), MAINWINDOW_TLBR_EDGELABEL, toolBar);
+  QAction* edgeWeight = new QAction(QIcon(":/edgeWeight.png"), MAINWINDOW_TLBR_EDGEWEIGHT, toolBar);
+  QAction* nodeColor  = new QAction(QIcon(":/nodeColor.png"), MAINWINDOW_TLBR_NODECOLOR, toolBar);
+  QAction* edgeColor  = new QAction(QIcon(":/edgeColor.png"), MAINWINDOW_TLBR_EDGECOLOR, toolBar);
+  
+  // Tool tips
+  nodeCreate->setToolTip(MAINWINDOW_TLBR_NODECREATE);
+  edgeCreate->setToolTip(MAINWINDOW_TLBR_EDGECREATE);
+  nodeLabel->setToolTip(MAINWINDOW_TLBR_NODELABEL);
+  edgeLabel->setToolTip(MAINWINDOW_TLBR_EDGELABEL);
+  edgeWeight->setToolTip(MAINWINDOW_TLBR_EDGEWEIGHT);
+  nodeColor->setToolTip(MAINWINDOW_TLBR_NODECOLOR);
+  edgeColor->setToolTip(MAINWINDOW_TLBR_EDGECOLOR);
+  
+  // Connect buttons to slots
+  connect(nodeCreate, SIGNAL(triggered()), this, SLOT(setNodeCreateMode()));
+  connect(edgeCreate, SIGNAL(triggered()), this, SLOT(setEdgeCreateMode()));
+  connect(nodeLabel, SIGNAL(triggered()), this, SLOT(setNodeLabel()));
+  connect(edgeWeight, SIGNAL(triggered()), this, SLOT(setEdgeWeight()));
+  connect(nodeColor, SIGNAL(triggered()), this, SLOT(setColor()));
+  connect(edgeColor, SIGNAL(triggered()), this, SLOT(setColor()));
+  
+  // Add buttons to a layout
+  toolBar->addAction(nodeCreate);
+  toolBar->addAction(edgeCreate);
+  toolBar->addSeparator();
+  toolBar->addAction(nodeLabel);
+  toolBar->addAction(edgeLabel); // Do we actually support this?
+  edgeLabel->setVisible(false); // Hide for now
+  toolBar->addSeparator();
+  toolBar->addAction(edgeWeight);
+  toolBar->addSeparator();
+  toolBar->addAction(nodeColor);
+  toolBar->addAction(edgeColor);
 }
 
 void MainWindow::buildFileMenu()
@@ -233,6 +285,7 @@ void MainWindow::createGLWindow()
   
   // Set everyone back to node creation mode
   updateMode(GRAPHIX::NODECREATION);
+  toolBar->setEnabled(true);
 }
 
 void MainWindow::closeGLWindow()
@@ -254,6 +307,7 @@ void MainWindow::updateCurrentTab(int idx)
   currentTabIdx = idx;
   if(idx == -1) {
     enableAction(MAINWINDOW_FILE_CLOSETAB_ID, false);
+    toolBar->setEnabled(false);
   } else {
     GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(idx));
     if(tab != NULL) {
@@ -277,6 +331,24 @@ void MainWindow::setEdgeCreateMode()
 void MainWindow::setViewMode()
 {
   updateMode(GRAPHIX::VIEWONLY);
+}
+
+void MainWindow::setNodeLabel()
+{
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  tab->updateLabel();
+}
+
+void MainWindow::setEdgeWeight()
+{
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  tab->updateWeight();
+}
+
+void MainWindow::setColor()
+{
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  tab->updateColor();
 }
 
 void MainWindow::runShortestPath()

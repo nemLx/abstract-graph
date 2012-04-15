@@ -22,7 +22,7 @@
 #include "Menus/MenuDefs.h"
 
 GLWindow::GLWindow(QWidget* parent)
-  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false),
+  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false),
   gluAlg(scene, this)
 {
 }
@@ -37,6 +37,13 @@ void GLWindow::updateMode(GRAPHIX::MODES mode)
     return;
   scene.updateMode(mode);
   updateGL();
+}
+
+void GLWindow::renderText(int x, int y, const QString& str, const QFont& font, int base)
+{
+  // Ensure color is black
+  glColor3f(0.0, 0.0, 0.0);
+  QGLWidget::renderText(x, y, str, font, base);
 }
 
 bool GLWindow::isLocked() const
@@ -63,6 +70,7 @@ void GLWindow::initalizeGL()
 
 void GLWindow::resizeGL(int w, int h)
 {
+  // DO NOT resize - just always make sure that it is a max canvas
   scene.updateGLSize(w, h);
 }
 
@@ -126,18 +134,61 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
   nodeRightClick->exec(pos);
 }
 
-void GLWindow::deleteSelected()
+void GLWindow::updateLabel()
 {
-  gluAlg.removeSelected();
-  scene.deleteSelected();
-  updateGL();
+  bool ok = false;
+  QString label;
+  std::vector<std::string> labels = scene.getSelectedLabels();
+  
+  if(labels.size() < 1)
+    return;
+  
+  QString existingLabel(labels[0].c_str());
+  
+  if(labels.size() < 1)
+    return;
+  
+  if(labels.size() == 1)
+    label = QInputDialog::getText(this, tr("Add/Edit Label"), tr("Update Label:"),  QLineEdit::Normal, existingLabel, &ok);
+  else
+    label = QInputDialog::getText(this, tr("Add/Edit Label"), tr("Update Label:"),  QLineEdit::Normal, tr(""), &ok);
+  
+  if(ok) {
+    scene.updateLabel(label.toStdString());
+    deselectAll();
+  }
+}
+
+void GLWindow::updateWeight()
+{  
+  bool ok = false;
+  int weight;
+  std::vector<int> weights = scene.getWeights();
+  
+  if(scene.getSelectedIds(GRAPHIX::LINE).size() < 1)
+    return;
+  
+  if(weights.size() == 1)
+    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight:"), weights[0], 0, 10000, 1, &ok);
+  else
+    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight:"), 0, 0, 10000, 1, &ok);
+  
+  if(ok && weight > -1) {
+    enableWeights = true;
+    scene.updateWeight(weight);
+    gluAlg.updateEdgeWeight(weight);
+    deselectAll();
+  }
 }
 
 void GLWindow::updateColor()
 {
+  if(scene.getSelectedIds().size() < 1)
+    return;
+  
   QColor color = Qt::white;
   bool isValid = showColorDialog(color);
-
+  
   if(isValid) {
     int red = 0;
     int green = 0;
@@ -146,8 +197,15 @@ void GLWindow::updateColor()
     
     scene.updateSelectedColor(red, green, blue);
     
-    updateGL();
+    deselectAll();
   }
+}
+
+void GLWindow::deleteSelected()
+{
+  gluAlg.removeSelected();
+  scene.deleteSelected();
+  updateGL();
 }
 
 void GLWindow::updateHighlight()
@@ -184,42 +242,6 @@ void GLWindow::updateBackground()
   }
 }
 
-void GLWindow::updateLabel()
-{
-  bool ok = false;
-  QString label;
-  std::vector<std::string> labels = scene.getSelectedLabels();
-  QString existingLabel(labels[0].c_str());
-
-  if(labels.size() == 1)
-    label = QInputDialog::getText(this, tr("Add/Edit Label"), tr("Update Label:"),  QLineEdit::Normal, existingLabel, &ok);
-  else
-    label = QInputDialog::getText(this, tr("Add/Edit Label"), tr("Update Label:"),  QLineEdit::Normal, tr(""), &ok);
-  
-  if(ok) {
-    scene.updateLabel(label.toStdString());
-    updateGL();
-  }
-}
-
-void GLWindow::updateWeight()
-{
-  bool ok;
-  int weight;
-  std::vector<int> weights = scene.getWeights();
-  
-  if(weights.size() == 1)
-    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight:"), weights[0], 0, 10000, 1, &ok);
-  else
-    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight:"), 0, 0, 10000, 1, &ok);
-  
-  if(ok && weight > -1) {
-    scene.updateWeight(weight);
-    gluAlg.updateEdgeWeight(weight);
-    updateGL();
-  }
-}
-
 void GLWindow::selectAll()
 {
   scene.selectAll();
@@ -233,7 +255,7 @@ void GLWindow::deselectAll()
 }
 
 void GLWindow::drawLabels()
-{
+{  
   std::vector<std::string> labels = scene.getLabels();
   std::vector<std::pair<int, int> > coords = scene.getCoords();
   
@@ -249,6 +271,9 @@ void GLWindow::drawLabels()
 
 void GLWindow::drawWeights()
 {
+  if(!enableWeights)
+    return;
+  
   std::vector<int> weights = scene.getWeights();
   std::vector<std::pair<int, int> > coords = scene.getCoords(GRAPHIX::LINE);
   

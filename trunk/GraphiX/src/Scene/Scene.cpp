@@ -38,12 +38,8 @@ Scene::Scene()
   // Only supporting 2D for now
   glDisable(GL_DEPTH_TEST);
 
-  glEnable(GL_BLEND);
   glEnable(GL_POLYGON_SMOOTH);
   glEnable(GL_LINE_SMOOTH);
-
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glClearColor(background.r/255.0, background.g/255.0, background.b/255.0, 0.0);
 }
 
 Scene::~Scene()
@@ -81,7 +77,7 @@ unsigned* Scene::updateScene()
 void Scene::addShape(SHAPES shape, int xW, int yW)
 {
   double x = 0, y = 0;
-  float radius = .1f;
+  float radius = .5f;
   Shape* newShape = NULL;
   
   updateViewport();
