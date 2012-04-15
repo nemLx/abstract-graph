@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <vector>
 
-#include "include/Graphs/AbstractGraph.h"
+//#include "include/Graphs/AbstractGraph.h"
 #include "include/Graphs/Graph.h"
 #include "include/Graphs/DiGraph.h"
 
@@ -30,10 +30,7 @@ void printVector(vector<int> * v){
 
 void shortestPathTest(){
 	
-	DiGraph g(11);
-	
-	g.addEdge(1,1,1);
-	g.removeEdge(0);
+	DiGraph g(19);
 	
 	g.addEdge(1,2,2);
 	g.addEdge(1,4,1);
@@ -48,7 +45,9 @@ void shortestPathTest(){
 	g.addEdge(5,7,6);
 	g.addEdge(7,6,1);
 	
-	g.addEdge(4,7,2);
+	g.addEdge(5, 7, 3);
+	
+	g.removeNode(4);
 	
 	printf("\n");
 	g.printGraph();
@@ -228,13 +227,13 @@ int main(){
 	
 	shortestPathTest();
 	
-	mstTest();
+//	mstTest();
 	
-	bipartiteTest();
+//	bipartiteTest();
 	
-	maxFlowTest();
+//	maxFlowTest();
 	
-	bipartiteMatchingTest();
+//	bipartiteMatchingTest();
 	
 	return 0;
 }

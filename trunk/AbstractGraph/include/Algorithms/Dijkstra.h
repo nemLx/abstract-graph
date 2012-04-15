@@ -11,8 +11,11 @@
 
 #include "Algorithm.h"
 
-using namespace std;
+#include <boost/heap/fibonacci_heap.hpp>
+#include <boost/heap/policies.hpp>
 
+using namespace std;
+using namespace boost;
 
 
 /*
@@ -72,15 +75,11 @@ private:
 	 * functor used by the priority queue, vertices
 	 * are ordered according to lowest distance to source
 	 */
-	class comp{
+	class comp 
+	: std::binary_function<Vertex*, Vertex*, bool>{
 	public:
-		bool operator() (Vertex * lhs, Vertex * rhs) const{
-			
-			if (lhs->dist > rhs->dist){
-				return true;
-			}else{
-				return false;
-			}
+		bool operator() (const Vertex * lhs, const Vertex * rhs) const{
+			return lhs->dist < rhs->dist;
 		}
 	};
 	
@@ -127,7 +126,7 @@ private:
 	 * to the source
 	 */
 	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
-	
+	set<Vertex*, comp> * Q;
 	
 	
 	/*
@@ -143,7 +142,7 @@ private:
 	
 	void handleUnvisited(int uwCost, Vertex * w, Vertex * u);
 	
-	void refreshMin();
+	void refreshMin(Vertex* w);
 	
 	int constructPath();
 };
