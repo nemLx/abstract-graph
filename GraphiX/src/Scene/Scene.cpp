@@ -279,8 +279,9 @@ void Scene::deselectAll()
   currentMode->removeAllHighlight();
 }
 
-void Scene::deleteSelected()
+std::vector<std::pair<SHAPES, int> > Scene::deleteSelected()
 {
+  std::vector<std::pair<SHAPES, int> > ret;
   std::vector<Shape*>::iterator it;
   std::vector<Shape*>::iterator all;
   
@@ -301,17 +302,25 @@ void Scene::deleteSelected()
       std::map<Line*,Line*>::const_iterator edge;
       for(edge = edgeList->begin() ; edge != edgeList->end() ; ++edge) {
         Line* tmp = edge->second;
+        
+        ret.push_back(std::pair<SHAPES,int>(tmp->getType(), tmp->getId()));
+        
         removeShapeFromList(tmp);
         removedEdges[tmp] = tmp;
         delete tmp;
       }
     }
+    
+    ret.push_back(std::pair<SHAPES,int>((*it)->getType(), (*it)->getId()));
+    
     removeShapeFromList(*it);
     
     delete *it;
   }
   
   selected.clear();
+  
+  return ret;
 }
 
 std::vector<int> Scene::getWeights() const
@@ -356,6 +365,39 @@ std::vector<std::pair<int, int> > Scene::getCoords(SHAPES type) const
   }
   
   return ret;
+}
+
+std::vector<int> Scene::getSelectedIds(SHAPES type) const
+{
+  std::vector<int> ret;
+  std::vector<Shape*>::const_iterator it;
+
+  for(it = selected.begin() ; it != selected.end() ; ++it) {
+    if(type == ANY || (*it)->getType() == type)
+      ret.push_back((*it)->getId());
+  }
+  
+  return ret;
+}
+
+Shape* Scene::getLast() const
+{
+  if(shapes.size() == 0)
+    return NULL;
+  return *(shapes.end()-1);
+}
+
+Shape* Scene::findShape(int pubId, SHAPES type) const
+{
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = shapes.begin() ; it != shapes.end() ; ++it) {
+    if((*it)->getId() == pubId && ((*it)->getType() == type
+                                   || type == ANY))
+      return *it;
+  }
+  
+  return NULL;
 }
 
 unsigned Scene::pickScene(float x, float y)

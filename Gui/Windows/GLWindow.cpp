@@ -49,6 +49,13 @@ void GLWindow::lock(bool lock)
   locked = lock;
 }
 
+int GLWindow::runAlgorithm(ALGORITHMS alg)
+{
+  int ret = gluAlg.runAlgorithm(alg);
+  updateGL();
+  return ret;
+}
+
 void GLWindow::initalizeGL()
 {
   makeCurrent();
@@ -121,6 +128,7 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
 
 void GLWindow::deleteSelected()
 {
+  gluAlg.removeSelected();
   scene.deleteSelected();
   updateGL();
 }
@@ -201,12 +209,13 @@ void GLWindow::updateWeight()
   std::vector<int> weights = scene.getWeights();
   
   if(weights.size() == 1)
-    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight (-1 to disable):"), weights[0], -1, 10000, 1, &ok);
+    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight:"), weights[0], 0, 10000, 1, &ok);
   else
-    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight (-1 to disable):"), 0, -1, 10000, 1, &ok);
+    weight = QInputDialog::getInt(this, tr("Add/Edit Weight"), tr("Update Weight:"), 0, 0, 10000, 1, &ok);
   
-  if(ok && weight > -2) {
+  if(ok && weight > -1) {
     scene.updateWeight(weight);
+    gluAlg.updateEdgeWeight(weight);
     updateGL();
   }
 }

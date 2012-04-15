@@ -15,9 +15,10 @@
 namespace GRAPHIX
 {
 Line::Line(Circle* cl, Circle* cr)
-  : Shape(-1, -1), cl(cl), cr(cr), width(.1f), directed(false), direction(false), weight(-1)
+  : Shape(-1, -1), cl(cl), cr(cr), width(.1f), directed(false), direction(false), weight(1)
 {
   setHighlight(Color(1.0, 0.0, 0.0, 0.0));
+  setColor(Color(0.0, 0.0, 0.0, 0.0));
   updateCirclePositions();
 }
 
@@ -26,6 +27,7 @@ Line::Line(const Line& rhs)
   width(rhs.width), directed(rhs.directed), direction(rhs.direction), weight(rhs.weight)
 {
   setHighlight(rhs.getHighlight());
+  setColor(rhs.getColor());
   updateCirclePositions();
 }
 
@@ -82,9 +84,23 @@ void Line::updateCirclePositions()
   setY(midY);
 }
 
+Circle* Line::getLeft() const
+{
+  return cl;
+}
+
+Circle* Line::getRight() const
+{
+  return cr;
+}
+
 void Line::draw() const
 {
-  Color color(getHighlight());
+  Color highlight(getHighlight());
+  Color color(getColor());
+  
+  if(highlight.r != highlight.g != highlight.b != 0.f)
+    color = highlight;
   
   glLineWidth(width);
   glBegin(GL_LINES);

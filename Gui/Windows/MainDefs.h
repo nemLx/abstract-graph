@@ -14,6 +14,10 @@
 // NOTE: To use this file, make sure <QString> is
 // included _BEFORE_ this is included
 
+// General stuff
+#define MAINWINDOW_GENERAL_OK tr("Ok")
+#define MAINWINDOW_GENERAL_CANCEL tr("Cancel")
+
 // Menus
 #define MAINWINDOW_FILE_MENU tr("&File")
 #define MAINWINDOW_EDIT_MENU tr("&Edit")
@@ -56,8 +60,11 @@
 #define MAINWINDOW_FILE_EXPORT_ID 0x1001
 #define MAINWINDOW_FILE_CLOSETAB_ID 0x1002
 
-// Modes menu gets 0x2000 block
-#define MAINWINDOW_MODES_NODE_ID 0x2001
-#define MAINWINDOW_MODES_EDGE_ID 0x2002
+// Dialog texts
+#define MAINWINDOW_ALGDLG_CONFIRM tr("Are you sure you wish to run this algorithm? After you run an algorithm, the graph will become VIEW ONLY")
+
+// Error dialog texts
+#define MAINWINDOW_ERRDLG_SHORTEST_1 tr("The operation was cancelled. No path exists between the selected nodes. Please try again.")
+#define MAINWINDOW_ERRDLG_SHORTEST_2 tr("The operation was cancelled. Please ensure that you have exactly two nodes selected (i.e. a start and an end) before running this algorithm.")
 
 #endif /* WINDOWS_MAINDEFS_H__ */

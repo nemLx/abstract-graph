@@ -15,9 +15,16 @@
 #include <QMainWindow>
 #include <QString>
 
+// GraphiX Library
 #include "graphix.h"
 
+// Glue
+#include "Glu/Algorithms.h"
+
+class GLWindow;
+
 class QAction;
+class QActionGroup;
 class QMenu;
 class QResizeEvent;
 class QTabWidget;
@@ -90,6 +97,11 @@ protected slots:
    */
   void setViewMode();
   
+  /**
+   * Run Shortest Path Algorithm
+   */
+  void runShortestPath();
+  
 private:
   /**
    * Initialize action items (private helper)
@@ -151,12 +163,34 @@ private:
   void enableAction(int key, bool enable);
   
   /**
-   * Actually update the GL mode for all
-   * tabs
+   * Update the GL mode for all tabs
    *
    * @param mode   The graph mode
    */
   void updateMode(GRAPHIX::MODES mode);
+  
+  /**
+   * Run a specified algorithm
+   *
+   * @param alg   The algorithm to run
+   */
+  void runAlgorithm(ALGORITHMS alg);
+  
+  /**
+   * Notify the user an error has occurred
+   *
+   * @param alg     The algorithm on which the error occurred
+   * @param result  The result code from the error
+   */
+  void notifyError(ALGORITHMS alg, int result);
+  
+  /**
+   * Update the conditional window options for a particular
+   * tab
+   *
+   * @param tab   The current tab
+   */
+  void updateMenus(GLWindow* tab);
   
   int currentTabIdx;
   
@@ -168,6 +202,9 @@ private:
   QMenu* algorithmMenu;
   
   QHash<int, QAction*> enableDisableMap;
+  
+  QActionGroup* modesGrp;
+  QActionGroup* algorithmsGrp;
 };
 
 #endif /* WINDOWS_MAINWINDOW_H__ */

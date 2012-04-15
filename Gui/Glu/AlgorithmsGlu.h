@@ -12,6 +12,8 @@
 #ifndef GLU_ALGORITHMSGLU_H__
 #define GLU_ALGORITHMSGLU_H__
 
+#include "Algorithms.h"
+
 // GraphiX Library
 #include "graphix.h"
 
@@ -24,14 +26,6 @@ class GLWindow;
 class AlgorithmsGlu
 {
 public:
-  /**
-   * Valid algorithms
-   */
-  enum ALGORITHM
-  {
-    MST
-  };
-  
   /**
    * Constructor
    *
@@ -72,13 +66,35 @@ public:
   virtual int addEdge(int n1, int n2, int weight = 1);
   
   /**
+   * Update edge weights for selected edges
+   *
+   * @param weight  New weight
+   */
+  virtual void updateEdgeWeight(int weight);
+  
+  /**
+   * Remove selected components
+   */
+  virtual void removeSelected();
+  
+  /**
    * Run the specified algorithm
    *
    * @param alg   The algorithm to be run
+   *
+   * @return  Result of the algorithm. < 0 on error
    */
-  virtual void runAlgorithm(ALGORITHM alg);
+  virtual int runAlgorithm(ALGORITHMS alg);
+
+protected:
+  /**
+   * Run the shortest path algorithm
+   *
+   * @return  The total weight of the shortest path. -1 on error
+   */
+  virtual int algorithmShortestPath();
   
-private:
+private:  
   GRAPHIX::Scene& scene;
   GLWindow* parent;
   AbstractGraph* graph;

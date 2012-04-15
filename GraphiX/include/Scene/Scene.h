@@ -210,8 +210,11 @@ public:
   
   /**
    * Delete selected items
+   *
+   * @return  A vector containing pairs of shape type and id for all
+   *    removed items
    */
-  virtual void deleteSelected();
+  virtual std::vector<std::pair<SHAPES, int> > deleteSelected();
   
   /**
    * Get a list of edge weights
@@ -244,6 +247,33 @@ public:
    * @return  A vector of pairs of coordinates
    */
   virtual std::vector<std::pair<int, int> > getCoords(SHAPES type = ANY) const;
+  
+  /**
+   * Get id's for selected items
+   *
+   * @param type    Type of shape to find (default = ANY)
+   *
+   * @return A vector of public id's
+   */
+  virtual std::vector<int> getSelectedIds(SHAPES type = ANY) const;
+  
+  /**
+   * Get the last shape added to the scene
+   *
+   * @return  The last shape (not deleted) added to the scene.
+   *        If no shapes currently on scene, return NULL
+   */
+  virtual Shape* getLast() const;
+  
+  /**
+   * Find a shape with the given public id
+   *
+   * @param pubId   The public id to find
+   * @param type    Type of shape (default = ANY)
+   * @return  A pointer to the shape with the id. NULL if no
+   *      such shape exists
+   */
+  virtual Shape* findShape(int pubId, SHAPES type = ANY) const;
 
 protected:
   /**

@@ -118,6 +118,8 @@ void MainWindow::buildEditMenu()
 
 void MainWindow::buildModesMenu()
 {
+  modesGrp = new QActionGroup(this);
+  
   QAction* modeCNode = new QAction(MAINWINDOW_MODES_NODECREATION, this);
   modeCNode->setShortcut(QKeySequence(tr("Ctrl+1")));
   connect(modeCNode, SIGNAL(triggered()), this, SLOT(setNodeCreateMode()));
@@ -134,39 +136,32 @@ void MainWindow::buildModesMenu()
   modesMenu->addAction(modeCEdge);
   modesMenu->addAction(modeView);
   
-  // Enable/disable conditional items
-  addActionToMap(MAINWINDOW_MODES_NODE_ID, modeCNode);
-  addActionToMap(MAINWINDOW_MODES_EDGE_ID, modeCEdge);
+  modesGrp->addAction(modeCNode);
+  modesGrp->addAction(modeCEdge);
 }
 
 void MainWindow::buildAlgMenu()
 {
+  // Init action group
+  algorithmsGrp = new QActionGroup(this);
+  
   // Algorithm Actions
   QAction* algShort = new QAction(MAINWINDOW_ALG_SHORTEST, this);
-  
   QAction* algMST = new QAction(MAINWINDOW_ALG_MST, this);
-  
   QAction* algMaxM = new QAction(MAINWINDOW_ALG_MAXMATCH, this);
-  
   QAction* algMinVtx = new QAction(MAINWINDOW_ALG_MINVTXCOV, this);
-  
   QAction* algMaxNet = new QAction(MAINWINDOW_ALG_MAXNET, this);
-  
   QAction* algMinXY = new QAction(MAINWINDOW_ALG_MINXY, this);
-  
   QAction* algChromNo = new QAction(MAINWINDOW_ALG_CHROMNO, this);
-  
   QAction* algPartite = new QAction(MAINWINDOW_ALG_PARTITE, this);
-  
   QAction* algCycles = new QAction(MAINWINDOW_ALG_CYCLES, this);
-  
   QAction* algEuler = new QAction(MAINWINDOW_ALG_EULER, this);
-  
   QAction* algCenter = new QAction(MAINWINDOW_ALG_CENTER, this);
-  
   QAction* algPrufer = new QAction(MAINWINDOW_ALG_PRUFER, this);
-  
   QAction* algdeB = new QAction(MAINWINDOW_ALG_DEBRUIJN, this);
+  
+  // Actions
+  connect(algShort, SIGNAL(triggered()), this, SLOT(runShortestPath()));
   
   // Add to menu
   algorithmMenu->addAction(algShort);
@@ -184,6 +179,21 @@ void MainWindow::buildAlgMenu()
   algorithmMenu->addSeparator();
   algorithmMenu->addAction(algPrufer);
   algorithmMenu->addAction(algdeB);
+  
+  // Add to action group
+  algorithmsGrp->addAction(algShort);
+  algorithmsGrp->addAction(algMST);
+  algorithmsGrp->addAction(algMaxM);
+  algorithmsGrp->addAction(algMinVtx);
+  algorithmsGrp->addAction(algMaxNet);
+  algorithmsGrp->addAction(algMinXY);
+  algorithmsGrp->addAction(algChromNo);
+  algorithmsGrp->addAction(algPartite);
+  algorithmsGrp->addAction(algCycles);
+  algorithmsGrp->addAction(algEuler);
+  algorithmsGrp->addAction(algCenter);
+  algorithmsGrp->addAction(algPrufer);
+  algorithmsGrp->addAction(algdeB);
 }
 
 /* Internal private helpers (i.e. not directly gui related) */
@@ -249,6 +259,7 @@ void MainWindow::updateCurrentTab(int idx)
     if(tab != NULL) {
       tab->makeCurrent();
       tab->makeOverlayCurrent();
+      updateMenus(tab);
     }
   }
 }
@@ -266,5 +277,68 @@ void MainWindow::setEdgeCreateMode()
 void MainWindow::setViewMode()
 {
   updateMode(GRAPHIX::VIEWONLY);
+}
+
+void MainWindow::runShortestPath()
+{
+  runAlgorithm(SHORTESTPATH);
+}
+
+void MainWindow::runAlgorithm(ALGORITHMS alg)
+{
+  QMessageBox msg(QMessageBox::Warning, tr("Confirm"), MAINWINDOW_ALGDLG_CONFIRM, QMessageBox::Ok|QMessageBox::Cancel, this);
+  
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  
+  if(tab->isLocked())
+    return;
+  
+  int confirm = msg.exec();
+  
+  if(confirm != QMessageBox::Ok)
+    return;
+  
+  int result = tab->runAlgorithm(alg);
+  
+  if(result < 0) { // Error
+    notifyError(alg, result);
+  }
+  
+  updateMenus(tab);
+}
+
+void MainWindow::notifyError(ALGORITHMS alg, int result)
+{
+  QMessageBox err(QMessageBox::Critical, tr("Error"), tr(""), QMessageBox::Ok, this);
+  
+  QString msg;
+  
+  switch(alg)
+  {
+    case SHORTESTPATH:
+      if(result == -1)
+        msg = MAINWINDOW_ERRDLG_SHORTEST_1;
+      else
+        msg = MAINWINDOW_ERRDLG_SHORTEST_2;
+      break;
+    case MST:
+      break;
+    default:
+      break;
+  }
+  
+  err.setText(msg);
+  err.exec();
+}
+
+void MainWindow::updateMenus(GLWindow* tab)
+{
+  if(tab == NULL)
+    return;
+  
+  bool enabled = !tab->isLocked();
+  
+  modesGrp->setEnabled(enabled);
+  algorithmsGrp->setEnabled(enabled);
 }
 
