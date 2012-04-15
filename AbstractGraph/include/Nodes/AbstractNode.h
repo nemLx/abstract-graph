@@ -9,6 +9,7 @@
 #ifndef _ABSTRACTNODE_H_
 #define _ABSTRACTNODE_H_
 
+#include <stdio.h>
 #include <vector>
 #include <map>
 
