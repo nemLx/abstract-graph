@@ -58,6 +58,15 @@ public:
    * @param lock   True to lock graph, false otherwise
    */
   virtual void lock(bool lock);
+  
+  /**
+   * Run an algorithm on the graph
+   *
+   * @param alg   The algorithm to be run
+   *
+   * @return  Result of the algorithm. < 0 on error
+   */
+  virtual int runAlgorithm(ALGORITHMS alg);
 
 protected:
   /**

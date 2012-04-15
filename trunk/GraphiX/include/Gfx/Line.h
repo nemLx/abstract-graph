@@ -82,6 +82,14 @@ public:
   virtual void updateCirclePositions();
   
   /**
+   * Get left and right end points respectively
+   *
+   * @return  A pointer to left or right end point 
+   */
+  virtual Circle* getLeft() const;
+  virtual Circle* getRight() const;
+  
+  /**
    * Draw a circle
    */
   virtual void draw() const;
