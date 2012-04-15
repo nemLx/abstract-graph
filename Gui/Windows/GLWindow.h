@@ -46,6 +46,17 @@ public:
   virtual void updateMode(GRAPHIX::MODES mode);
   
   /**
+   * Render text onto GL window
+   *
+   * @param x     X coordinate
+   * @param y     Y coordinate
+   * @param str   String to render
+   * @param font  Font to use (Default = QFont())
+   * @param base  Default = 2000
+   */
+  virtual void renderText(int x, int y, const QString& str, const QFont& font = QFont(), int base = 2000);
+  
+  /**
    * Check if graph locked
    *
    * @return  True if locked, false otherwise
@@ -114,13 +125,8 @@ protected:
    * @param evt   The caught event
    */
   virtual void contextMenuEvent(QContextMenuEvent* evt);
-
-protected slots:
-  /**
-   * Delete the selected items
-   */
-  void deleteSelected();
   
+public slots:
   /**
    * Update label for selected items
    */
@@ -136,6 +142,12 @@ protected slots:
    * items
    */
   void updateColor();
+
+protected slots:
+  /**
+   * Delete the selected items
+   */
+  void deleteSelected();
   
   /**
    * Update the highlight color
@@ -180,6 +192,7 @@ private:
   GRAPHIX::Scene scene;
   NodeOptionsMenu* nodeRightClick;
   bool locked;
+  bool enableWeights;
   AlgorithmsGlu gluAlg;
 };
 

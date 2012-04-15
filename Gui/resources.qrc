@@ -1,0 +1,13 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+  <file alias="appicon.png">../sprites/pngs/appicon.png</file>
+  <file alias="edgeCreation.png">../sprites/pngs/edgeCreation.png</file>
+  <file alias="nodeCreation.png">../sprites/pngs/nodeCreation.png</file>
+  <file alias="edgeColor.png">../sprites/pngs/edgeColor.png</file>
+  <file alias="nodeColor.png">../sprites/pngs/nodeColor.png</file>
+  <file alias="edgeLabel.png">../sprites/pngs/edgeLabel.png</file>
+  <file alias="nodeLabel.png">../sprites/pngs/nodeLabel.png</file>
+  <file alias="edgeWeight.png">../sprites/pngs/edgeWeight.png</file>
+</qresource>
+</RCC>
+

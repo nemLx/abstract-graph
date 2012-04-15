@@ -119,7 +119,7 @@ int AlgorithmsGlu::runAlgorithm(ALGORITHMS glu)
 int AlgorithmsGlu::algorithmShortestPath()
 {
   std::vector<int> path;
-  Color color(0.0, 255.0, 255.0, 0.0);
+  Color color(255.0, 0.0, 0.0, 0.0);
   
   std::vector<int> selected = scene.getSelectedIds(GRAPHIX::CIRCLE);
   

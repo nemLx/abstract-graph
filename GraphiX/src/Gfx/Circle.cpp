@@ -87,10 +87,14 @@ void Circle::draw() const
   glEnd();
   
   // Outline our figure
-  glLineWidth(2.f);
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+  glLineWidth(1.3f);
   glBegin(GL_LINE_LOOP);
     glColor3f(border.r/255.0, border.g/255.0, border.b/255.0);
-    for(int i = 0 ; i <= 360 ; ++i)
+    for(int i = 0 ; i < 360 ; ++i)
       glVertex2f(x + sin(i*DEG2RAD)*radius, y + cos(i*DEG2RAD)*radius);
   glEnd();
 }

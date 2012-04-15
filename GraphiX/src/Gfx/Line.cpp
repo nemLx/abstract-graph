@@ -15,7 +15,7 @@
 namespace GRAPHIX
 {
 Line::Line(Circle* cl, Circle* cr)
-  : Shape(-1, -1), cl(cl), cr(cr), width(.1f), directed(false), direction(false), weight(1)
+  : Shape(-1, -1), cl(cl), cr(cr), width(1.f), directed(false), direction(false), weight(1)
 {
   setHighlight(Color(1.0, 0.0, 0.0, 0.0));
   setColor(Color(0.0, 0.0, 0.0, 0.0));
@@ -102,6 +102,9 @@ void Line::draw() const
   if(highlight.r != highlight.g != highlight.b != 0.f)
     color = highlight;
   
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
   glLineWidth(width);
   glBegin(GL_LINES);
     glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
