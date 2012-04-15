@@ -23,10 +23,10 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 #Boost
-set(Boost_INCLUDE_DIR /Users/nemo/boost_1_49_0)
-set(Boost_LIBRARY_DIR /Users/nemo/boost_1_49_0/libs)
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIR})
+#set(Boost_INCLUDE_DIR /Users/nemo/boost_1_49_0)
+#set(Boost_LIBRARY_DIR /Users/nemo/boost_1_49_0/libs)
+#include_directories(${Boost_INCLUDE_DIR})
+#link_directories(${Boost_LIBRARY_DIR})
 
 # Source Files
 set (GRAPH_SRC 
