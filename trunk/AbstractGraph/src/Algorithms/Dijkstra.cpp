@@ -14,8 +14,6 @@ using namespace std;
 
 Dijkstra::Dijkstra(int s, int t, AbstractGraph * g, vector<int> * path){
 	
-	G = new priority_queue<Vertex*, vector<Vertex*>, comp>();
-	
 	V = new map<int, Vertex*>;
 	
 	Q = new set<Vertex*, comp>;
@@ -48,7 +46,7 @@ Dijkstra::~Dijkstra(){
 	}
 	
 	delete V;
-	delete G;
+	delete Q;
 }
 
 
@@ -76,8 +74,6 @@ void Dijkstra::initVertexStructure(){
 		 */
 		initAdjacent(vertex, node);
 		
-		//G->push(vertex);
-		//H->push(vertex);
 		Q->insert(vertex);
 		
 		itVertex++;
@@ -96,11 +92,8 @@ void Dijkstra::initVertices(){
 	map<int, AbstractNode*>::iterator itNode = N->begin();
 	
 	while ( itNode != N->end()){
-		(*V)[itNode->first] = initVertex(itNode->second);
 		
-		//if (!itNode->second->getAdjacent()->empty()){
-			printf("%i\n", itNode->first);
-		//}
+		(*V)[itNode->first] = initVertex(itNode->second);
 		
 		itNode++;
 	}
@@ -178,24 +171,19 @@ int Dijkstra::solve(){
     refreshMin((*V)[s]);
     
 	//	keep updating distances while there is node left
-   // while (G->size() > 0){
-		while (!Q->empty()){
-			
+	while (!Q->empty()){
 		
-		//Vertex * u = G->top();
 		Vertex * u = *(Q->begin());
 			
 		//	the node with smallest cost is dist, meaning
 		//	it is disconnected from the src, break
         if (u->dist == INFINITY){
-			printf("break: %i\n", u->id);
             break;
         }
         
 		//	mark visited, and remove from queue
         u->visited = true;
-        //G->pop();
-		Q->erase(Q->begin());
+		Q->erase(u);
 		
         int uwCost = 0;
         Vertex * w = NULL;
@@ -212,24 +200,11 @@ int Dijkstra::solve(){
 			
 			if ( !w->visited ){
 				handleUnvisited(uwCost, w, u);
+				
 				// update the priority queue
 				refreshMin(w);
-				
-//				if (w->id == 5){
-//				
-//					while (!G->empty()){
-//						Vertex * q = G->top();
-//						G->pop();
-//						
-//						printf("q: %i\n", q->dist);
-//					}
-//					
-//				}
-				
-				
-				
             }
-			//refreshMin();
+			
 			it++;
 		}
     }
@@ -242,29 +217,15 @@ int Dijkstra::solve(){
 
 void Dijkstra::handleUnvisited(int uwCost, Vertex * w, Vertex * u){
 	
-	printf("w: %i  u: %i  uwC: %i\n", w->id, u->id, uwCost);
-	
 	if ( (u->dist + uwCost) < w->dist ){
 		w->dist = u->dist + uwCost;
 		w->next = u;
-		printf("w newDist: %i\n", w->dist);
 	}
 }
 
 
 
 void Dijkstra::refreshMin(Vertex* w){
-	
-//	Vertex * v = G->top();
-//	
-//	//printf("update v: %i, %i\n", v->id, v->dist);
-//	
-//    G->pop();
-//    G->push(v);
-//	
-//	
-//	v = G->top();
-//	printf("update v: %i, %i\n", v->id, v->dist);
 	
 	Q->erase(w);
 	Q->insert(w);

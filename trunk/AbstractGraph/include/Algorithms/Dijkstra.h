@@ -125,7 +125,6 @@ private:
 	 * vertices ordered in precedence of distance
 	 * to the source
 	 */
-	priority_queue<Vertex*, vector<Vertex*>, comp> * G;
 	set<Vertex*, comp> * Q;
 	
 	

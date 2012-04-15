@@ -73,6 +73,10 @@ int Graph::addNode(){
 
 int Graph::addEdge(int s, int t){
 	
+	if (!validNode(s) || !validNode(t)){
+		return -1;
+	}
+	
 	Node * from = (Node *)(*N)[s];
 	Node * to = (Node *)(*N)[t];
 	
@@ -89,6 +93,10 @@ int Graph::addEdge(int s, int t){
 
 
 int Graph::addEdge(int s, int t, int v){
+	
+	if (!validNode(s) || !validNode(t)){
+		return -1;
+	}
 	
 	Node * from = (Node *)(*N)[s];
 	Node * to = (Node *)(*N)[t];
@@ -108,7 +116,7 @@ int Graph::addEdge(int s, int t, int v){
 int Graph::removeNode(int id){
 	
 	if (!validNode(id)){
-		return 0;
+		return -1;
 	}else{
 		
 		Node * node = (Node*)(*N)[id];
