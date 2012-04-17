@@ -22,8 +22,7 @@
 #include "Menus/MenuDefs.h"
 
 GLWindow::GLWindow(QWidget* parent)
-  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false),
-  gluAlg(scene, this)
+  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), gluAlg(scene, this)
 {
 }
 
@@ -113,11 +112,23 @@ void GLWindow::mousePressEvent(QMouseEvent* evt)
   }
 }
 
+void GLWindow::mouseReleaseEvent(QMouseEvent* evt)
+{
+  Qt::MouseButton button = evt->button();
+  
+  if(button == Qt::LeftButton && isMoving) {
+    isMoving = false;
+    deselectAll();
+  }
+}
+
 void GLWindow::mouseMoveEvent(QMouseEvent* evt)
 {
   // Move exactly one node at a time for now
   if(scene.countSelected(GRAPHIX::CIRCLE) != 1 || scene.getMode() == GRAPHIX::VIEWONLY)
     return;
+  
+  isMoving = true;
   
   // Make sure are coordinates are from the proper perspective
   QPoint pos(evt->pos());

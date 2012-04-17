@@ -125,6 +125,13 @@ protected:
   virtual void mousePressEvent(QMouseEvent* evt);
   
   /**
+   * Handle mouse release events
+   *
+   * @param evt   The event caught
+   */
+  virtual void mouseReleaseEvent(QMouseEvent* evt);
+  
+  /**
    * Handle mouse move events
    *
    * @param evt   The event caught
@@ -212,6 +219,7 @@ private:
   NodeOptionsMenu* nodeRightClick;
   bool locked;
   bool enableWeights;
+  bool isMoving;
   AlgorithmsGlu gluAlg;
 };
 
