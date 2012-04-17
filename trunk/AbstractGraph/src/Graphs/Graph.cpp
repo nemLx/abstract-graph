@@ -12,6 +12,7 @@
 #include "../../include/Algorithms/FordFulkerson.h"
 #include "../../include/Algorithms/HopcroftKarp.h"
 #include "../../include/Algorithms/Prim.h"
+#include "../../include/Algorithms/OddCycle.h"
 
 using namespace std;
 
@@ -170,6 +171,15 @@ int Graph::maxMatching(vector<int> * matching){
 	}else{
 		return -1;
 	}
+}
+
+
+
+int Graph::getOddCycle(vector<int> *cycle){
+	
+	OddCycle oddCycleSolver(this, cycle);
+	
+	return oddCycleSolver.solve();
 }
 
 
