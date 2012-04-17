@@ -15,6 +15,7 @@
 #include "MainDefs.h"
 
 #include "IO/XMLReader.h"
+#include "IO/GraphMLWriter.h"
 
 /* Main UI Setup */
 MainWindow::MainWindow(const QString& title)
@@ -140,6 +141,7 @@ void MainWindow::buildFileMenu()
   connect(actCloseT, SIGNAL(triggered()), this, SLOT(closeGLWindow()));
   connect(actExit, SIGNAL(triggered()), qApp, SLOT(quit()));
   connect(actImport, SIGNAL(triggered()), this, SLOT(importGraph()));
+  connect(actExport, SIGNAL(triggered()), this, SLOT(exportGraph()));
   
   // Add to menu
   fileMenu->addAction(actNew);
@@ -325,7 +327,7 @@ void MainWindow::updateCurrentTab(int idx)
 
 void MainWindow::importGraph()
 {
-  QString name = QFileDialog::getOpenFileName();
+  QString name = QFileDialog::getOpenFileName(this);
 
   if(name.isEmpty())
     return;
@@ -338,6 +340,25 @@ void MainWindow::importGraph()
   if(!reader.parseInput()) {
     closeGLWindow();
   }
+}
+
+void MainWindow::exportGraph()
+{
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+
+  if(tab == NULL)
+    return;
+  
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save graph as..."), "", tr("GraphML (*.graphml);All Files (*)"));
+  
+  if(fileName.isEmpty())
+    return;
+  
+  GraphMLWriter writer(fileName, tab->getScene());
+  bool write = writer.write();
+  
+  if(!write)
+    printf("Test\n");
 }
 
 void MainWindow::setNodeCreateMode()

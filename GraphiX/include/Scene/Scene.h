@@ -289,6 +289,23 @@ public:
    *      such shape exists
    */
   virtual Shape* findShape(int pubId, SHAPES type = ANY) const;
+  
+  /**
+   * Get a vector of shapes
+   *
+   * @param type    Shape type to find (default = ANY)
+   * @return  A vector of shapes according to type
+   */
+  virtual std::vector<Shape*> getShapes(SHAPES type = ANY) const;
+  
+  /**
+   * Return pixels as a byte array
+   * NOTE: This method allocates new memory which
+   *      the _CLIENT_ must free
+   *
+   * @return  A byte array of pixels
+   */
+  virtual char* getByteArray() const;
 
 protected:
   /**
