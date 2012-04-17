@@ -447,6 +447,30 @@ Shape* Scene::findShape(int pubId, SHAPES type) const
   return NULL;
 }
 
+std::vector<Shape*> Scene::getShapes(GRAPHIX::SHAPES type) const
+{
+  if(type == ANY)
+    return shapes;
+  
+  std::vector<Shape*> ret;
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = shapes.begin() ; it != shapes.end() ; ++it)
+    if((*it)->getType() == type)
+      ret.push_back(*it);
+  
+  return ret;
+}
+
+char* Scene::getByteArray() const
+{
+  char* arr = new char[3 * viewport[2] * viewport[3]];
+  
+  glReadPixels(0, 0, viewport[2], viewport[3], GL_RGB, GL_UNSIGNED_BYTE, arr);
+  
+  return arr;
+}
+
 unsigned Scene::pickScene(float x, float y)
 {
   updateViewport();

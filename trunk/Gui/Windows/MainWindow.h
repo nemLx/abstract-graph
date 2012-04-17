@@ -89,6 +89,11 @@ protected slots:
   void importGraph();
   
   /**
+   * Export a graph
+   */
+  void exportGraph();
+  
+  /**
    * Set GL mode to node creation
    */
   void setNodeCreateMode();
