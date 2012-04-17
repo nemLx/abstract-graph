@@ -77,7 +77,6 @@ unsigned* Scene::updateScene()
 void Scene::addShape(SHAPES shape, int xW, int yW)
 {
   double x = 0, y = 0;
-  float radius = .5f;
   Shape* newShape = NULL;
   
   updateViewport();
@@ -89,7 +88,7 @@ void Scene::addShape(SHAPES shape, int xW, int yW)
   switch(shape)
   {
     case CIRCLE:
-      newShape = new Circle(x, y, radius);
+      newShape = new Circle(x, y);
       break;
     default:
       break;
@@ -97,6 +96,45 @@ void Scene::addShape(SHAPES shape, int xW, int yW)
   
   if(newShape != NULL)
     shapes.push_back(newShape);
+}
+
+void Scene::addNode()
+{
+  Circle* circle = NULL;
+  Circle* last = static_cast<Circle*>(getLast(CIRCLE));
+  float rad = .08f;
+  float rightBnd = .85f;
+  float scale = 2.5f;
+  
+  if(last == NULL) { // Base case
+    circle = new Circle(-.75, .75, rad);
+  } else { // Position based on the last one
+    float x = last->getX() + (scale*last->getRadius());
+    float y = last->getY();
+    
+    if(x + rad >= rightBnd) {
+      x = -.75f;
+      y = last->getY() - (scale*last->getRadius());
+    }
+    
+    circle = new Circle(x, y, rad);
+  }
+  shapes.push_back(circle);
+}
+
+void Scene::addEdge(int from, int to)
+{
+  Circle* l = static_cast<Circle*>(findShape(from, CIRCLE));
+  Circle* r = static_cast<Circle*>(findShape(to, CIRCLE));
+  
+  if(l == NULL || r == NULL)
+    return;
+  
+  Line* edge = new Line(l, r);
+  l->addEdge(edge);
+  r->addEdge(edge);
+  
+  shapes.push_back(edge);
 }
 
 ACTION Scene::registerClick(int xW, int yW)
@@ -376,11 +414,24 @@ std::vector<int> Scene::getSelectedIds(SHAPES type) const
   return ret;
 }
 
-Shape* Scene::getLast() const
+Shape* Scene::getLast(SHAPES type) const
 {
   if(shapes.size() == 0)
     return NULL;
-  return *(shapes.end()-1);
+  
+  if(type == ANY)
+    return *(shapes.end()-1);
+  
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = shapes.end() - 1 ; ; --it) {
+    if((*it)->getType() == type)
+      return *it;
+    if(it == shapes.begin())
+      break;
+  }
+  
+  return NULL;
 }
 
 Shape* Scene::findShape(int pubId, SHAPES type) const

@@ -29,9 +29,9 @@ public:
    *
    * @param x     X coordinate
    * @param y     Y coordinate
-   * @param rad   Circle radius
+   * @param rad   Circle radius (default = .08f)
    */
-  Circle(float x, float y, float rad);
+  Circle(float x, float y, float rad = .08f);
   
   /**
    * Copy Constructor
