@@ -223,17 +223,65 @@ void bipartiteMatchingTest(){
 
 
 
+void oddCycleTest(){
+
+	Graph g(10);
+
+	
+	g.addEdge(0, 1);
+	g.addEdge(1, 2);
+	g.addEdge(2, 3);
+	g.addEdge(3, 4);
+	g.addEdge(4, 0);
+	g.addEdge(0, 5);
+	
+	printf("\n");
+	g.printGraph();
+	
+	vector<int> partX;
+	vector<int> partY;
+	
+	int isBipartite = g.bipartite(&partX, &partY);
+
+	if (isBipartite){
+		
+		printf("\npartite set X: ");
+		printVector(&partX);
+		
+		printf("\n");
+		
+		printf("partite set Y: ");
+		printVector(&partY);
+		
+		printf("\n");
+		
+		return;
+	}
+	
+	vector<int> cycle;
+	
+	int numCycles = g.getOddCycle(&cycle);
+	
+	printf("cycle length: %i \n", numCycles);
+	
+	printVector(&cycle);
+}
+
+
+
 int main(){
 	
 //	shortestPathTest();
 	
-	mstTest();
+//	mstTest();
 	
 //	bipartiteTest();
 	
 //	maxFlowTest();
 	
 //	bipartiteMatchingTest();
+	
+	oddCycleTest();
 	
 	return 0;
 }

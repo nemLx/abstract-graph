@@ -95,6 +95,9 @@ public:
 	 * return:	the size of the maximum matching
 	 */
 	int maxMatching(vector<int> * matching);
+	
+	
+	int getOddCycle(vector<int> * cycle);
 };
 
 #endif
