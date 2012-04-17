@@ -84,6 +84,11 @@ protected slots:
   void updateCurrentTab(int idx);
   
   /**
+   * Import graph
+   */
+  void importGraph();
+  
+  /**
    * Set GL mode to node creation
    */
   void setNodeCreateMode();

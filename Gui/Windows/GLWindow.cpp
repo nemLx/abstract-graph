@@ -56,11 +56,26 @@ void GLWindow::lock(bool lock)
   locked = lock;
 }
 
+void GLWindow::exportGraph()
+{
+  // TODO: Implement
+}
+
 int GLWindow::runAlgorithm(ALGORITHMS alg)
 {
   int ret = gluAlg.runAlgorithm(alg);
   updateGL();
   return ret;
+}
+
+GRAPHIX::Scene& GLWindow::getScene()
+{
+  return scene;
+}
+
+AlgorithmsGlu& GLWindow::getGlue()
+{
+  return gluAlg;
 }
 
 void GLWindow::initalizeGL()

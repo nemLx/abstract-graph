@@ -73,6 +73,19 @@ public:
   virtual void addShape(SHAPES shape, int x, int y);
   
   /**
+   * Add a node systematically to the canvas
+   */
+  virtual void addNode();
+  
+  /**
+   * Add an edge to the canvas
+   *
+   * @param from    Public id of first end point
+   * @param to      Public id of second end point
+   */
+  virtual void addEdge(int from, int to);
+  
+  /**
    * Register a click with the scene
    *  The current mode should handle accordingly
    *
@@ -260,10 +273,12 @@ public:
   /**
    * Get the last shape added to the scene
    *
-   * @return  The last shape (not deleted) added to the scene.
-   *        If no shapes currently on scene, return NULL
+   * @param type    Find the last of a particular type (default = ANY)
+   * @return  The last shape (not deleted) added to the scene
+   *        (of given type if specified). If no shapes currently
+   *        on scene, return NULL.
    */
-  virtual Shape* getLast() const;
+  virtual Shape* getLast(SHAPES type = ANY) const;
   
   /**
    * Find a shape with the given public id

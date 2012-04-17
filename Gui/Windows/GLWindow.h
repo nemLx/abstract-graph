@@ -71,6 +71,11 @@ public:
   virtual void lock(bool lock);
   
   /**
+   * Export graph
+   */
+  virtual void exportGraph();
+  
+  /**
    * Run an algorithm on the graph
    *
    * @param alg   The algorithm to be run
@@ -78,6 +83,20 @@ public:
    * @return  Result of the algorithm. < 0 on error
    */
   virtual int runAlgorithm(ALGORITHMS alg);
+  
+  /**
+   * Get the scene object
+   *
+   * @return  A reference to the scene
+   */
+  virtual GRAPHIX::Scene& getScene();
+  
+  /**
+   * Get the glue object
+   *
+   * @return  A reference to glue
+   */
+  virtual AlgorithmsGlu& getGlue();
 
 protected:
   /**

@@ -14,6 +14,8 @@
 #include "MainWindow.h"
 #include "MainDefs.h"
 
+#include "IO/XMLReader.h"
+
 /* Main UI Setup */
 MainWindow::MainWindow(const QString& title)
   : currentTabIdx(-1)
@@ -126,7 +128,6 @@ void MainWindow::buildFileMenu()
   
   QAction* actImport = new QAction(MAINWINDOW_FILE_IMPORT, this);
   actImport->setShortcut(QKeySequence::Open);
-  actImport->setEnabled(false); // Currently not implemented
   
   QAction* actExport = new QAction(MAINWINDOW_FILE_EXPORT, this);
   actExport->setShortcut(QKeySequence::Save);
@@ -138,6 +139,7 @@ void MainWindow::buildFileMenu()
   connect(actNew, SIGNAL(triggered()), this, SLOT(createGLWindow()));
   connect(actCloseT, SIGNAL(triggered()), this, SLOT(closeGLWindow()));
   connect(actExit, SIGNAL(triggered()), qApp, SLOT(quit()));
+  connect(actImport, SIGNAL(triggered()), this, SLOT(importGraph()));
   
   // Add to menu
   fileMenu->addAction(actNew);
@@ -281,7 +283,9 @@ void MainWindow::createGLWindow()
   GLWindow* glWindow = new GLWindow(this);
   int idx = glTabs->addTab(glWindow, "Graph");
   glTabs->setCurrentIndex(idx);
+  
   enableAction(MAINWINDOW_FILE_CLOSETAB_ID, true);
+  enableAction(MAINWINDOW_FILE_EXPORT_ID, true);
   
   // Set everyone back to node creation mode
   updateMode(GRAPHIX::NODECREATION);
@@ -307,6 +311,7 @@ void MainWindow::updateCurrentTab(int idx)
   currentTabIdx = idx;
   if(idx == -1) {
     enableAction(MAINWINDOW_FILE_CLOSETAB_ID, false);
+    enableAction(MAINWINDOW_FILE_EXPORT_ID, false);
     toolBar->setEnabled(false);
   } else {
     GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(idx));
@@ -315,6 +320,23 @@ void MainWindow::updateCurrentTab(int idx)
       tab->makeOverlayCurrent();
       updateMenus(tab);
     }
+  }
+}
+
+void MainWindow::importGraph()
+{
+  QString name = QFileDialog::getOpenFileName();
+
+  if(name.isEmpty())
+    return;
+  
+  createGLWindow(); // Pre-emptive
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  
+  XMLReader reader(name, tab->getScene(), tab->getGlue());
+  
+  if(!reader.parseInput()) {
+    closeGLWindow();
   }
 }
 
