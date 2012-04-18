@@ -238,33 +238,15 @@ void oddCycleTest(){
 	printf("\n");
 	g.printGraph();
 	
-	vector<int> partX;
-	vector<int> partY;
-	
-	int isBipartite = g.bipartite(&partX, &partY);
-
-	if (isBipartite){
-		
-		printf("\npartite set X: ");
-		printVector(&partX);
-		
-		printf("\n");
-		
-		printf("partite set Y: ");
-		printVector(&partY);
-		
-		printf("\n");
-		
-		return;
-	}
-	
 	vector<int> cycle;
 	
 	int numCycles = g.getOddCycle(&cycle);
 	
-	printf("cycle length: %i \n", numCycles);
+	printf("\nodd cycle length: %i \nedges:", numCycles);
 	
 	printVector(&cycle);
+	
+	printf("\n");
 }
 
 
