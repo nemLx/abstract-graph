@@ -73,6 +73,7 @@
 #define MAINWINDOW_ALGDLG_CONFIRM tr("Are you sure you wish to run this algorithm? After you run an algorithm, the graph will become VIEW ONLY")
 
 // Error dialog texts
+#define MAINWINDOW_ERRDLG_FAILWRITE tr("Failed to write file: %1")
 #define MAINWINDOW_ERRDLG_SHORTEST_1 tr("The operation was cancelled. No path exists between the selected nodes. Please try again.")
 #define MAINWINDOW_ERRDLG_SHORTEST_2 tr("The operation was cancelled. Please ensure that you have exactly two nodes selected (i.e. a start and an end) before running this algorithm.")
 

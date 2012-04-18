@@ -349,16 +349,32 @@ void MainWindow::exportGraph()
   if(tab == NULL)
     return;
   
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save graph as..."), "", tr("GraphML (*.graphml);All Files (*)"));
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save graph as..."), "", tr("GraphML (*.graphml);;Bitmap (*.bmp);;JPEG (*.jpg *.jpeg);;GIF (*.gif);;PNG (*.png)"));
   
   if(fileName.isEmpty())
     return;
   
-  GraphMLWriter writer(fileName, tab->getScene());
-  bool write = writer.write();
+  bool result = false;
   
-  if(!write)
-    printf("Test\n");
+  if(fileName.contains(QRegExp("^*.bmp$"))) {
+    result = tab->exportGraph(fileName, "BMP");
+  } else if(fileName.contains(QRegExp("^*.(jpg|jpeg)$"))) {
+    result = tab->exportGraph(fileName, "JPG");
+  } else if(fileName.contains(QRegExp("^*.gif$"))) {
+    result = tab->exportGraph(fileName, "GIF");
+  } else if(fileName.contains(QRegExp("^*.png$"))) {
+    result = tab->exportGraph(fileName, "PNG");
+  } else { // Assume XML
+    GraphMLWriter writer(fileName, tab->getScene());
+    result = writer.write();
+  }
+  
+  if(!result) {
+    QString error(MAINWINDOW_ERRDLG_FAILWRITE);
+    error = error.arg("%1").arg(fileName.toStdString().c_str());
+    QMessageBox msg(QMessageBox::Critical, tr("Unable to Write"), error, QMessageBox::Ok, this);
+    msg.exec();
+  }
 }
 
 void MainWindow::setNodeCreateMode()

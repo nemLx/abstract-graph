@@ -305,7 +305,7 @@ public:
    *
    * @return  A byte array of pixels
    */
-  virtual char* getByteArray() const;
+  virtual unsigned char* getByteArray() const;
 
 protected:
   /**

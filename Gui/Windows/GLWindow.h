@@ -72,8 +72,12 @@ public:
   
   /**
    * Export graph
+   *
+   * @param name      File name
+   * @param export    Export type
+   * @return  True if successful, false otherwise
    */
-  virtual void exportGraph();
+  virtual bool exportGraph(const QString& name, const QString& type);
   
   /**
    * Run an algorithm on the graph

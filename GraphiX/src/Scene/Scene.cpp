@@ -462,9 +462,9 @@ std::vector<Shape*> Scene::getShapes(GRAPHIX::SHAPES type) const
   return ret;
 }
 
-char* Scene::getByteArray() const
+unsigned char* Scene::getByteArray() const
 {
-  char* arr = new char[3 * viewport[2] * viewport[3]];
+  unsigned char* arr = new unsigned char[3 * viewport[2] * viewport[3]];
   
   glReadPixels(0, 0, viewport[2], viewport[3], GL_RGB, GL_UNSIGNED_BYTE, arr);
   
