@@ -50,8 +50,7 @@ set(MENUS_SRC Menus/MenuDefs.h Menus/NodeOptionsMenu.cpp Menus/NodeOptionsMenu.h
 set(GLU_SRC Glu/AlgorithmsGlu.h Glu/AlgorithmsGlu.cpp)
 set(IO_SRC IO/XMLReader.h IO/XMLReader.cpp
   IO/GraphMLHandler.h IO/GraphMLHandler.cpp
-  IO/GraphMLWriter.h IO/GraphMLWriter.cpp
-  IO/BMPWriter.h IO/BMPWriter.cpp)
+  IO/GraphMLWriter.h IO/GraphMLWriter.cpp)
 
 set(SOURCE_FILES ${WINDOWS_MOC_SRC} ${MENUS_MOC_SRC} ${MENUS_SRC} ${WINDOWS_SRC} ${GLU_SRC} ${COMPILED_RSRCS} ${IO_SRC} main.cpp)
 

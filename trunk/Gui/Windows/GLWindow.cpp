@@ -12,9 +12,10 @@
 #include <utility>
 #include <vector>
 
-#include <QtGui/QColorDialog>
-#include <QtGui/QInputDialog>
-#include <QtGui/QMouseEvent>
+#include <QColorDialog>
+#include <QInputDialog>
+#include <QMouseEvent>
+#include <QImage>
 
 #include "GLWindow.h"
 
@@ -55,9 +56,15 @@ void GLWindow::lock(bool lock)
   locked = lock;
 }
 
-void GLWindow::exportGraph()
-{
-  // TODO: Implement
+bool GLWindow::exportGraph(const QString& name, const QString& type)
+{  
+  bool result = true;
+
+  QImage image(grabFrameBuffer());
+
+  result = image.save(name, type.toStdString().c_str());
+
+  return result;
 }
 
 int GLWindow::runAlgorithm(ALGORITHMS alg)
