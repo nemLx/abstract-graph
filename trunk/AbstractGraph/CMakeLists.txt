@@ -45,6 +45,7 @@ set (GRAPH_SRC
 	    include/Algorithms/Bipartite.h src/Algorithms/Bipartite.cpp
         include/Algorithms/FordFulkerson.h src/Algorithms/FordFulkerson.cpp
         include/Algorithms/HopcroftKarp.h src/Algorithms/HopcroftKarp.cpp
+        include/Algorithms/OddCycle.h src/Algorithms/OddCycle.cpp
         )
 	
 
