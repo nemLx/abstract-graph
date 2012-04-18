@@ -165,6 +165,11 @@ public:
   virtual void pick(unsigned idx) const;
   
   /**
+   * Draw extra related objects (default = do nothing)
+   */
+  virtual void drawExtra() const;
+  
+  /**
    * Draw a shape (pure virtual)
    */
   virtual void draw() const = 0;

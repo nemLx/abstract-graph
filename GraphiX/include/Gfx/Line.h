@@ -90,9 +90,14 @@ public:
   virtual Circle* getRight() const;
   
   /**
-   * Draw a circle
+   * Draw a line
    */
   virtual void draw() const;
+  
+  /**
+   * Draw extra stuff (i.e. directed arrow, etc.)
+   */
+  virtual void drawExtra() const;
   
   /**
    * Return shape type
@@ -100,7 +105,7 @@ public:
   virtual SHAPES getType() const;
   
 private:  
-  Circle* cl, *cr;
+  Circle* cl, *cr, *to;
   float width;
   bool directed, direction;
   int weight;
