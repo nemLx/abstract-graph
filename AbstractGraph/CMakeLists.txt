@@ -46,6 +46,7 @@ set (GRAPH_SRC
         include/Algorithms/FordFulkerson.h src/Algorithms/FordFulkerson.cpp
         include/Algorithms/HopcroftKarp.h src/Algorithms/HopcroftKarp.cpp
         include/Algorithms/OddCycle.h src/Algorithms/OddCycle.cpp
+        include/Algorithms/EulerianPath.h src/Algorithms/EulerianPath.cpp
         )
 	
 

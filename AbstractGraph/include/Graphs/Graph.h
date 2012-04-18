@@ -97,7 +97,27 @@ public:
 	int maxMatching(vector<int> * matching);
 	
 	
+	
+	/*
+	 * cycle:	pointer to vector of ints used to store
+	 *			ids of edges in the odd cycle
+	 *
+	 * return:	length of odd cycle when there is one
+	 *			0 when there is no odd cycle
+	 */
 	int getOddCycle(vector<int> * cycle);
+	
+	
+	
+	/*
+	 * path:	pointer to vector of ints used to store
+	 *			ids of nodes in the order of them being
+	 *			visited in the path/cycle
+	 *
+	 * return:	true if there is eulerian path between s and t
+	 *			false if there is not
+	 */
+	bool eulerianPath(int s, int t, vector<int> * path);
 };
 
 #endif
