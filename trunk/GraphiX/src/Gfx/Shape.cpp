@@ -116,5 +116,9 @@ void Shape::pick(unsigned idx) const
   glLoadName(idx);
   draw();
 }
+
+void Shape::drawExtra() const
+{
+}
 }
 

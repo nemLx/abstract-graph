@@ -22,8 +22,8 @@
 
 namespace GRAPHIX
 {
-Scene::Scene()
-  : highlight(Color(0.0, 0.0, 255.0, 0.0)), background(Color(255.0, 255.0, 255.0, 0.0))
+Scene::Scene(bool directed)
+  : highlight(Color(0.0, 0.0, 255.0, 0.0)), background(Color(255.0, 255.0, 255.0, 0.0)), directed(directed)
 {
   bufferSize = GRAPHIX_DEFAULT_PICK_BUFFER_SIZE;
   pickBuffer = new unsigned[bufferSize];
@@ -68,9 +68,22 @@ unsigned* Scene::updateScene()
   glLoadIdentity();
   
   std::vector<Shape*>::const_iterator it;
+  
+  // Slower, but make sure lines are drawn first
   for(it = shapes.begin() ; it != shapes.end() ; ++it) {
-    (*it)->draw();
+    if((*it)->getType() == LINE) {
+      (*it)->draw();
+      if(directed)
+        (*it)->drawExtra();
+    }
   }
+  
+  // Now do it again for everything else
+  for(it = shapes.begin() ; it != shapes.end() ; ++it) {
+    if((*it)->getType() != LINE)
+      (*it)->draw();
+  }
+  
   return NULL;
 }
   
@@ -141,9 +154,14 @@ ACTION Scene::registerClick(int xW, int yW)
 {
   updateViewport();
   double x = 0, y = 0;
+  
   windowToGL(xW, yW, x, y);
+  
   unsigned hits = pickScene(xW, viewport[3]-yW);
-  return currentMode->handleClick(x, y, hits, pickBuffer);
+  
+  ACTION action =  currentMode->handleClick(x, y, hits, pickBuffer);
+  
+  return action;
 }
 
 MODES Scene::getMode() const

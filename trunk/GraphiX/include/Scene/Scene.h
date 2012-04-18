@@ -36,8 +36,11 @@ public:
    *
    * NOTE: Plan to support 2D and 3D in the future
    * but for now only supporting 2D scenes
+   *
+   * @param directed    Determine whether graph is directed or not
+   *                    (default = false = undirected)
    */
-  Scene();
+  Scene(bool directed = false);
   
   /**
    * Copy constructor
@@ -384,6 +387,7 @@ private:
   unsigned bufferSize;
   Color highlight;
   Color background;
+  bool directed;
 };
 }
 #endif /* GRAPHIX_SCENE_SCENE_H__ */

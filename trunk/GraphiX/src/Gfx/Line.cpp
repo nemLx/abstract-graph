@@ -15,7 +15,7 @@
 namespace GRAPHIX
 {
 Line::Line(Circle* cl, Circle* cr)
-  : Shape(-1, -1), cl(cl), cr(cr), width(1.f), directed(false), direction(false), weight(1)
+  : Shape(-1, -1), cl(cl), cr(cr), to(cr), width(1.f), directed(false), direction(false), weight(1)
 {
   setHighlight(Color(1.0, 0.0, 0.0, 0.0));
   setColor(Color(0.0, 0.0, 0.0, 0.0));
@@ -26,6 +26,7 @@ Line::Line(const Line& rhs)
   : Shape(rhs.getX(), rhs.getY()), cl(rhs.cl), cr(rhs.cr),
   width(rhs.width), directed(rhs.directed), direction(rhs.direction), weight(rhs.weight)
 {
+  // NOTE: Probably not yet fully functional (i.e. untested)
   setHighlight(rhs.getHighlight());
   setColor(rhs.getColor());
   updateCirclePositions();
@@ -111,6 +112,10 @@ void Line::draw() const
     glVertex2f(cl->getX(), cl->getY());
     glVertex2f(cr->getX(), cr->getY());
   glEnd();
+}
+
+void Line::drawExtra() const
+{
 }
 
 SHAPES Line::getType() const
