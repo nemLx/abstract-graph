@@ -13,6 +13,7 @@
 #include "../../include/Algorithms/HopcroftKarp.h"
 #include "../../include/Algorithms/Prim.h"
 #include "../../include/Algorithms/OddCycle.h"
+#include "../../include/Algorithms/EulerianPath.h"
 
 using namespace std;
 
@@ -180,6 +181,15 @@ int Graph::getOddCycle(vector<int> *cycle){
 	OddCycle oddCycleSolver(this, cycle);
 	
 	return oddCycleSolver.solve();
+}
+
+
+
+bool Graph::eulerianPath(int s, int t, vector<int> * path){
+	
+	EulerianPath eulerianSolver(this, s, t, path);
+	
+	return eulerianSolver.solve();
 }
 
 
