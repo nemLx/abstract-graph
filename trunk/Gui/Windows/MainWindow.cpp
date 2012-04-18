@@ -282,7 +282,11 @@ void MainWindow::updateMode(GRAPHIX::MODES mode)
 /* Signals/Slots */
 void MainWindow::createGLWindow()
 {
-  GLWindow* glWindow = new GLWindow(this);
+  QMessageBox msg(QMessageBox::Question, tr("Directed Graph?"), tr("Would you like this to be a directed graph?"), QMessageBox::No | QMessageBox::Yes, this);
+  
+  int dir = msg.exec();
+  
+  GLWindow* glWindow = new GLWindow((dir == QMessageBox::Yes), this);
   int idx = glTabs->addTab(glWindow, "Graph");
   glTabs->setCurrentIndex(idx);
   

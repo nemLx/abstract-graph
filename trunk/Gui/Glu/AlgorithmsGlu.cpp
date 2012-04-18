@@ -36,7 +36,7 @@ void AlgorithmsGlu::handleAction(GRAPHIX::ACTION action)
   int id = -1;
   GRAPHIX::Shape* last = NULL;
   GRAPHIX::Line* line = NULL;
-  GRAPHIX::Circle* left = NULL, *right = NULL;
+  GRAPHIX::Circle* to = NULL, *from = NULL;
   switch(action)
   {
     case GRAPHIX::ADDNODE:
@@ -47,10 +47,10 @@ void AlgorithmsGlu::handleAction(GRAPHIX::ACTION action)
       last = scene.getLast();
       if(last->getType() == GRAPHIX::LINE) {
         line  = static_cast<GRAPHIX::Line*>(last);
-        left  = line->getLeft();
-        right = line->getRight();
+        to   = line->getTo();
+        from = line->getFrom();
 
-        id = addEdge(left->getId(), right->getId());
+        id = addEdge(from->getId(), to->getId());
 
         scene.setLastId(id);
       }
@@ -84,9 +84,7 @@ void AlgorithmsGlu::removeSelected()
   std::vector<int> edgeIds = scene.getSelectedIds(GRAPHIX::LINE);
   std::vector<int> nodeIds = scene.getSelectedIds(GRAPHIX::CIRCLE);
   std::vector<int>::iterator it;
-  
-  // TODO: Does AbstractGraph library not remove associated
-  // edges when a node is removed?
+
   for(it = edgeIds.begin() ; it != edgeIds.end() ; ++it)
     graph->removeEdge(*it);
   for(it = nodeIds.begin() ; it != nodeIds.end() ; ++it)

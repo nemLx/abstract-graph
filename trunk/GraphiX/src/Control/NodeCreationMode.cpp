@@ -64,8 +64,32 @@ void NodeCreationMode::pickLogic()
 
 unsigned NodeCreationMode::selectLogic(unsigned hits, unsigned* pickBuffer)
 {
-  // In NODE creation mode, do nothing?? - Temporarily highlighting
-  return Mode::selectLogic(hits, pickBuffer);
+  if(pickBuffer == NULL || hits == UINT_MAX)
+    return 0;
+  
+  std::vector<Shape*>* shapes = getShapesVector();
+  
+  // Find selected nodes (only circles)
+  for(unsigned i = 0 ; i < hits ; ++i) {
+    unsigned char p = (unsigned char)pickBuffer[i * 4 + 3];
+    Shape* shape = (*shapes)[p];
+    
+    if(shape->getType() != CIRCLE)
+      continue;
+    
+    if(shape == NULL)
+      continue;
+    
+    if(shape->isSelected())
+      removeHighlight(shape);
+    else
+      highlight(shape);
+  }
+  
+  if(hits < 1)
+    removeAllHighlight();
+  
+  return hits;
 }
 
 MODES NodeCreationMode::getMode() const

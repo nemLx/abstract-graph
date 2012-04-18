@@ -31,9 +31,11 @@ public:
   /**
    * Constructor
    *
+   * @param directed  Determine whether the graph should be directed
+   *                  or not (default = false / undirected)
    * @param parent    The parent widget
    */
-  GLWindow(QWidget* parent = NULL);
+  GLWindow(bool directed = false, QWidget* parent = NULL);
   
   /**
    * Destructor

@@ -309,6 +309,13 @@ public:
    * @return  A byte array of pixels
    */
   virtual unsigned char* getByteArray() const;
+  
+  /**
+   * Check if graph is directed
+   *
+   * @return  Whether graph is directed or not
+   */
+  virtual bool isDirected() const;
 
 protected:
   /**
