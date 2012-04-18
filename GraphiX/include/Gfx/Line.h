@@ -88,6 +88,8 @@ public:
    */
   virtual Circle* getLeft() const;
   virtual Circle* getRight() const;
+  virtual Circle* getTo() const;
+  virtual Circle* getFrom() const;
   
   /**
    * Draw a line
@@ -105,7 +107,7 @@ public:
   virtual SHAPES getType() const;
   
 private:  
-  Circle* cl, *cr, *to;
+  Circle* cl, *cr, *to, *from;
   float width;
   bool directed, direction;
   int weight;

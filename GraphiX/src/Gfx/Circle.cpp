@@ -13,8 +13,6 @@
 #include "Gfx/Circle.h"
 #include "Gfx/Line.h"
 
-#define DEG2RAD (3.14159/180)
-
 namespace GRAPHIX
 {
 Circle::Circle(float x, float y, float rad)

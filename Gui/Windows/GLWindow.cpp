@@ -22,8 +22,8 @@
 #include "Menus/NodeOptionsMenu.h"
 #include "Menus/MenuDefs.h"
 
-GLWindow::GLWindow(QWidget* parent)
-  : QGLWidget(parent), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), gluAlg(scene, this)
+GLWindow::GLWindow(bool directed, QWidget* parent)
+  : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), gluAlg(scene, this, directed)
 {
 }
 

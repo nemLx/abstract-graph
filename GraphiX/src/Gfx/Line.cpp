@@ -15,7 +15,7 @@
 namespace GRAPHIX
 {
 Line::Line(Circle* cl, Circle* cr)
-  : Shape(-1, -1), cl(cl), cr(cr), to(cr), width(1.f), directed(false), direction(false), weight(1)
+  : Shape(-1, -1), cl(cl), cr(cr), to(cr), from(cl), width(1.f), directed(false), direction(false), weight(1)
 {
   setHighlight(Color(1.0, 0.0, 0.0, 0.0));
   setColor(Color(0.0, 0.0, 0.0, 0.0));
@@ -95,6 +95,16 @@ Circle* Line::getRight() const
   return cr;
 }
 
+Circle* Line::getTo() const
+{
+  return to;
+}
+  
+Circle* Line::getFrom() const
+{
+  return from;
+}
+
 void Line::draw() const
 {
   Color highlight(getHighlight());
@@ -107,8 +117,8 @@ void Line::draw() const
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
   glLineWidth(width);
+  glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
   glBegin(GL_LINES);
-    glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
     glVertex2f(cl->getX(), cl->getY());
     glVertex2f(cr->getX(), cr->getY());
   glEnd();
@@ -116,6 +126,30 @@ void Line::draw() const
 
 void Line::drawExtra() const
 {
+  Color highlight(getHighlight());
+  Color color(getColor());
+  
+  if(highlight.r != highlight.g != highlight.b != 0.f)
+    color = highlight;
+  
+  // Simple intersection calculations to know where/how
+  // to draw arrow
+  float r = to->getRadius();
+  float x = (to == cl) ? to->getX() - r : to->getX() + r;
+  float m = (to->getY() - from->getY())/((to->getX() - from->getX()));
+  float b = to->getY();
+  float y = m*(x - to->getX()) + b; // point-slope form: y = m*(x - x_1) + y_1
+  float baseShift = (to == cl) ? -.05f : .05f;
+  
+  glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
+  glBegin(GL_TRIANGLES);
+  
+    glVertex2f(x, y);
+    glVertex2f(x + baseShift, y + baseShift);
+    glVertex2f(x + baseShift, y - baseShift);
+  
+  printf("Coords: (%f, %f)\n", x, y);
+  glEnd();
 }
 
 SHAPES Line::getType() const

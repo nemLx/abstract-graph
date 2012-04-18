@@ -489,6 +489,11 @@ unsigned char* Scene::getByteArray() const
   return arr;
 }
 
+bool Scene::isDirected() const
+{
+  return directed;
+}
+
 unsigned Scene::pickScene(float x, float y)
 {
   updateViewport();
