@@ -13,6 +13,12 @@
 #include "../Graphs/Graph.h"
 
 
+
+/*
+ * implementation of an algorithm that carries out
+ * a BFS on the vertices of a graph to find odd
+ * length cycles, all edges lenghts are assumed 1
+ */
 class OddCycle : public Algorithm{
 
 public:
@@ -89,11 +95,13 @@ private:
 	Graph * g;
 	
 	
+	
 	/*
 	 * points to vector containing ids of edges
 	 * in the odd cycle
 	 */
 	vector<int> * cycle;
+	
 	
 	
 	/*
@@ -104,10 +112,12 @@ private:
 	map<int, Vertex*> * V;
 	
 	
+	
 	/*	 
 	 * a queue of vertices used by BFS 
 	 */
 	queue<Vertex*> * Q;
+	
 	
 	
 	/*

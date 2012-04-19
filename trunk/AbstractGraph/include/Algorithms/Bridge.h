@@ -14,6 +14,11 @@
 
 
 
+/*
+ * an algorithm that finds all bridging edges
+ * in a graph
+ *
+ */
 class Bridge : public Algorithm{
 
 public:
@@ -56,7 +61,7 @@ private:
 	
 	
 	/*
-	 * map of ids and nodes in G
+	 * map of ids and nodes in g
 	 */
 	map<int, AbstractNode*> * V;
 	

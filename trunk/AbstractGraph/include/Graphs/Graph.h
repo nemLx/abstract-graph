@@ -88,11 +88,35 @@ public:
 	
 	
 	
+	/*
+	 * code:	pointer to vector of ints used to store
+	 *			prufer code of the tree
+	 *
+	 * label:	a map between nodes' ids and their label
+	 *			used in the prufer code encoding
+	 *
+	 * return:	1 if the graph is a tree and prufer code
+	 *			is properly encoded
+	 *			0 id the graph is not a tree and no prufer
+	 *			code exists
+	 */
+	int getPruferCode(vector<int> * code, map<int, int> * label);
+	
+	
+	
+	/*
+	 * code:	pointer to vector of ints used to store
+	 *			prufer code of the tree
+	 *
+	 * return:	1 if the tree corresponding to the code is decoded
+	 */
+	void buildFromPruferCode(vector<int> * code);
+	
+	
+	
 	Graph();
 	
 	~Graph();
-	
-	
 	
 	/*
 	 * nodeCount:	number of nodes to create

@@ -14,6 +14,11 @@
 
 
 
+/*
+ * an algorithm that identifies the Eulerian path
+ * between any two given nodes, if any. when passed
+ * in the same start and end, it detect Eulerian cycle
+ */
 class EulerianPath : public Algorithm{
 
 public:
@@ -92,10 +97,10 @@ private:
 	map<int, Vertex*> * V;
 	
 	
+	
 	/*
 	 * see implementation for comments on functions below
 	 */
-	
 	bool isEulerian();
 	
 	void removeEdge(int e, int s, int t);

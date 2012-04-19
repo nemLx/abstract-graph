@@ -330,6 +330,59 @@ void bridgeTest(){
 
 
 
+void pruferEncodeTest(){
+	
+	Graph g(7);
+	
+	g.addEdge(0, 3);
+	g.addEdge(1, 3);
+	g.addEdge(2, 3);
+	g.addEdge(4, 3);
+	g.addEdge(4, 5);
+	g.addEdge(6, 5);
+	
+	//g.removeNode(0);
+	
+	printf("\n");
+	g.printGraph();
+	
+	vector<int> code;
+	map<int, int> label;
+	
+	int hasPruferCode = g.getPruferCode(&code, &label);
+	
+	if (hasPruferCode){
+		printf("\nPrufer Code: ");
+		printVector(&code);
+	}else{
+		printf("\nDoes not have Prufer Code\n");
+	}
+}
+
+
+
+void pruferDecodeTest(){
+	
+	Graph g;
+	
+	vector<int> code(0);
+	
+	code.push_back(4);
+	code.push_back(4);
+	code.push_back(4);
+	code.push_back(5);
+	
+	g.buildFromPruferCode(&code);
+	
+	printf("\nGraph with code: ");
+	printVector(&code);
+	printf("\n");
+	
+	g.printGraph();
+}
+
+
+
 int main(){
 	
 //	shortestPathTest();
@@ -346,7 +399,11 @@ int main(){
 	
 //	eulerianPathTest();
 	
-	bridgeTest();
+//	bridgeTest();
+	
+//	pruferEncodeTest();
+
+	pruferDecodeTest();
 	
 	return 0;
 }
