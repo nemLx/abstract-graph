@@ -40,10 +40,11 @@ public:
   /**
    * Enable/disable menu items
    *
-   * @param selected    Determine whether items are selected or not
-   * @param numSelected The number of items selected
+   * @param selected      Determine whether items are selected or not
+   * @param numSelected   The number of items selected
+   * @param edgeSelected  Number of edges selected
    */
-  virtual void updateMenuItems(bool selected, unsigned numSelected);
+  virtual void updateMenuItems(bool selected, unsigned numSelected, unsigned edgeSelected);
   
 private:
   /**
@@ -56,6 +57,7 @@ private:
   QAction* del;
   QAction* color;
   QAction* deselect;
+  QAction* curve;
 };
 
 #endif /* MENUS_NODEOPTIONSMENU_H__ */

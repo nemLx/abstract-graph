@@ -192,6 +192,11 @@ protected slots:
   void updateBackground();
   
   /**
+   * Update curves
+   */
+  void updateCurves();
+  
+  /**
    * Select all
    */
   void selectAll();
