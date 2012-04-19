@@ -318,6 +318,13 @@ public:
   virtual unsigned char* getByteArray() const;
   
   /**
+   * Set a graph to directed
+   *
+   * @param directed    True if directed, false otherwise
+   */
+  virtual void setDirected(bool directed);
+  
+  /**
    * Check if graph is directed
    *
    * @return  Whether graph is directed or not

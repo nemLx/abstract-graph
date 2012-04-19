@@ -49,7 +49,9 @@ bool GraphMLHandler::parseGraphElm(const QXmlAttributes& atts)
   if(edgetype.isEmpty())
     return false;
   
-  // TODO: Allow variable graph types (i.e. directed vs. undirected) -- this should be set with edgetype value
+  if(!edgetype.compare("directed")) {
+    scene.setDirected(true);
+  }
   
   return true;
 }
