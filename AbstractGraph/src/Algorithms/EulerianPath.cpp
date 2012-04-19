@@ -30,6 +30,24 @@ EulerianPath::EulerianPath(Graph * g, int s, int t, vector<int> * path){
 }
 
 
+
+EulerianPath::~EulerianPath(){
+	
+	map<int, Vertex*>::iterator it = V->begin();
+	
+	while (it != V->end()) {
+		delete it->second->adj;
+		
+		delete it->second;
+		it++;
+	}
+	
+	delete V;
+	delete S;
+}
+
+
+
 /*
  * initializes the vertex structure, mirroing the
  * nodes and adajcents in the original graph

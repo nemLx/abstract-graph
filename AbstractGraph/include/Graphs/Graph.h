@@ -18,50 +18,7 @@
 class Graph : public AbstractGraph{
 
 public:
-	
-	Graph();
-	
-	~Graph();
-	
-	
-	
-	/*
-	 * nodeCount:	number of nodes to create
-	 * 
-	 * creates a graph with nodeCount
-	 * number of isolated vertices
-	 */
-	Graph(int nodeCount);
-	
-	
-	
-	/*
-	 * see AbstractGraph.h
-	 */
-	int addNode();
-	
-	
-	
-	/*
-	 * see AbstractGraph.h
-	 */
-	int addEdge(int s, int t);
-	
-	
-	
-	/*
-	 * see AbstractGraph.h
-	 */
-	int addEdge(int s, int t, int v);
-	
-	
-	
-	/*
-	 * see AbstractGraph.h
-	 */
-	int removeNode(int id);
-	
-	
+		
 	
 	/*
 	 * edges:	pointer to a vector of ints storing the ids
@@ -118,6 +75,60 @@ public:
 	 *			false if there is not
 	 */
 	bool eulerianPath(int s, int t, vector<int> * path);
+	
+	
+	/*
+	 * bridges:	pointer to vector of ints used to store
+	 *			ids of bridge edges
+	 *
+	 * return:	number of bridges in the graph
+	 *			0 if there isn't any
+	 */
+	int getBridges(vector<int> * bridges);
+	
+	
+	
+	Graph();
+	
+	~Graph();
+	
+	
+	
+	/*
+	 * nodeCount:	number of nodes to create
+	 * 
+	 * creates a graph with nodeCount
+	 * number of isolated vertices
+	 */
+	Graph(int nodeCount);
+	
+	
+	
+	/*
+	 * see AbstractGraph.h
+	 */
+	int addNode();
+	
+	
+	
+	/*
+	 * see AbstractGraph.h
+	 */
+	int addEdge(int s, int t);
+	
+	
+	
+	/*
+	 * see AbstractGraph.h
+	 */
+	int addEdge(int s, int t, int v);
+	
+	
+	
+	/*
+	 * see AbstractGraph.h
+	 */
+	int removeNode(int id);
 };
 
 #endif
