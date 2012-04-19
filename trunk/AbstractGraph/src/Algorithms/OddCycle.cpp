@@ -27,6 +27,24 @@ OddCycle::OddCycle(Graph * g, vector<int> * cycle){
 
 
 
+OddCycle::~OddCycle(){
+	
+	map<int, Vertex*>::iterator it = V->begin();
+	
+	while (it != V->end()) {
+		delete it->second->adj;
+		
+		delete it->second;
+		it++;
+	}
+	
+	delete V;
+	delete Q;
+	delete mappedEdges;
+}
+
+
+
 /*
  * initializes the vertex structure, mirroing the
  * nodes and adajcents in the original graph

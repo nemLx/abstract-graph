@@ -14,6 +14,7 @@
 #include "../../include/Algorithms/Prim.h"
 #include "../../include/Algorithms/OddCycle.h"
 #include "../../include/Algorithms/EulerianPath.h"
+#include "../../include/Algorithms/Bridge.h"
 
 using namespace std;
 
@@ -190,6 +191,15 @@ bool Graph::eulerianPath(int s, int t, vector<int> * path){
 	EulerianPath eulerianSolver(this, s, t, path);
 	
 	return eulerianSolver.solve();
+}
+
+
+
+int Graph::getBridges(vector<int> *bridges){
+	
+	Bridge bridgeSolver(this, bridges);
+	
+	return bridgeSolver.solve();
 }
 
 

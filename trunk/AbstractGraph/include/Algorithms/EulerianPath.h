@@ -20,6 +20,8 @@ public:
 	
 	EulerianPath(Graph * g, int s, int t, vector<int> * path);
 	
+	~EulerianPath();
+	
 	int solve();
 	
 private:

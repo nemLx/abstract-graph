@@ -47,6 +47,7 @@ set (GRAPH_SRC
         include/Algorithms/HopcroftKarp.h src/Algorithms/HopcroftKarp.cpp
         include/Algorithms/OddCycle.h src/Algorithms/OddCycle.cpp
         include/Algorithms/EulerianPath.h src/Algorithms/EulerianPath.cpp
+        include/Algorithms/Bridge.h src/Algorithms/Bridge.cpp
         )
 	
 

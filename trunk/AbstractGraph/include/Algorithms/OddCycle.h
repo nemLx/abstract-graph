@@ -19,6 +19,8 @@ public:
 	
 	OddCycle(Graph * g, vector<int> * cycle);
 	
+	~OddCycle();
+	
 	int solve();
 
 private:
