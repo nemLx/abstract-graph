@@ -48,7 +48,7 @@ bool GraphMLWriter::write()
   
   writer.writeStartElement("graph");
   writer.writeAttribute("id", "G");
-  writer.writeAttribute("edgedefault", "undirected"); // TODO: Support directed
+  writer.writeAttribute("edgedefault", (scene.isDirected()) ? "directed" : "undirected");
   
   success &= writeNodes();
   success &= writeEdges();
