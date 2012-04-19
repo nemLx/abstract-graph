@@ -501,6 +501,11 @@ unsigned char* Scene::getByteArray() const
   return arr;
 }
 
+void Scene::setDirected(bool d)
+{
+  directed = d;
+}
+
 bool Scene::isDirected() const
 {
   return directed;

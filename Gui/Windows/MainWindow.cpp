@@ -280,11 +280,14 @@ void MainWindow::updateMode(GRAPHIX::MODES mode)
 }
 
 /* Signals/Slots */
-void MainWindow::createGLWindow()
+void MainWindow::createGLWindow(bool ask)
 {
-  QMessageBox msg(QMessageBox::Question, tr("Directed Graph?"), tr("Would you like this to be a directed graph?"), QMessageBox::No | QMessageBox::Yes, this);
+  int dir = -1;
+  if(ask) {
+    QMessageBox msg(QMessageBox::Question, tr("Directed Graph?"), tr("Would you like this to be a directed graph?"), QMessageBox::No | QMessageBox::Yes, this);
   
-  int dir = msg.exec();
+    dir = msg.exec();
+  }
   
   GLWindow* glWindow = new GLWindow((dir == QMessageBox::Yes), this);
   int idx = glTabs->addTab(glWindow, "Graph");
@@ -336,7 +339,7 @@ void MainWindow::importGraph()
   if(name.isEmpty())
     return;
   
-  createGLWindow(); // Pre-emptive
+  createGLWindow(false); // Pre-emptive
   GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
   
   XMLReader reader(name, tab->getScene(), tab->getGlue());

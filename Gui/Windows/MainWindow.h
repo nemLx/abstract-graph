@@ -61,8 +61,11 @@ protected:
 protected slots:
   /**
    * Create a new OpenGL tab
+   *
+   * @param ask   Determine whether to ask if directed graph or not
+   *              (default = true)
    */
-  void createGLWindow();
+  void createGLWindow(bool ask = true);
   
   /**
    * Close OpenGL tab based off of current index
