@@ -17,6 +17,17 @@
 
 namespace GRAPHIX
 {
+
+/**
+ * Curve types
+ */
+enum CURVE
+{
+  UP,
+  DOWN,
+  NONE
+};
+
 class GRAPHIX_EXPORT Line : public Shape
 {
 public:
@@ -92,6 +103,13 @@ public:
   virtual Circle* getFrom() const;
   
   /**
+   * Set curve type
+   *
+   * @param curve   Curve type
+   */
+  virtual void setCurve(CURVE curve);
+  
+  /**
    * Draw a line
    */
   virtual void draw() const;
@@ -111,6 +129,7 @@ private:
   float width;
   bool directed, direction;
   int weight;
+  CURVE curve;
 };
 }
 

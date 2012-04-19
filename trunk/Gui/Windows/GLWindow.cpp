@@ -14,6 +14,7 @@
 
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QMessageBox>
 #include <QMouseEvent>
 #include <QImage>
 
@@ -159,11 +160,12 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
     return;
   
   GRAPHIX::MODES currMode = scene.getMode();
-  unsigned numSelected = (currMode == GRAPHIX::VIEWONLY) ? 0 : scene.countSelected();
+  unsigned numSelected  = (currMode == GRAPHIX::VIEWONLY) ? 0 : scene.countSelected();
+  unsigned edgeSelected = scene.countSelected(GRAPHIX::LINE);
   bool selected = numSelected > 0 && currMode != GRAPHIX::VIEWONLY;
   
   QPoint pos(evt->globalPos());
-  nodeRightClick->updateMenuItems(selected, numSelected);
+  nodeRightClick->updateMenuItems(selected, numSelected, edgeSelected);
   nodeRightClick->exec(pos);
 }
 
@@ -232,6 +234,37 @@ void GLWindow::updateColor()
     
     deselectAll();
   }
+}
+
+void GLWindow::updateCurves()
+{
+  QMessageBox msg(QMessageBox::NoIcon, tr("Curve Type"), tr("Select curve type..."), QMessageBox::NoButton, this);
+  msg.addButton(QMessageBox::Cancel);
+  msg.addButton(tr("None"), QMessageBox::ResetRole);
+  msg.addButton(tr("Up"), QMessageBox::AcceptRole);
+  msg.addButton(tr("Down"), QMessageBox::YesRole);
+  
+  int ret = msg.exec();
+  
+  if(ret == QMessageBox::Cancel)
+    return;
+  
+  switch(ret)
+  {
+    case 0:
+      scene.setCurves();
+      break;
+    case 1:
+      scene.setCurves(GRAPHIX::UP);
+      break;
+    case 2:
+      scene.setCurves(GRAPHIX::DOWN);
+      break;
+    default:
+      break;
+  }
+  
+  deselectAll();
 }
 
 void GLWindow::deleteSelected()

@@ -23,4 +23,7 @@
 #define MENU_NODE_HIGHLIGHT tr("Modify Highlight Color")
 #define MENU_NODE_BACKGROUND tr("Modify Background Color")
 
+// Edge Pop-up menu definitions
+#define MENU_EDGE_CURVE tr("Modify Edge Curve")
+
 #endif /* MENUS_MENUDEFS_H__ */

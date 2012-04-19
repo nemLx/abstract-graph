@@ -215,6 +215,13 @@ public:
   virtual unsigned countSelected(SHAPES type = ANY) const;
   
   /**
+   * Set selected curves to type
+   *
+   * @param curve   Curve type (default = NONE)
+   */
+  virtual void setCurves(CURVE type = NONE);
+  
+  /**
    * Select all
    */
   virtual void selectAll();

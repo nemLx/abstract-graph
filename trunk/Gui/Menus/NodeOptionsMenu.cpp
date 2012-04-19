@@ -22,13 +22,14 @@ NodeOptionsMenu::~NodeOptionsMenu()
 {
 }
 
-void NodeOptionsMenu::updateMenuItems(bool selected, unsigned numSelected)
+void NodeOptionsMenu::updateMenuItems(bool selected, unsigned numSelected, unsigned edgeSelected)
 {
   label->setEnabled(numSelected == 1);
-  weight->setEnabled(selected);
+  weight->setEnabled(edgeSelected);
   del->setEnabled(selected);
   color->setEnabled(selected);
   deselect->setEnabled(selected);
+  curve->setEnabled(edgeSelected);
 }
 
 void NodeOptionsMenu::init()
@@ -38,6 +39,7 @@ void NodeOptionsMenu::init()
   del      = new QAction(MENU_GENERAL_DELETE, this);
   color    = new QAction(MENU_NODE_COLOR, this);
   deselect = new QAction(MENU_GENERAL_DESELECT, this);
+  curve    = new QAction(MENU_EDGE_CURVE, this);
   
   // Non-Conditional actions
   // (i.e. not class members/always enabled)
@@ -57,6 +59,7 @@ void NodeOptionsMenu::init()
   connect(background, SIGNAL(triggered()), parent(), SLOT(updateBackground()));
   connect(selectall, SIGNAL(triggered()), parent(), SLOT(selectAll()));
   connect(deselect, SIGNAL(triggered()), parent(), SLOT(deselectAll()));
+  connect(curve, SIGNAL(triggered()), parent(), SLOT(updateCurves()));
   
   // Add actions to the menu
   this->addAction(label);
@@ -65,6 +68,8 @@ void NodeOptionsMenu::init()
   this->addAction(color);
   this->addAction(highlight);
   this->addAction(background);
+  this->addSeparator();
+  this->addAction(curve);
   this->addSeparator();
   this->addAction(selectall);
   this->addAction(deselect);

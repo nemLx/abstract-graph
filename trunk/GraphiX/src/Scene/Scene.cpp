@@ -321,6 +321,18 @@ unsigned Scene::countSelected(SHAPES type) const
   return selCount;
 }
 
+void Scene::setCurves(CURVE type)
+{
+  std::vector<Shape*>::iterator it;
+  
+  for(it = selected.begin() ; it != selected.end() ; ++it) {
+    if((*it)->getType() == LINE) {
+      Line* line = static_cast<Line*>(*it);
+      line->setCurve(type);
+    }
+  }
+}
+
 void Scene::selectAll()
 {
   currentMode->highlightAll();
