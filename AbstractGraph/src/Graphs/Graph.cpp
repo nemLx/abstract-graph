@@ -15,6 +15,7 @@
 #include "../../include/Algorithms/OddCycle.h"
 #include "../../include/Algorithms/EulerianPath.h"
 #include "../../include/Algorithms/Bridge.h"
+#include "../../include/Algorithms/PruferCode.h"
 
 using namespace std;
 
@@ -200,6 +201,24 @@ int Graph::getBridges(vector<int> *bridges){
 	Bridge bridgeSolver(this, bridges);
 	
 	return bridgeSolver.solve();
+}
+
+
+
+int Graph::getPruferCode(vector<int> * code, map<int, int> * label){
+	
+	PruferCode gen(this, code, label);
+	
+	return gen.solve();
+}
+
+
+
+void Graph::buildFromPruferCode(vector<int> *code){
+	
+	PruferCode builder(this, code);
+	
+	builder.solve();
 }
 
 
