@@ -3,7 +3,11 @@
 #
 # @author Dennis J. McWherter, Jr.
 # @version $Id$
+if(WIN32)
 cmake_minimum_required(VERSION 2.8.6)
+else()
+cmake_minimum_required(VERSION 2.6.2)
+endif(WIN32)
 project(GraphiX)
 
 # Hide things we don't need
