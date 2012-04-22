@@ -18,8 +18,7 @@
 #include "graphix.h"
 
 // AbstractGraph Library
-#include "Graphs/Graph.h"
-#include "Graphs/DiGraph.h"
+#include "AGRAPHLIB.h"
 
 class GLWindow;
 
