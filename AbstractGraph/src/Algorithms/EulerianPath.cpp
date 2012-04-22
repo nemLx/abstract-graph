@@ -23,8 +23,8 @@ EulerianPath::EulerianPath(Graph * g, int s, int t, vector<int> * path){
 	this->path = path;
 	
 	V = new map<int, Vertex*>;
-	
 	S = new stack<int>;
+	edges = new map<pair<int, int>, int>;
 
 	initVertexStructure();
 }
@@ -130,6 +130,8 @@ void EulerianPath::initAdjacent(Vertex *v, AbstractNode *n){
 		AbstractNode * adjNode = it->second;
 		
 		(*v->adj)[adjEdge->id] = (*V)[adjNode->id];
+		(*edges)[pair<int, int>(v->id, adjNode->id)] = adjEdge->id;
+		(*edges)[pair<int, int>(adjNode->id, v->id)] = adjEdge->id;
 		
 		it++;
 	}
@@ -185,14 +187,20 @@ void EulerianPath::constructPath(){
 	
 	int v = s;
 	
-	path->push_back(s);
+	vector<int> pathNode;
+	
+	pathNode.push_back(s);
 	
 	while (tour(v) == v && !S->empty()) {
 	
 		v = S->top();
 		S->pop();
 		
-		path->push_back(v);
+		pathNode.push_back(v);
+	}
+	
+	for (int i = 0; i < (int)pathNode.size()-1; i++){
+		path->push_back((*edges)[pair<int, int>(pathNode.at(i), pathNode.at(i+1))]);
 	}
 }
 

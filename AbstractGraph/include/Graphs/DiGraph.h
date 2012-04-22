@@ -73,8 +73,8 @@ public:
 	 * edgeFlow:	vector of pairs of ints, used to store edge id
 	 * 				and flow pair for all edges used in the graph
 	 * 				
-	 * cutSet:	vector of ints used to store ids of cut
-	 * 			edges in the minimum cut
+	 * cutSet:	vector of ints used to store ids of nodes in one
+	 * 			of the cut sets
 	 */
 	int maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet);
 };
