@@ -218,6 +218,10 @@ void MainWindow::buildAlgMenu()
   
   // Actions
   connect(algShort, SIGNAL(triggered()), this, SLOT(runShortestPath()));
+  connect(algMST, SIGNAL(triggered()), this, SLOT(runMST()));
+  connect(algMaxM, SIGNAL(triggered()), this, SLOT(runMaxMatch()));
+  connect(algMinVtx, SIGNAL(triggered()), this, SLOT(runMinVtx()));
+  connect(algMaxNet, SIGNAL(triggered()), this, SLOT(runMaxNet()));
   
   // Add to menu
   algorithmMenu->addAction(algShort);
@@ -422,6 +426,26 @@ void MainWindow::runShortestPath()
   runAlgorithm(SHORTESTPATH);
 }
 
+void MainWindow::runMST()
+{
+  runAlgorithm(MST);
+}
+
+void MainWindow::runMaxMatch()
+{
+  runAlgorithm(MAXMATCH);
+}
+
+void MainWindow::runMinVtx()
+{
+  runAlgorithm(MINVTX);
+}
+
+void MainWindow::runMaxNet()
+{
+  runAlgorithm(MAXNET);
+}
+
 void MainWindow::runAlgorithm(ALGORITHMS alg)
 {
   QMessageBox msg(QMessageBox::Warning, tr("Confirm"), MAINWINDOW_ALGDLG_CONFIRM, QMessageBox::Ok|QMessageBox::Cancel, this);
@@ -461,6 +485,8 @@ void MainWindow::notifyError(ALGORITHMS alg, int result)
       break;
     case MST:
       break;
+    case MAXMATCH:
+      msg = MAINWINDOW_ERRDLG_MAX_MATCH_1;
     default:
       break;
   }

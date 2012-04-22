@@ -131,6 +131,26 @@ protected slots:
    */
   void runShortestPath();
   
+  /**
+   * Run Minimum spanning tree
+   */
+  void runMST();
+  
+  /**
+   * Run max matching
+   */
+  void runMaxMatch();
+  
+  /**
+   * Run min verte
+   */
+  void runMinVtx();
+  
+  /**
+   * Run max network
+   */
+  void runMaxNet();
+  
 private:
   /**
    * Initialize action items (private helper)

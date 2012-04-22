@@ -76,5 +76,6 @@
 #define MAINWINDOW_ERRDLG_FAILWRITE tr("Failed to write file: %1")
 #define MAINWINDOW_ERRDLG_SHORTEST_1 tr("The operation was cancelled. No path exists between the selected nodes. Please try again.")
 #define MAINWINDOW_ERRDLG_SHORTEST_2 tr("The operation was cancelled. Please ensure that you have exactly two nodes selected (i.e. a start and an end) before running this algorithm.")
+#define MAINWINDOW_ERRDLG_MAX_MATCH_1 tr("The operation was cancelled. This is not a bipartite graph.")
 
 #endif /* WINDOWS_MAINDEFS_H__ */

@@ -17,7 +17,10 @@
 enum ALGORITHMS
 {
   SHORTESTPATH,
-  MST
+  MST,
+  MAXMATCH,
+  MINVTX,
+  MAXNET
 };
 
 #endif /* GLU_ALGORITHMS_H__ */

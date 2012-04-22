@@ -116,7 +116,7 @@ void Line::draw() const
   Color highlight(getHighlight());
   Color color(getColor());
   
-  if(highlight.r != highlight.g != highlight.b != 0.f)
+  if((highlight.r != 0.f || highlight.r != 1.f) && (highlight.g != highlight.b != 0.f))
     color = highlight;
   
   glEnable(GL_LINE_SMOOTH);

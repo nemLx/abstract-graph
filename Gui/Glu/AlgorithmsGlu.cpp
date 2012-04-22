@@ -101,11 +101,15 @@ int AlgorithmsGlu::runAlgorithm(ALGORITHMS glu)
       result = algorithmShortestPath();
       break;
     case MST:
+      result = algorithmMST();
+      break;
+    case MAXMATCH:
+      result = algorithmMaxMatch();
       break;
     default:
       break;
   }
-  
+
   if(result >= 0) {
     parent->updateMode(GRAPHIX::VIEWONLY);
     parent->lock(true);
@@ -128,6 +132,47 @@ int AlgorithmsGlu::algorithmShortestPath()
   int end   = selected[1];
   int weight = graph->shortestPath(start, end, &path);
   
+  highlightPath(path);
+  
+  return weight;
+}
+
+int AlgorithmsGlu::algorithmMST()
+{
+  std::vector<int> path;
+  
+  Graph* ugraph = getUndirected();
+  
+  // Only works on undirected
+  if(ugraph == NULL)
+    return -2;
+  
+  int weight = ugraph->mst(&path);
+  
+  highlightPath(path);
+  
+  return weight;
+}
+
+int AlgorithmsGlu::algorithmMaxMatch()
+{
+  std::vector<int> edges;
+  
+  // Only works on undirected
+  Graph* ugraph = getUndirected();
+  
+  if(ugraph == NULL)
+    return -2;
+  
+  int weight = ugraph->maxMatching(&edges);
+  
+  highlightPath(edges);
+  
+  return weight;
+}
+
+void AlgorithmsGlu::highlightPath(const std::vector<int>& path, Color color)
+{
   std::vector<int>::const_iterator it;
   
   for(it = path.begin() ; it != path.end() ; ++it) {
@@ -137,8 +182,21 @@ int AlgorithmsGlu::algorithmShortestPath()
     if(edge != NULL)
       edge->setColor(color);
   }
-  
+
   scene.deselectAll();
-  
-  return weight;
+  parent->updateGL();
+}
+
+Graph* AlgorithmsGlu::getUndirected() const
+{
+  if(scene.isDirected())
+    return NULL;
+  return static_cast<Graph*>(graph);
+}
+
+DiGraph* AlgorithmsGlu::getDirected() const
+{
+  if(!scene.isDirected())
+    return NULL;
+  return static_cast<DiGraph*>(graph);
 }
