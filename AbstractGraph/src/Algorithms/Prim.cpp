@@ -23,6 +23,8 @@ Prim::Prim(Graph * g, vector<int> * path){
 	
 	this->g = g;
 	
+	numVisited = 0;
+	
 	initVertexStructure();
 }
 
@@ -162,16 +164,16 @@ int Prim::solve(){
         
         Vertex * u = *(Q->begin());
 		
+		//	mark visited, and remove from queue
+        u->visited = true;
+        numVisited++;
+		Q->erase(u);
+		
 		//	the node with smallest cost is dist, meaning
 		//	it is disconnected from the src, break
         if (u->dist == INFINITY){
             break;
         }
-        
-		//	mark visited, and remove from queue
-        u->visited = true;
-        //G->pop();
-		Q->erase(u);
 		
 		//	placeholders
         int uwCost = 0;
@@ -196,6 +198,10 @@ int Prim::solve(){
 			it++;
 		}
     }
+	
+	if (numVisited < (int)g->getNodes()->size()){
+		return -1;
+	}
 	
 	// construct MST and return the total weight
 	return constructMST();

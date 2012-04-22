@@ -84,6 +84,14 @@ private:
 	int s;
 	
 	
+	
+	/*
+	 * number of nodes visited by the solve algorithm
+	 */
+	int numVisited;
+	
+	
+	
 	/*
 	 * points to the vector used to store edge ids
 	 * along the shortest path

@@ -77,6 +77,7 @@ public:
 	bool eulerianPath(int s, int t, vector<int> * path);
 	
 	
+	
 	/*
 	 * bridges:	pointer to vector of ints used to store
 	 *			ids of bridge edges
