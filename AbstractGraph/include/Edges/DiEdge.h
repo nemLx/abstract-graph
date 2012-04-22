@@ -12,11 +12,13 @@
 #include "../Nodes/DiNode.h"
 #include "AbstractEdge.h"
 
+#include "../incl.h"
+
 
 
 class DiNode;
 
-class DiEdge : public AbstractEdge{
+class AGRAPH_EXPORT DiEdge : public AbstractEdge{
 	
 public:
 	

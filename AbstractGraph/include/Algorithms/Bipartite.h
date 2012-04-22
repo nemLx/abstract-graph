@@ -12,12 +12,13 @@
 #include <queue>
 #include "Algorithm.h"
 
+#include "../incl.h"
 
 /*
  * A algorithm determines bipartiteness and
  * finds the partite sets if they exist
  */
-class Bipartite : public Algorithm{
+class AGRAPH_EXPORT Bipartite : public Algorithm{
 	
 public:
 	

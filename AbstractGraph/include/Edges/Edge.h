@@ -12,11 +12,13 @@
 #include "../Nodes/Node.h"
 #include "AbstractEdge.h"
 
+#include "../incl.h"
+
 
 
 class Node;
 
-class Edge : public AbstractEdge{
+class AGRAPH_EXPORT Edge : public AbstractEdge{
 	
 public:
 	

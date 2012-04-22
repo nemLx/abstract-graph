@@ -20,6 +20,7 @@
 #include "../Graphs/AbstractGraph.h"
 #include "../Graphs/Graph.h"
 #include "../Graphs/DiGraph.h"
+#include "../incl.h"
 
 #define INFINITY INT_MAX
 
@@ -28,7 +29,7 @@
  * a super algorithm class, all algorithm
  * implementation must extend this class
  */
-class Algorithm{
+class AGRAPH_EXPORT Algorithm{
 
 public:
 	

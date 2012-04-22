@@ -11,13 +11,15 @@
 
 #include "AbstractNode.h"
 
+#include "../incl.h"
+
 using namespace std;
 
 
 
 class Edge;
 
-class Node : public AbstractNode{
+class AGRAPH_EXPORT Node : public AbstractNode{
 
 public:
 	

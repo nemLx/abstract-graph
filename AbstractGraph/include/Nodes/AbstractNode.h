@@ -13,11 +13,13 @@
 #include <vector>
 #include <map>
 
+#include "../incl.h"
+
 using namespace std;
 
 class AbstractEdge;
 
-class AbstractNode{
+class AGRAPH_EXPORT AbstractNode{
 	
 public:
 	

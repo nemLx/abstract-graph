@@ -11,10 +11,11 @@
 
 #include "Algorithm.h"
 #include "../Graphs/DiGraph.h"
+#include "../incl.h"
 
 
 
-class Gabow : public Algorithm{
+class AGRAPH_EXPORT Gabow : public Algorithm{
 	
 public:
 	

@@ -13,11 +13,14 @@
 #include "../Edges/DiEdge.h"
 #include "../Nodes/DiNode.h"
 
+#include "../incl.h"
+
+
 
 /*
  * a container for directed graphs
  */
-class DiGraph : public AbstractGraph{
+class AGRAPH_EXPORT DiGraph : public AbstractGraph{
 	
 public:
 	

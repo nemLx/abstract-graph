@@ -11,6 +11,7 @@
 
 #include "Algorithm.h"
 #include "../Graphs/Graph.h"
+#include "../incl.h"
 
 
 
@@ -19,7 +20,7 @@
  * a BFS on the vertices of a graph to find odd
  * length cycles, all edges lenghts are assumed 1
  */
-class OddCycle : public Algorithm{
+class AGRAPH_EXPORT OddCycle : public Algorithm{
 
 public:
 	
