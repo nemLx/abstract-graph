@@ -112,6 +112,12 @@ int AlgorithmsGlu::runAlgorithm(ALGORITHMS glu)
     case BIPARTITESETS:
       result = algorithmBipartite();
       break;
+    case ODDCYLCE:
+      result = algorithmOddCycle();
+      break;
+    case EULER:
+      result = algorithmEulerCircuit();
+      break;
     default:
       break;
   }
@@ -221,6 +227,60 @@ int AlgorithmsGlu::algorithmBipartite()
   highlightNodes(setY, Color(0.0, 255.0, 0.0, 0.0));
   
   return bipartite;
+}
+
+int AlgorithmsGlu::algorithmOddCycle()
+{
+  std::vector<int> cycle;
+  
+  Graph* ugraph = getUndirected();
+  
+  if(ugraph == NULL)
+    return -2;
+  
+  int length = ugraph->getOddCycle(&cycle);
+  
+  highlightPath(cycle);
+  
+  return length;
+}
+
+int AlgorithmsGlu::algorithmEulerCircuit()
+{
+  std::vector<int> circuit;
+  
+  Graph* ugraph = getUndirected();
+  
+  if(ugraph == NULL)
+    return -2;
+  
+  std::vector<int> selected = scene.getSelectedIds(GRAPHIX::CIRCLE);
+  
+  if(selected.size() > 2 || selected. size() < 1)
+    return -3;
+  
+  int start = selected[0];
+  int end   = (selected.size() == 2) ? selected[1] : selected[0];
+  int ret = ugraph->eulerianPath(start, end, &circuit);
+  
+  std::vector<int>::iterator it;
+  
+  int i = 0;
+  for(it = circuit.begin() ; it != circuit.end() ; ++it) {
+    GRAPHIX::Line* line = static_cast<GRAPHIX::Line*>(scene.findShape(*it, GRAPHIX::LINE));
+    
+    if(line == NULL)
+      continue;
+    
+    printf("Edge: %d, i: %d\n", *it, i);
+    
+    line->updateWeight(i);
+    i++;
+  }
+  
+  if(ret != 0)
+    parent->showWeights(true);
+  return ret;
 }
 
 void AlgorithmsGlu::highlightPath(const std::vector<int>& path, Color color)
