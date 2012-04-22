@@ -179,7 +179,7 @@ void Line::drawExtra() const
     glVertex2f(x + baseShift, y + baseShift);
     glVertex2f(x + baseShift, y - baseShift);
   
-  printf("Coords: (%f, %f)\n", x, y);
+  //printf("Coords: (%f, %f)\n", x, y);
   glEnd();
 }
 
