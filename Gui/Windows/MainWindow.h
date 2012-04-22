@@ -142,9 +142,9 @@ protected slots:
   void runMaxMatch();
   
   /**
-   * Run min verte
+   * Run bipartite sets
    */
-  void runMinVtx();
+  void runBipartite();
   
   /**
    * Run max network
