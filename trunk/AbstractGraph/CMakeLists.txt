@@ -29,7 +29,8 @@ endif(NOT WIN32)
 #link_directories(${Boost_LIBRARY_DIR})
 
 # Source Files
-set (GRAPH_SRC 
+set (GRAPH_SRC
+        include/incl.h include/AGRAPHLIB.h
 		include/Graphs/AbstractGraph.h src/Graphs/AbstractGraph.cpp
 		src/Graphs/Graph.cpp include/Graphs/Graph.h
 		src/Graphs/DiGraph.cpp include/Graphs/DiGraph.h

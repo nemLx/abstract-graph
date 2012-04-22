@@ -11,6 +11,7 @@
 
 #include "Algorithm.h"
 #include "../Graphs/Graph.h"
+#include "../incl.h"
 
 
 
@@ -19,7 +20,7 @@
  * between any two given nodes, if any. when passed
  * in the same start and end, it detect Eulerian cycle
  */
-class EulerianPath : public Algorithm{
+class AGRAPH_EXPORT EulerianPath : public Algorithm{
 
 public:
 	

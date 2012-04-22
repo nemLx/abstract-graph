@@ -10,6 +10,7 @@
 #define _DIJKSTRA_H_
 
 #include "Algorithm.h"
+#include "../incl.h"
 
 //#include <boost/heap/fibonacci_heap.hpp>
 //#include <boost/heap/policies.hpp>
@@ -22,7 +23,7 @@ using namespace std;
  * implementation of Dijkstra's algorithm of
  * shortest path between two nodes
  */
-class Dijkstra : public Algorithm{
+class AGRAPH_EXPORT Dijkstra : public Algorithm{
 
 public:
 	

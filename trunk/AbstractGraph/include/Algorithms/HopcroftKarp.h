@@ -11,6 +11,7 @@
 
 #include <queue>
 #include "Algorithm.h"
+#include "../incl.h"
 
 #define NULLNODE -1
 
@@ -21,7 +22,7 @@
  * which find the maximum matching in a bipartite
  * graph, given the partite sets
  */
-class HopcroftKarp : public Algorithm{
+class AGRAPH_EXPORT HopcroftKarp : public Algorithm{
 
 public:
 	

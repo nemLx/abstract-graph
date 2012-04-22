@@ -11,6 +11,7 @@
 
 #include "Algorithm.h"
 #include "../Graphs/Graph.h"
+#include "../incl.h"
 
 
 
@@ -19,7 +20,7 @@
  * in a graph
  *
  */
-class Bridge : public Algorithm{
+class AGRAPH_EXPORT Bridge : public Algorithm{
 
 public:
 	

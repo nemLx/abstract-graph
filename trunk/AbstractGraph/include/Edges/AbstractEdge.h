@@ -9,11 +9,12 @@
 #ifndef _ABSTRACTEDGE_H_
 #define _ABSTRACTEDGE_H_
 
+#include "../incl.h"
 
 
 class AbstractNode;
 
-class AbstractEdge{
+class AGRAPH_EXPORT AbstractEdge{
 
 public:
 	

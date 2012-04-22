@@ -11,6 +11,7 @@
 
 #include "Algorithm.h"
 #include "../Graphs/Graph.h"
+#include "../incl.h"
 
 
 
@@ -20,7 +21,7 @@
  * and decoding a prufer code and constructs 
  * the corresponding tree
  */
-class PruferCode : public Algorithm{
+class AGRAPH_EXPORT PruferCode : public Algorithm{
 
 public:
 	

@@ -13,9 +13,10 @@
 #include "../../include/Nodes/Node.h"
 #include "../../include/Edges/Edge.h"
 
+#include "../incl.h"
 
 
-class Graph : public AbstractGraph{
+class AGRAPH_EXPORT Graph : public AbstractGraph{
 
 public:
 		

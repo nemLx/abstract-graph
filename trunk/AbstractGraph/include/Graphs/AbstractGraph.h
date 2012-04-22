@@ -14,6 +14,8 @@
 #include <queue>
 #include <map>
 
+#include "../incl.h"
+
 using namespace std;
 
 
@@ -25,7 +27,7 @@ class AbstractEdge;
  * A dynamic graph class used for containing nodes
  * and edges, and with ease to manipulate
  */
-class AbstractGraph{
+class AGRAPH_EXPORT AbstractGraph{
 
 public:
 	

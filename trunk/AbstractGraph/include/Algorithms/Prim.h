@@ -10,12 +10,13 @@
 #define _PRIM_H_
 
 #include "Algorithm.h"
+#include "../incl.h"
 
 using namespace std;
 
 
 
-class Prim : public Algorithm{
+class AGRAPH_EXPORT Prim : public Algorithm{
 	
 public:
 	

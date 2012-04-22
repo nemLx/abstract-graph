@@ -11,13 +11,15 @@
 
 #include "AbstractNode.h"
 
+#include "../incl.h"
+
 using namespace std;
 
 
 
 class DiEdge;
 
-class DiNode : public AbstractNode{
+class AGRAPH_EXPORT DiNode : public AbstractNode{
 	
 public:
 	

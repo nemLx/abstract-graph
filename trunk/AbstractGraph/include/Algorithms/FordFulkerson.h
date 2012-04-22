@@ -12,6 +12,8 @@
 #include <queue>
 #include "Algorithm.h"
 
+#include "../incl.h"
+
 
 
 /*
@@ -19,7 +21,7 @@
  * maximum network flor in a directed graph, also
  * constructs the minimum cut at the same time
  */
-class FordFulkerson : public Algorithm{
+class AGRAPH_EXPORT FordFulkerson : public Algorithm{
 	
 public:
 	
