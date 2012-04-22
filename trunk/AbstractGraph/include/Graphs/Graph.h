@@ -25,7 +25,7 @@ public:
 	 * 			of all MST tree edges, in no particular order
 	 * 			
 	 * return:	the total weight of the MST edges if G is connected
-	 * 			-1 if G is disconnected ( YET TO BE IMPLEMENTED )
+	 * 			-1 if G is disconnected
 	 */
 	int mst(vector<int> * edges);
 	

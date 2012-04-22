@@ -98,6 +98,10 @@ private:
 	
 	
 	
+	map<pair<int, int>, int> * edges;
+	
+	
+	
 	/*
 	 * see implementation for comments on functions below
 	 */
