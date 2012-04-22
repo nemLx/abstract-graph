@@ -13,6 +13,8 @@
 
 #include "Control/NodeCreationMode.h"
 
+#include <climits>
+
 namespace GRAPHIX
 {
 NodeCreationMode::NodeCreationMode(std::vector<Shape*>* shapes, std::vector<Shape*>* selected, const Color& highlight)
