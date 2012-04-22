@@ -49,6 +49,12 @@ void shortestPathTest(){
 	
 	g.removeNode(4);
 	
+	//Graph g(3);
+	
+	g.addEdge(0, 1);
+	g.addEdge(0, 2);
+	g.addEdge(0, 1);
+	
 	printf("\n");
 	g.printGraph();
     
@@ -66,7 +72,7 @@ void shortestPathTest(){
 
 void mstTest(){
 	
-	Graph g(9);
+	Graph g(8);
 	
 	g.removeNode(0);
 	
@@ -371,6 +377,10 @@ void pruferDecodeTest(){
 	code.push_back(4);
 	code.push_back(4);
 	code.push_back(5);
+	code.push_back(5);
+	code.push_back(5);
+	code.push_back(5);
+	code.push_back(7);
 	
 	g.buildFromPruferCode(&code);
 	
@@ -379,6 +389,18 @@ void pruferDecodeTest(){
 	printf("\n");
 	
 	g.printGraph();
+	
+	vector<int> codeB;
+	map<int, int> label;
+	
+	int hasPruferCode = g.getPruferCode(&codeB, &label);
+	
+	if (hasPruferCode){
+		printf("\nPrufer Code: ");
+		printVector(&codeB);
+	}else{
+		printf("\nDoes not have Prufer Code\n");
+	}
 }
 
 
@@ -387,7 +409,7 @@ int main(){
 	
 //	shortestPathTest();
 	
-//	mstTest();
+	mstTest();
 	
 //	bipartiteTest();
 	
@@ -396,14 +418,14 @@ int main(){
 //	bipartiteMatchingTest();
 	
 //	oddCycleTest();
-	
+//	
 //	eulerianPathTest();
-	
+//	
 //	bridgeTest();
-	
+//	
 //	pruferEncodeTest();
 
-	pruferDecodeTest();
+//	pruferDecodeTest();
 	
 	return 0;
 }
