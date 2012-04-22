@@ -68,6 +68,11 @@ bool GLWindow::exportGraph(const QString& name, const QString& type)
   return result;
 }
 
+void GLWindow::showWeights(bool show)
+{
+  enableWeights = show;
+}
+
 int GLWindow::runAlgorithm(ALGORITHMS alg)
 {
   int ret = gluAlg.runAlgorithm(alg);

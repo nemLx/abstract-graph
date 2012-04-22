@@ -208,9 +208,7 @@ void MainWindow::buildAlgMenu()
   QAction* algMaxNet = new QAction(MAINWINDOW_ALG_MAXNET, this);
   QAction* algBipartite = new QAction(MAINWINDOW_ALG_BIPARTITE, this);
   QAction* algMinXY = new QAction(MAINWINDOW_ALG_MINXY, this);
-  QAction* algChromNo = new QAction(MAINWINDOW_ALG_CHROMNO, this);
-  QAction* algPartite = new QAction(MAINWINDOW_ALG_PARTITE, this);
-  QAction* algCycles = new QAction(MAINWINDOW_ALG_CYCLES, this);
+  QAction* algOdd = new QAction(MAINWINDOW_ALG_ODDCYCLE, this);
   QAction* algEuler = new QAction(MAINWINDOW_ALG_EULER, this);
   QAction* algCenter = new QAction(MAINWINDOW_ALG_CENTER, this);
   QAction* algPrufer = new QAction(MAINWINDOW_ALG_PRUFER, this);
@@ -222,6 +220,8 @@ void MainWindow::buildAlgMenu()
   connect(algMaxM, SIGNAL(triggered()), this, SLOT(runMaxMatch()));
   connect(algMaxNet, SIGNAL(triggered()), this, SLOT(runMaxNet()));
   connect(algBipartite, SIGNAL(triggered()), this, SLOT(runBipartite()));
+  connect(algOdd, SIGNAL(triggered()), this, SLOT(runOdd()));
+  connect(algEuler, SIGNAL(triggered()), this, SLOT(runEuler()));
   
   
   // Add to menu
@@ -232,9 +232,7 @@ void MainWindow::buildAlgMenu()
   algorithmMenu->addAction(algBipartite);
   algorithmMenu->addAction(algMinXY);
   algorithmMenu->addSeparator();
-  algorithmMenu->addAction(algChromNo);
-  algorithmMenu->addAction(algPartite);
-  algorithmMenu->addAction(algCycles);
+  algorithmMenu->addAction(algOdd);
   algorithmMenu->addAction(algEuler);
   algorithmMenu->addAction(algCenter);
   algorithmMenu->addSeparator();
@@ -248,13 +246,13 @@ void MainWindow::buildAlgMenu()
   algorithmsGrp->addAction(algMaxNet);
   algorithmsGrp->addAction(algBipartite);
   algorithmsGrp->addAction(algMinXY);
-  algorithmsGrp->addAction(algChromNo);
-  algorithmsGrp->addAction(algPartite);
-  algorithmsGrp->addAction(algCycles);
+  algorithmsGrp->addAction(algOdd);
   algorithmsGrp->addAction(algEuler);
   algorithmsGrp->addAction(algCenter);
   algorithmsGrp->addAction(algPrufer);
   algorithmsGrp->addAction(algdeB);
+  
+  algorithmsGrp->setEnabled(false);
 }
 
 /* Internal private helpers (i.e. not directly gui related) */
@@ -304,6 +302,7 @@ void MainWindow::createGLWindow(bool ask)
   // Set everyone back to node creation mode
   updateMode(GRAPHIX::NODECREATION);
   toolBar->setEnabled(true);
+  algorithmsGrp->setEnabled(true);
 }
 
 void MainWindow::closeGLWindow()
@@ -327,6 +326,7 @@ void MainWindow::updateCurrentTab(int idx)
     enableAction(MAINWINDOW_FILE_CLOSETAB_ID, false);
     enableAction(MAINWINDOW_FILE_EXPORT_ID, false);
     toolBar->setEnabled(false);
+    algorithmsGrp->setEnabled(false);
   } else {
     GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(idx));
     if(tab != NULL) {
@@ -445,6 +445,16 @@ void MainWindow::runBipartite()
 void MainWindow::runMaxNet()
 {
   runAlgorithm(MAXNET);
+}
+
+void MainWindow::runOdd()
+{
+  runAlgorithm(ODDCYLCE);
+}
+
+void MainWindow::runEuler()
+{
+  runAlgorithm(EULER);
 }
 
 void MainWindow::runAlgorithm(ALGORITHMS alg)

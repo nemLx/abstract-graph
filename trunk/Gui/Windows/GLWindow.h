@@ -82,6 +82,13 @@ public:
   virtual bool exportGraph(const QString& name, const QString& type);
   
   /**
+   * Enable weights
+   *
+   * @param show    True to show weights, false otherwise
+   */
+  virtual void showWeights(bool show);
+  
+  /**
    * Run an algorithm on the graph
    *
    * @param alg   The algorithm to be run

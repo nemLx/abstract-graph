@@ -151,6 +151,16 @@ protected slots:
    */
   void runMaxNet();
   
+  /**
+   * Odd Cycle
+   */
+  void runOdd();
+  
+  /**
+   * Run Euler
+   */
+  void runEuler();
+  
 private:
   /**
    * Initialize action items (private helper)

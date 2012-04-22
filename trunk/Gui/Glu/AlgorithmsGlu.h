@@ -123,6 +123,21 @@ protected:
    */
   virtual int algorithmBipartite();
   
+  /**
+   * Odd Cycle detection
+   *
+   * @return  Length of odd cycle. Otherwise 0 if none exists
+   */
+  virtual int algorithmOddCycle();
+  
+  /**
+   * Euler's circuit
+   *
+   * @return  True if path exists between source/dest. False
+   *    otherwise
+   */
+  virtual int algorithmEulerCircuit();
+  
 private:
   /**
    * Highlight a path based on vector
