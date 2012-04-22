@@ -11,7 +11,7 @@
 
 #define AGRAPH_PROD
 
-#include "../Graphs/Graph.h"
-#include "../Graphs/DiGraph.h"
+#include "Graphs/Graph.h"
+#include "Graphs/DiGraph.h"
 
 #endif
