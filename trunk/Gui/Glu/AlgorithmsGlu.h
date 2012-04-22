@@ -90,11 +90,48 @@ protected:
   /**
    * Run the shortest path algorithm
    *
-   * @return  The total weight of the shortest path. -1 on error
+   * @return  The total weight of the shortest path. < 0 on error
    */
   virtual int algorithmShortestPath();
   
-private:  
+  /**
+   * Run the MST algorithm
+   *
+   * @return  Return total weight of MST edges if G is 
+   *    connected. Error if < 0
+   */
+  virtual int algorithmMST();
+  
+  /**
+   * Maximum Matching
+   *
+   * @return  Size of max matching
+   */
+  virtual int algorithmMaxMatch();
+  
+private:
+  /**
+   * Highlight a path based on vector
+   *
+   * @param path  A reference to a vector with path ids
+   * @param color Path highlight color (default = RED)
+   */
+  virtual void highlightPath(const std::vector<int>& path, Color color = Color(255.0, 0.0, 0.0, 0.0));
+  
+  /**
+   * Return an undirected graph if graph undirected
+   *
+   * @return  Undirected graph. NULL if graph directed.
+   */
+  virtual Graph* getUndirected() const;
+  
+  /**
+   * Return a directed graph if graph directed
+   *
+   * @return  Directed graph. NULL if graph undirected.
+   */
+  virtual DiGraph* getDirected() const;
+  
   GRAPHIX::Scene& scene;
   GLWindow* parent;
   AbstractGraph* graph;
