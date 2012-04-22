@@ -205,8 +205,8 @@ void MainWindow::buildAlgMenu()
   QAction* algShort = new QAction(MAINWINDOW_ALG_SHORTEST, this);
   QAction* algMST = new QAction(MAINWINDOW_ALG_MST, this);
   QAction* algMaxM = new QAction(MAINWINDOW_ALG_MAXMATCH, this);
-  QAction* algMinVtx = new QAction(MAINWINDOW_ALG_MINVTXCOV, this);
   QAction* algMaxNet = new QAction(MAINWINDOW_ALG_MAXNET, this);
+  QAction* algBipartite = new QAction(MAINWINDOW_ALG_BIPARTITE, this);
   QAction* algMinXY = new QAction(MAINWINDOW_ALG_MINXY, this);
   QAction* algChromNo = new QAction(MAINWINDOW_ALG_CHROMNO, this);
   QAction* algPartite = new QAction(MAINWINDOW_ALG_PARTITE, this);
@@ -220,15 +220,16 @@ void MainWindow::buildAlgMenu()
   connect(algShort, SIGNAL(triggered()), this, SLOT(runShortestPath()));
   connect(algMST, SIGNAL(triggered()), this, SLOT(runMST()));
   connect(algMaxM, SIGNAL(triggered()), this, SLOT(runMaxMatch()));
-  connect(algMinVtx, SIGNAL(triggered()), this, SLOT(runMinVtx()));
   connect(algMaxNet, SIGNAL(triggered()), this, SLOT(runMaxNet()));
+  connect(algBipartite, SIGNAL(triggered()), this, SLOT(runBipartite()));
+  
   
   // Add to menu
   algorithmMenu->addAction(algShort);
   algorithmMenu->addAction(algMST);
   algorithmMenu->addAction(algMaxM);
-  algorithmMenu->addAction(algMinVtx);
   algorithmMenu->addAction(algMaxNet);
+  algorithmMenu->addAction(algBipartite);
   algorithmMenu->addAction(algMinXY);
   algorithmMenu->addSeparator();
   algorithmMenu->addAction(algChromNo);
@@ -244,8 +245,8 @@ void MainWindow::buildAlgMenu()
   algorithmsGrp->addAction(algShort);
   algorithmsGrp->addAction(algMST);
   algorithmsGrp->addAction(algMaxM);
-  algorithmsGrp->addAction(algMinVtx);
   algorithmsGrp->addAction(algMaxNet);
+  algorithmsGrp->addAction(algBipartite);
   algorithmsGrp->addAction(algMinXY);
   algorithmsGrp->addAction(algChromNo);
   algorithmsGrp->addAction(algPartite);
@@ -436,9 +437,9 @@ void MainWindow::runMaxMatch()
   runAlgorithm(MAXMATCH);
 }
 
-void MainWindow::runMinVtx()
+void MainWindow::runBipartite()
 {
-  runAlgorithm(MINVTX);
+  runAlgorithm(BIPARTITESETS);
 }
 
 void MainWindow::runMaxNet()

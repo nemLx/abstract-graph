@@ -106,6 +106,12 @@ int AlgorithmsGlu::runAlgorithm(ALGORITHMS glu)
     case MAXMATCH:
       result = algorithmMaxMatch();
       break;
+    case MAXNET:
+      result = algorithmMaxNet();
+      break;
+    case BIPARTITESETS:
+      result = algorithmBipartite();
+      break;
     default:
       break;
   }
@@ -171,6 +177,52 @@ int AlgorithmsGlu::algorithmMaxMatch()
   return weight;
 }
 
+int AlgorithmsGlu::algorithmMaxNet()
+{
+  std::vector<int> cutEdges;
+  std::vector<std::pair<int,int> > edgeFlow;
+  
+  DiGraph* dgraph = getDirected();
+  
+  if(dgraph == NULL)
+    return -2;
+  
+  std::vector<int> selected = scene.getSelectedIds(GRAPHIX::CIRCLE);
+  
+  if(selected.size() != 2)
+    return -3;
+  
+  int start = selected[0];
+  int end   = selected[1];
+  int flow = dgraph->maxFlowMinCut(start, end, &edgeFlow, &cutEdges);
+  
+  highlightNodes(cutEdges);
+  
+  // Update labels to: flow / capacity
+  printf("Flow: %d\n", flow);
+  
+  return flow;
+}
+
+int AlgorithmsGlu::algorithmBipartite()
+{
+  std::vector<int> setX;
+  std::vector<int> setY;
+  
+  Graph* ugraph = getUndirected();
+  
+  if(ugraph == NULL)
+    return -2;
+  
+  int bipartite = ugraph->bipartite(&setX, &setY);
+  
+  // TODO: Modify node structure (i.e. make it looks bipartite)
+  highlightNodes(setX);
+  highlightNodes(setY, Color(0.0, 255.0, 0.0, 0.0));
+  
+  return bipartite;
+}
+
 void AlgorithmsGlu::highlightPath(const std::vector<int>& path, Color color)
 {
   std::vector<int>::const_iterator it;
@@ -183,6 +235,22 @@ void AlgorithmsGlu::highlightPath(const std::vector<int>& path, Color color)
       edge->setColor(color);
   }
 
+  scene.deselectAll();
+  parent->updateGL();
+}
+
+void AlgorithmsGlu::highlightNodes(const std::vector<int>& nodes, Color color)
+{
+  std::vector<int>::const_iterator it;
+  
+  for(it = nodes.begin() ; it != nodes.end() ; ++it) {
+    GRAPHIX::Shape* shape = scene.findShape(*it, GRAPHIX::CIRCLE);
+    GRAPHIX::Circle* node = static_cast<GRAPHIX::Circle*>(shape);
+    
+    if(node != NULL)
+      node->setColor(color);
+  }
+  
   scene.deselectAll();
   parent->updateGL();
 }

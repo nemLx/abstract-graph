@@ -109,6 +109,20 @@ protected:
    */
   virtual int algorithmMaxMatch();
   
+  /**
+   * Maximum network flow
+   *
+   * @return  Maximum flow
+   */
+  virtual int algorithmMaxNet();
+  
+  /**
+   * Bipartite sets
+   *
+   * @return  1 if graph bipartite, 0 otherwise.
+   */
+  virtual int algorithmBipartite();
+  
 private:
   /**
    * Highlight a path based on vector
@@ -117,6 +131,14 @@ private:
    * @param color Path highlight color (default = RED)
    */
   virtual void highlightPath(const std::vector<int>& path, Color color = Color(255.0, 0.0, 0.0, 0.0));
+  
+  /**
+   * Highlight a node list
+   *
+   * @param path  A reference to a vector with node ids
+   * @param color Path highlight color (default = RED)
+   */
+  virtual void highlightNodes(const std::vector<int>& nodes, Color color = Color(255.0, 0.0, 0.0, 0.0));
   
   /**
    * Return an undirected graph if graph undirected

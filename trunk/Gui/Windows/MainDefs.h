@@ -44,7 +44,7 @@
 #define MAINWINDOW_ALG_SHORTEST tr("S&hortest Path")
 #define MAINWINDOW_ALG_MST tr("M&inimum Spanning Tree")
 #define MAINWINDOW_ALG_MAXMATCH tr("M&aximum Matching")
-#define MAINWINDOW_ALG_MINVTXCOV tr("M&inimum Vertex Cover")
+#define MAINWINDOW_ALG_BIPARTITE tr("Bipartite Sets")
 #define MAINWINDOW_ALG_MAXNET tr("M&aximum Network Flow")
 #define MAINWINDOW_ALG_MINXY tr("M&inimum X-Y Cut")
 #define MAINWINDOW_ALG_CHROMNO tr("Chromatic Number")
