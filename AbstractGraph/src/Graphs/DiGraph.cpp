@@ -9,6 +9,7 @@
 #include "../../include/Graphs/DiGraph.h"
 #include "../../include/Algorithms/HopcroftKarp.h"
 #include "../../include/Algorithms/FordFulkerson.h"
+#include "../../include/Algorithms/Gabow.h"
 
 using namespace std;
 
@@ -153,6 +154,15 @@ int DiGraph::maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, ve
 	FordFulkerson maxFlowMinCutSolver(this, s, t, edgeFlow, cutEdges);
 	
 	return maxFlowMinCutSolver.solve();
+}
+
+
+
+int DiGraph::getSCs(map<int, int> * scMap){
+	
+	Gabow scFinder(this, scMap);
+	
+	return scFinder.solve();
 }
 
 

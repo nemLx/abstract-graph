@@ -12,7 +12,6 @@
 #include "AbstractGraph.h"
 #include "../Edges/DiEdge.h"
 #include "../Nodes/DiNode.h"
-
 #include "../incl.h"
 
 
@@ -24,11 +23,31 @@ class AGRAPH_EXPORT DiGraph : public AbstractGraph{
 	
 public:
 	
+	/*
+	 * s:	source node id
+	 * 
+	 * t:	target node id
+	 * 
+	 * edgeFlow:	vector of pairs of ints, used to store edge id
+	 * 				and flow pair for all edges used in the graph
+	 * 				
+	 * cutSet:	vector of ints used to store ids of nodes in one
+	 * 			of the cut sets
+	 */
+	int maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet);
+	
+	
+	
+	/*
+	 *
+	 */
+	int getSCs(map<int, int> * scMap);
+	
+	
+	
 	DiGraph();
 	
 	~DiGraph();
-	
-	
 	
 	/*
 	 * nodeCount:	number of nodes to create
@@ -66,20 +85,6 @@ public:
 	 */
 	int removeNode(int id);
 	
-	
-	
-	/*
-	 * s:	source node id
-	 * 
-	 * t:	target node id
-	 * 
-	 * edgeFlow:	vector of pairs of ints, used to store edge id
-	 * 				and flow pair for all edges used in the graph
-	 * 				
-	 * cutSet:	vector of ints used to store ids of nodes in one
-	 * 			of the cut sets
-	 */
-	int maxFlowMinCut(int s, int t, vector< pair<int, int> > * edgeFlow, vector<int> * cutSet);
 };
 
 #endif
