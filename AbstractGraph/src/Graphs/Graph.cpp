@@ -17,6 +17,7 @@
 #include "../../include/Algorithms/Bridge.h"
 #include "../../include/Algorithms/PruferCode.h"
 #include "../../include/Algorithms/FloydWarshall.h"
+#include "../../include/Algorithms/GraphicSequence.h"
 
 using namespace std;
 
@@ -229,6 +230,15 @@ void Graph::allPairSP(map<pair<int, int>, int> *path, map<pair<int, int>, int> *
 	FloydWarshall spSolver(this, path, dist);
 	
 	spSolver.solve();
+}
+
+
+
+int Graph::buildFromSequence(vector<int> *sequence){
+	
+	GraphicSequence gsBuilder(this, sequence);
+	
+	return gsBuilder.solve();
 }
 
 

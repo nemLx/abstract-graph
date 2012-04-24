@@ -503,6 +503,33 @@ void allPairSPTest(){
 
 
 
+void graphicSequenceTest(){
+	
+	Graph g;
+	
+	vector<int> s;
+	
+	s.push_back(3);
+	s.push_back(3);
+	s.push_back(3);
+	s.push_back(3);
+	s.push_back(3);
+	s.push_back(2);
+	s.push_back(2);
+	s.push_back(1);
+	
+	int isGraphic = g.buildFromSequence(&s);
+	
+	if (isGraphic){
+		printf("\n");
+		g.printGraph();
+	}else{
+		printf("\nNot Graphic : %i\n", isGraphic);
+	}
+}
+
+
+
 int main(){
 	
 //	shortestPathTest();
@@ -527,7 +554,9 @@ int main(){
 	
 //	scTest();
 
-	allPairSPTest();
+//	allPairSPTest();
+
+	graphicSequenceTest();
 	
 	return 0;
 }
