@@ -162,8 +162,8 @@ void GraphMLHandler::parseCoords(const QString& line)
   QString xStr = remSep[0];
   QString yStr = remSep2[0];
   
-  float x = xStr.toFloat();
-  float y = yStr.toFloat();
+  float x = xStr.toFloat()/2;
+  float y = yStr.toFloat()/2;
   
   // TODO: Recalculate coords to current window
   

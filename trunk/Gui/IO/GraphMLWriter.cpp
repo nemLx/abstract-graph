@@ -46,6 +46,14 @@ bool GraphMLWriter::write()
   writer.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
   writer.writeAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
   
+  // Key information
+  writer.writeStartElement("key");
+  writer.writeAttribute("id", "nodeKey1");
+  writer.writeAttribute("for", "node");
+  writer.writeAttribute("attr.name", "VertexCoordinates");
+  writer.writeAttribute("attr.type", "String");
+  writer.writeEndElement();
+  
   writer.writeStartElement("graph");
   writer.writeAttribute("id", "G");
   writer.writeAttribute("edgedefault", (scene.isDirected()) ? "directed" : "undirected");
@@ -70,6 +78,9 @@ bool GraphMLWriter::writeNodes()
     
     writer.writeStartElement("node");
     writer.writeAttribute("id", id);
+    
+    writeCoordData(*it);
+    
     writer.writeEndElement();
   }
 
@@ -96,4 +107,21 @@ bool GraphMLWriter::writeEdges()
   }
   
   return !writer.hasError();
+}
+
+void GraphMLWriter::writeCoordData(GRAPHIX::Shape* node)
+{
+  if(node == NULL)
+    return;
+  
+  writer.writeStartElement("data");
+  writer.writeAttribute("key", "nodeKey1");
+  
+  QString coordData("List[%1`, %2`]");
+  
+  coordData = coordData.arg("%1").arg(node->getX()*2);
+  coordData = coordData.arg("%2").arg(node->getY()*2);
+  
+  writer.writeDTD(coordData);
+  writer.writeEndElement();
 }
