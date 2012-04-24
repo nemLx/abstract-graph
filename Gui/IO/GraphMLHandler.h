@@ -45,8 +45,21 @@ public:
    * Override of endElement
    */
   virtual bool endElement(const QString& namespaceURI, const QString& localName, const QString& qName);
+  
+  /**
+   * Characters
+   */
+  virtual bool characters(const QString& ch);
 
 protected:
+  /**
+   * Parse key elements
+   *
+   * @return atts   Attributes
+   * @return  True on success, false otherwise
+   */
+  virtual bool parseKey(const QXmlAttributes& atts);
+  
   /**
    * Parse graph elements
    *
@@ -71,10 +84,28 @@ protected:
    */
   virtual bool parseEdge(const QXmlAttributes& atts);
   
+  /**
+   * Parse data elements
+   *
+   * @param atts  Attributes
+   * @return  True on success, false otherwise.
+   */
+  virtual bool parseData(const QXmlAttributes& atts);
+  
+  /**
+   * Parse coordinates
+   *
+   * @param line   Line to parse
+   */
+  virtual void parseCoords(const QString& line);
+  
 private:
   GRAPHIX::Scene& scene;
   AlgorithmsGlu& glu;
+  GRAPHIX::Circle* nodePtr;
   bool done;
+  QString nodeId;
+  QString coordKey;
   std::map<QString, int> idMap;
 };
 
