@@ -126,6 +126,17 @@ public:
 	
 	
 	
+	/*
+	 * sequence:	points to a vector of nonegative integers
+	 *				represent a degree list of nodes in the graph
+	 *
+	 * return:	1 if the sequence is graphic, and populates the graph
+	 *			0 if the sequence is not graphic, does nothing
+	 */
+	int buildFromSequence(vector<int> * sequence);
+	
+	
+	
 	Graph();
 	
 	~Graph();
