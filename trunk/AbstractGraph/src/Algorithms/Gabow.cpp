@@ -12,26 +12,37 @@
 
 
 
-Gabow::Gabow(DiGraph * g, vector<int> * scs){
+Gabow::Gabow(DiGraph * g, map<int, int> * scMap){
 	
 	this->g = g;
-	this->scs = scs;
+	this->scMap = scMap;
 	
-//	low = new vector<int>;
-//	pre = new vector<int>;
-//	setId = new vector<int>;
+	pre = new map<int, int>;
+	search = new stack<int>;
+	path = new stack<int>;
+	adjs = new map<int, set<int>* >;
 	
 	count = 0;
 	scCount = 0;
+	
+	init();
 }
 
 
 
 Gabow::~Gabow(){
 	
-	delete low;
+	map<int, set<int>* >::iterator it = adjs->begin();
+	
+	while (it != adjs->end()) {
+		if (it->second != NULL)
+		delete it->second;
+		
+		it++;
+	}
+	
+	delete adjs;
 	delete pre;
-	delete setId;
 }
 
 
@@ -59,7 +70,9 @@ void Gabow::init(){
 			itAdj++;
 		}
 		
-		
+		(*adjs)[curr->id] = neighbors;
+		(*pre)[curr->id] = -1;
+		(*scMap)[curr->id] = -1;
 		
 		it++;
 	}
@@ -67,9 +80,61 @@ void Gabow::init(){
 
 
 
+void Gabow::scSearch(int w){
+	
+	int v;
+	
+	(*pre)[w] = count++;
+	search->push(w);
+	path->push(w);
+	
+	set<int> * adj = (*adjs)[w];
+	set<int>::iterator it = adj->begin();
+	
+	while (it != adj->end()) {
+		
+		int t = *it;
+		
+		if ( (*pre)[t] == -1 ){
+			scSearch(t);
+		}else if ( (*scMap)[t] == -1 ){
+			while ((*pre)[path->top()] > (*pre)[t] ) {
+				path->pop();
+			}
+		}
+		
+		it++;
+	}
+	
+	if ( path->top() == w ){
+		path->pop();
+	}else{
+		return;
+	}
+	
+	do{
+		(*scMap)[v = search->top()] = scCount;
+		search->pop();
+	}while (v !=w);
+	
+	scCount++;
+}
+
+
+
 int Gabow::solve(){
 	
-	return 0;
+	map<int, AbstractNode*>::iterator it = g->getNodes()->begin();
+	
+	while (it != g->getNodes()->end()) {
+		if ( (*pre)[it->first] == -1 ){
+			scSearch(it->first);
+		}
+		
+		it++;
+	}
+	
+	return scCount;
 }
 
 

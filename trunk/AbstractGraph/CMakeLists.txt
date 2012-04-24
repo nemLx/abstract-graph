@@ -51,6 +51,7 @@ set (GRAPH_SRC
         include/Algorithms/Bridge.h src/Algorithms/Bridge.cpp
         include/Algorithms/PruferCode.h src/Algorithms/PruferCode.cpp
         include/Algorithms/Gabow.h src/Algorithms/Gabow.cpp
+        include/Algorithms/FloydWarshall.h src/Algorithms/FloydWarshall.cpp
         )
 	
 

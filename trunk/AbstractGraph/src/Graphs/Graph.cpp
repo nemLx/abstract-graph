@@ -16,6 +16,7 @@
 #include "../../include/Algorithms/EulerianPath.h"
 #include "../../include/Algorithms/Bridge.h"
 #include "../../include/Algorithms/PruferCode.h"
+#include "../../include/Algorithms/FloydWarshall.h"
 
 using namespace std;
 
@@ -219,6 +220,15 @@ void Graph::buildFromPruferCode(vector<int> *code){
 	PruferCode builder(this, code);
 	
 	builder.solve();
+}
+
+
+
+void Graph::allPairSP(map<pair<int, int>, int> *path, map<pair<int, int>, int> *dist){
+	
+	FloydWarshall spSolver(this, path, dist);
+	
+	spSolver.solve();
 }
 
 

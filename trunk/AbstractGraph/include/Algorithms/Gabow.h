@@ -19,7 +19,7 @@ class AGRAPH_EXPORT Gabow : public Algorithm{
 	
 public:
 	
-	Gabow(DiGraph * g, vector<int> * scs);
+	Gabow(DiGraph * g, map<int, int> * scMap);
 	
 	int solve();
 	
@@ -29,21 +29,23 @@ private:
 	
 	DiGraph * g;
 	
-	vector<int> * scs;
-	
-	stack<int> * s;
-	
 	int count, scCount;
+	
+	map<int, int> * scMap;
+	
+	stack<int> * search;
+	
+	stack<int> * path; 
 	
 	map<int, int> * pre;
 	
-	map<int, int> * low;
-	
-	map<int, int> * setId;
+	map<int, set<int>* > * adjs;
 	
 	
 	
 	void init();
+	
+	void scSearch(int w);
 	
 };
 

@@ -109,10 +109,20 @@ public:
 	/*
 	 * code:	pointer to vector of ints used to store
 	 *			prufer code of the tree
-	 *
-	 * return:	1 if the tree corresponding to the code is decoded
 	 */
 	void buildFromPruferCode(vector<int> * code);
+	
+	
+	
+	/*
+	 * path:	the id of the next node in the path
+	 *			reachable from first int, to the second
+	 *
+	 * dist:	the distance between two nodes
+	 *
+	 * 
+	 */
+	void allPairSP(map<pair<int, int>, int> * path, map<pair<int, int>, int> *dist);
 	
 	
 	
