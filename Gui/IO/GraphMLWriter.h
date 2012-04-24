@@ -56,6 +56,13 @@ private:
    */
   virtual bool writeEdges();
   
+  /**
+   * Write coordinate data
+   *
+   * @param node   Pointer to node
+   */
+  virtual void writeCoordData(GRAPHIX::Shape* node);
+  
   const GRAPHIX::Scene& scene;
   QFile* input;
   QXmlStreamWriter writer;
