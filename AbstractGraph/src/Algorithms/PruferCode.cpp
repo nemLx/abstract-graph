@@ -127,7 +127,7 @@ void PruferCode::extract(int counter){
 	
 	// only execute n-3 iterations, as the
 	// definition of prufer code
-	if (counter == V->size() - 2){
+	if (counter == (int)V->size() - 2){
 		return;
 	}
 	
