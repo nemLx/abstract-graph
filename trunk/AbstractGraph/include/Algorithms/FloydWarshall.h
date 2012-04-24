@@ -15,7 +15,7 @@
 
 
 
-class FloydWarshall : public Algorithm{
+class AGRAPH_EXPORT FloydWarshall : public Algorithm{
 
 public:
 	

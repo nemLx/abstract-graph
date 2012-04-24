@@ -52,6 +52,7 @@ set (GRAPH_SRC
         include/Algorithms/PruferCode.h src/Algorithms/PruferCode.cpp
         include/Algorithms/Gabow.h src/Algorithms/Gabow.cpp
         include/Algorithms/FloydWarshall.h src/Algorithms/FloydWarshall.cpp
+        include/Algorithms/GraphicSequence.h src/Algorithms/GraphicSequence.cpp
         )
 	
 
