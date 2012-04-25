@@ -32,8 +32,11 @@
 #define MAINWINDOW_FILE_CLOSE tr("C&lose")
 
 // Edit Menu Actions
-#define MAINWINDOW_EDIT_REMOVENODE tr("R&emove Node")
-#define MAINWINDOW_EDIT_ADDEDGE tr("A&dd Edge")
+#define MAINWINDOW_EDIT_LABELIN tr("L&able In")
+#define MAINWINDOW_EDIT_LABELLEFT tr("L&able Left")
+#define MAINWINDOW_EDIT_LABELRIGHT tr("L&able Right")
+#define MAINWINDOW_EDIT_LABELUP tr("L&abel Up")
+#define MAINWINDOW_EDIT_LABELDOWN tr("L&able Down")
 
 // Modes Menu Actions
 #define MAINWINDOW_MODES_NODECREATION tr("N&ode Creation")

@@ -269,7 +269,14 @@ public:
    *
    * @return  A vector of pairs of coordinates
    */
-  virtual std::vector<std::pair<int, int> > getCoords(SHAPES type = ANY) const;
+  virtual std::vector<std::pair<float, float> > getCoords(SHAPES type = ANY) const;
+  
+  /**
+   * Get radii
+   *
+   * @return  A vector of radii
+   */
+  virtual std::vector<float> getRadii() const;
   
   /**
    * Get id's for selected items

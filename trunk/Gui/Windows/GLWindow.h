@@ -24,6 +24,18 @@
 class NodeOptionsMenu;
 class QWidget;
 
+/**
+ * Label positions
+ */
+enum TEXTPOSITION
+{
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+  IN
+};
+
 class GLWindow : public QGLWidget
 {
   Q_OBJECT
@@ -87,6 +99,13 @@ public:
    * @param show    True to show weights, false otherwise
    */
   virtual void showWeights(bool show);
+  
+  /**
+   * Set label position
+   *
+   * @param pos   The position for label
+   */
+  virtual void setLabelPosition(TEXTPOSITION pos);
   
   /**
    * Run an algorithm on the graph
@@ -239,6 +258,7 @@ private:
   bool enableWeights;
   bool isMoving;
   AlgorithmsGlu gluAlg;
+  TEXTPOSITION textPos;
 };
 
 #endif /* WINDOWS_GLWINDOW_H__ */
