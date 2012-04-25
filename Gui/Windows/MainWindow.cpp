@@ -528,7 +528,7 @@ void MainWindow::notifyError(ALGORITHMS alg, int result)
 {
   QMessageBox err(QMessageBox::Critical, tr("Error"), tr(""), QMessageBox::Ok, this);
   
-  QString msg;
+  QString msg(MAINWINDOW_ERRDLG_GENERIC);
   
   switch(alg)
   {
@@ -542,9 +542,16 @@ void MainWindow::notifyError(ALGORITHMS alg, int result)
       break;
     case MAXMATCH:
       msg = MAINWINDOW_ERRDLG_MAX_MATCH_1;
+      break;
+    case BIPARTITESETS:
+      msg = MAINWINDOW_ERRDLG_BIPARTITESETS_1;
+      break;
     default:
       break;
   }
+  
+  if(result == -2)
+    msg = MAINWINDOW_ERRDLG_GENERAL_MISMATCH_GRAPH;
   
   err.setText(msg);
   err.exec();

@@ -222,11 +222,12 @@ int AlgorithmsGlu::algorithmBipartite()
   
   int bipartite = ugraph->bipartite(&setX, &setY);
   
-  // TODO: Modify node structure (i.e. make it looks bipartite)
   highlightNodes(setX);
   highlightNodes(setY, Color(0.0, 255.0, 0.0, 0.0));
   
-  return bipartite;
+  bipartiteArrange(setX, setY);
+  
+  return (bipartite == 0) ? -1 : 0;
 }
 
 int AlgorithmsGlu::algorithmOddCycle()
@@ -327,4 +328,34 @@ DiGraph* AlgorithmsGlu::getDirected() const
   if(!scene.isDirected())
     return NULL;
   return static_cast<DiGraph*>(graph);
+}
+
+void AlgorithmsGlu::bipartiteArrange(const std::vector<int>& setX, const std::vector<int>& setY) const
+{
+  std::vector<int>::const_iterator it;
+  float leftX  = -0.25f;
+  float rightX = 0.25f;
+  float top = .9f;
+  
+  unsigned count = 0;
+  for(it = setX.begin() ; it != setX.end() ; ++it, count++) {
+    GRAPHIX::Circle* node = static_cast<GRAPHIX::Circle*>(scene.findShape(*it));
+    
+    if(node == NULL)
+      return;
+    
+    node->setX(leftX);
+    node->setY(top - (count*node->getRadius()*2));
+  }
+  
+  count = 0;
+  for(it = setY.begin() ; it != setY.end() ; ++it, count++) {
+    GRAPHIX::Circle* node = static_cast<GRAPHIX::Circle*>(scene.findShape(*it));
+    
+    if(node == NULL)
+      return;
+    
+    node->setX(rightX);
+    node->setY(top - (count*node->getRadius()*2));
+  }
 }

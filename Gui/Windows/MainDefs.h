@@ -74,9 +74,12 @@
 #define MAINWINDOW_ALGDLG_CONFIRM tr("Are you sure you wish to run this algorithm? After you run an algorithm, the graph will become VIEW ONLY")
 
 // Error dialog texts
+#define MAINWINDOW_ERRDLG_GENERIC tr("The operation failed.")
 #define MAINWINDOW_ERRDLG_FAILWRITE tr("Failed to write file: %1")
 #define MAINWINDOW_ERRDLG_SHORTEST_1 tr("The operation was cancelled. No path exists between the selected nodes. Please try again.")
 #define MAINWINDOW_ERRDLG_SHORTEST_2 tr("The operation was cancelled. Please ensure that you have exactly two nodes selected (i.e. a start and an end) before running this algorithm.")
 #define MAINWINDOW_ERRDLG_MAX_MATCH_1 tr("The operation was cancelled. This is not a bipartite graph.")
+#define MAINWINDOW_ERRDLG_BIPARTITESETS_1 tr("This graph is not BiPartite")
+#define MAINWINDOW_ERRDLG_GENERAL_MISMATCH_GRAPH tr("This algorithm cannot be run on this type of graph.")
 
 #endif /* WINDOWS_MAINDEFS_H__ */
