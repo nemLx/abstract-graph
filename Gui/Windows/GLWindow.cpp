@@ -97,7 +97,6 @@ void GLWindow::initalizeGL()
 
 void GLWindow::resizeGL(int w, int h)
 {
-  // DO NOT resize - just always make sure that it is a max canvas
   scene.updateGLSize(w, h);
 }
 
@@ -340,6 +339,8 @@ void GLWindow::drawLabels()
   if(labels.size() != coords.size())
     return;
   
+  // The magic numbers are from screen position
+  // will fix these later
   for(unsigned i = 0 ; i < labels.size() ; ++i) {
     if(labels[i].empty())
       continue;
@@ -349,21 +350,23 @@ void GLWindow::drawLabels()
     
     switch(textPos) {
       case LEFT:
-        x -= 20;
+        x -= 50;
         break;
       case RIGHT:
-        x += 30;
+        x += 50;
         break;
       case UP:
-        y -= 20;
+        y -= 30;
         break;
       case DOWN:
-        y += 20;
+        y += 30;
       case IN:
-        x += 10;
       default:
         break;
     }
+    
+    x -= 15; // Center
+    y += 5;
     
     renderText(x, y, QString(labels[i].c_str()));
   }

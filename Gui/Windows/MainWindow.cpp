@@ -167,7 +167,7 @@ void MainWindow::buildEditMenu()
   QAction* editLabelUp = new QAction(MAINWINDOW_EDIT_LABELUP, this);
   QAction* editLabelDown = new QAction(MAINWINDOW_EDIT_LABELDOWN, this);
   
-  connect(editLabelIn, SIGNAL(triggered()), this, SLOT(labelUp()));
+  connect(editLabelIn, SIGNAL(triggered()), this, SLOT(labelIn()));
   connect(editLabelLeft, SIGNAL(triggered()), this, SLOT(labelLeft()));
   connect(editLabelRight, SIGNAL(triggered()), this, SLOT(labelRight()));
   connect(editLabelUp, SIGNAL(triggered()), this, SLOT(labelUp()));
