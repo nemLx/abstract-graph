@@ -19,7 +19,10 @@
 class AGRAPH_EXPORT Graph : public AbstractGraph{
 
 public:
-		
+	
+	/* ------------------ */
+	/* ALGORITHMS SECTION */
+	/* ------------------ */
 	
 	/*
 	 * edges:	pointer to a vector of ints storing the ids
@@ -175,6 +178,10 @@ public:
 	int buildFromSequence(vector<int> * sequence);
 	
 	
+	
+	/* ----------------------- */
+	/* GRAPH STRUCTURE SECTION */
+	/* ----------------------- */
 	
 	Graph();
 	

@@ -532,29 +532,29 @@ void graphicSequenceTest(){
 
 int main(){
 	
-//	shortestPathTest();
+	shortestPathTest();
 	
-//	mstTest();
+	mstTest();
 	
-//	bipartiteTest();
+	bipartiteTest();
 	
-//	maxFlowTest();
+	maxFlowTest();
 	
-//	bipartiteMatchingTest();
+	bipartiteMatchingTest();
 	
-//	oddCycleTest();
-	
-//	eulerianPathTest();
-	
-//	bridgeTest();
-	
-//	pruferEncodeTest();
+	oddCycleTest();
 
-//	pruferDecodeTest();
+	eulerianPathTest();
 	
-//	scTest();
+	bridgeTest();
+	
+	pruferEncodeTest();
 
-//	allPairSPTest();
+	pruferDecodeTest();
+	
+	scTest();
+
+	allPairSPTest();
 
 	graphicSequenceTest();
 	
