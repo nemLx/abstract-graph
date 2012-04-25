@@ -162,6 +162,14 @@ private:
   virtual Graph* getUndirected() const;
   
   /**
+   * Arrange nodes in a bipartite fashion
+   *
+   * @param setX  Left set of nodes
+   * @param setY  Right set of nodes
+   */
+  virtual void bipartiteArrange(const std::vector<int>& setX, const std::vector<int>& setY) const;
+  
+  /**
    * Return a directed graph if graph directed
    *
    * @return  Directed graph. NULL if graph undirected.
