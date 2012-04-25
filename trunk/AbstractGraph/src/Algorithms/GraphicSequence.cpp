@@ -22,20 +22,29 @@ GraphicSequence::GraphicSequence(Graph * g, vector<int> * seq){
 
 
 
+/*
+ * Recursively checking graphic sequence satisfiability
+ * by removing the maximum degree d and subtracting 1 from
+ * next d largest numbers
+ */
 bool GraphicSequence::isGraphic(vector<int> * s){
 	
+	// base case, one node, degree 0
 	if ((int)s->size() == 1 && *s->begin() == 0){
 		return true;
 	}
 	
+	// sort, retrieve max and remove max
 	sort(s->begin(), s->end(), vectorReverse);
 	int max = *s->begin();
 	s->erase(s->begin());
 	
+	// no enough nodes left, not graphic
 	if ((int)s->size() < max){
 		return false;
 	}
 	
+	// enough nodes left, reduce degree and recurse
 	for (int i = 0; i < max; i++) {
 		s->at(i)--;
 	}
@@ -45,8 +54,13 @@ bool GraphicSequence::isGraphic(vector<int> * s){
 
 
 
+/*
+ * constructs the simple graph when seq is determined
+ * to be graphic
+ */
 void GraphicSequence::constructGraph(){
 	
+	// maps the initial indices to each node
 	vector< pair<int, int> > degreeList;
 	
 	for (int i = 0; i < n; i++) {
@@ -68,8 +82,13 @@ void GraphicSequence::addNodes(){
 
 
 
+/*
+ * recursively add edges between the node with
+ * highest degree d and the next d largest nodes
+ */
 void GraphicSequence::addEdges(vector< pair<int, int> > *s){
 
+	// single isolated nodes, base case
 	if ((int)s->size() == 1 && s->begin()->second == 0){
 		return;
 	}
@@ -79,6 +98,7 @@ void GraphicSequence::addEdges(vector< pair<int, int> > *s){
 	int curr = s->begin()->first;
 	s->erase(s->begin());
 	
+	// add max edges with the next max nodes 
 	for (int i = 0; i < max; i++) {
 		s->at(i).second--;
 		g->addEdge(curr, s->at(i).first);
