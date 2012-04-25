@@ -31,9 +31,30 @@ class AGRAPH_EXPORT AbstractGraph{
 
 public:
 	
-	AbstractGraph();
-
+	/* ------------------ */
+	/* ALGORITHMS SECTION */
+	/* ------------------ */
 	
+	/*
+	 * s:	source node id
+	 * 
+	 * t:	target node id
+	 * 
+	 * path:	pointer to a vector of ints used to store
+	 * 			ids of edges in the shortest path between s,t
+	 * 
+	 * return:	the total length of the path when there is one
+	 * 			-1 if there is no path
+	 */
+	int shortestPath(int s, int t, vector<int> * path);
+	
+	
+	
+	/* ----------------------- */
+	/* GRAPH STRUCTURE SECTION */
+	/* ----------------------- */
+	
+	AbstractGraph();
 	
 	/*
 	 * return:	a unique id of a new node
@@ -138,21 +159,6 @@ public:
 	 * should only be used for debugging purposes
 	 */
 	void printGraph();
-	
-	
-	
-	/*
-	 * s:	source node id
-	 * 
-	 * t:	target node id
-	 * 
-	 * path:	pointer to a vector of ints used to store
-	 * 			ids of edges in the shortest path between s,t
-	 * 
-	 * return:	the total length of the path when there is one
-	 * 			-1 if there is no path
-	 */
-	int shortestPath(int s, int t, vector<int> * path);
 	
 	
 	

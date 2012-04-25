@@ -20,6 +20,10 @@
  * both encoding the prufer code of a tree
  * and decoding a prufer code and constructs 
  * the corresponding tree
+ *
+ * this algorithm is purely based on the
+ * definition of prufer codes see:
+ * http://mathworld.wolfram.com/PrueferCode.html
  */
 class AGRAPH_EXPORT PruferCode : public Algorithm{
 

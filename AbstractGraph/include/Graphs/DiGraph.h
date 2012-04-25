@@ -23,6 +23,10 @@ class AGRAPH_EXPORT DiGraph : public AbstractGraph{
 	
 public:
 	
+	/* ------------------ */
+	/* ALGORITHMS SECTION */
+	/* ------------------ */
+	
 	/*
 	 * s:	source node id
 	 * 
@@ -39,11 +43,21 @@ public:
 	
 	
 	/*
+	 * scMap:	maps all nodes' ids to the id of
+	 *			the strong components they belong to
+	 * 
+	 * return:	the number of strong components
 	 *
+	 * GUI:	color nodes in different strong components
+	 *		with different color
 	 */
 	int getSCs(map<int, int> * scMap);
 	
 	
+	
+	/* ----------------------- */
+	/* GRAPH STRUCTURE SECTION */
+	/* ----------------------- */
 	
 	DiGraph();
 	

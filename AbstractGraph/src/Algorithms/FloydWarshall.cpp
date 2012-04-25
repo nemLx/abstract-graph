@@ -33,6 +33,9 @@ FloydWarshall::~FloydWarshall(){
 
 
 
+/*
+ * initialize data structures
+ */
 void FloydWarshall::init(){
 	
 	for (int i = 0; i < n; i++) {
@@ -50,6 +53,10 @@ void FloydWarshall::init(){
 
 
 
+/*
+ * initialize all the edges needed for
+ * path computation
+ */
 void FloydWarshall::initEdges(){
 	
 	int s, t, d;
@@ -80,6 +87,9 @@ void FloydWarshall::initEdges(){
 
 
 
+/*
+ * a function decides if there is path between s and t
+ */
 bool FloydWarshall::hasPath(int s, int t){
 	
 	return path->find(pair<int, int>(s,t)) != path->end() ||
@@ -88,6 +98,10 @@ bool FloydWarshall::hasPath(int s, int t){
 
 
 
+/*
+ * main procudere of the algorithm, see wiki for algorithm
+ * details
+ */
 int FloydWarshall::solve(){
 	
 	for (int i = 0; i < n; i++) {
@@ -108,6 +122,7 @@ int FloydWarshall::solve(){
 		}
 	}
 	
+	// replaces infinity distances with -1
 	markNoPath();
 	
 	return 1;
@@ -115,6 +130,10 @@ int FloydWarshall::solve(){
 
 
 
+/*
+ * "relax" operation defined by the algorithm, see
+ *	wiki for more detail
+ */
 void FloydWarshall::relax(int i, int s, int t){
 	
 	pair<int, int> st (s,t);
@@ -133,6 +152,9 @@ void FloydWarshall::relax(int i, int s, int t){
 
 
 
+/*
+ * replaces all infinity distances with -1
+ */
 void FloydWarshall::markNoPath(){
 	
 	map<pair<int, int>, int>::iterator it = dist->begin();

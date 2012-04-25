@@ -43,6 +43,8 @@ Gabow::~Gabow(){
 	
 	delete adjs;
 	delete pre;
+	delete search;
+	delete path;
 }
 
 
@@ -66,7 +68,6 @@ void Gabow::init(){
 		while ( itAdj != adj->end()){
 			
 			neighbors->insert(itAdj->second->id);
-			//(*mappedEdges)[pair<int, int>(curr->id, itAdj->second->id)] = itAdj->first->id;
 			itAdj++;
 		}
 		
@@ -80,6 +81,10 @@ void Gabow::init(){
 
 
 
+/*
+ * a dfs on g and recursively identifies
+ * scs based on path
+ */
 void Gabow::scSearch(int w){
 	
 	int v;
@@ -115,7 +120,7 @@ void Gabow::scSearch(int w){
 	do{
 		(*scMap)[v = search->top()] = scCount;
 		search->pop();
-	}while (v !=w);
+	}while (v != w);
 	
 	scCount++;
 }
@@ -126,6 +131,7 @@ int Gabow::solve(){
 	
 	map<int, AbstractNode*>::iterator it = g->getNodes()->begin();
 	
+	// performs scSearch on all connected components
 	while (it != g->getNodes()->end()) {
 		if ( (*pre)[it->first] == -1 ){
 			scSearch(it->first);
