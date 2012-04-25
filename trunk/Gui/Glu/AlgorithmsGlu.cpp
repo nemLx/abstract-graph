@@ -345,7 +345,7 @@ void AlgorithmsGlu::bipartiteArrange(const std::vector<int>& setX, const std::ve
       return;
     
     node->setX(leftX);
-    node->setY(top - (count*node->getRadius()*2));
+    node->setY(top - (count*node->getRadius()*2.5));
   }
   
   count = 0;
@@ -356,6 +356,6 @@ void AlgorithmsGlu::bipartiteArrange(const std::vector<int>& setX, const std::ve
       return;
     
     node->setX(rightX);
-    node->setY(top - (count*node->getRadius()*2));
+    node->setY(top - (count*node->getRadius()*2.5));
   }
 }
