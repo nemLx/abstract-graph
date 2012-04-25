@@ -10,7 +10,6 @@
 
 #include <QtGui>
 
-#include "GLWindow.h"
 #include "MainWindow.h"
 #include "MainDefs.h"
 
@@ -159,17 +158,35 @@ void MainWindow::buildFileMenu()
 
 void MainWindow::buildEditMenu()
 {
-  // Edit actions
-  QAction* editAddEdge = new QAction(MAINWINDOW_EDIT_ADDEDGE, this);
-  editAddEdge->setEnabled(false);
+  editGrp = new QActionGroup(this);
   
-  QAction* editRemove = new QAction(MAINWINDOW_EDIT_REMOVENODE, this);
-  editRemove->setEnabled(false);
+  // Edit actions
+  QAction* editLabelIn = new QAction(MAINWINDOW_EDIT_LABELIN, this);  
+  QAction* editLabelLeft = new QAction(MAINWINDOW_EDIT_LABELLEFT, this);
+  QAction* editLabelRight = new QAction(MAINWINDOW_EDIT_LABELRIGHT, this);
+  QAction* editLabelUp = new QAction(MAINWINDOW_EDIT_LABELUP, this);
+  QAction* editLabelDown = new QAction(MAINWINDOW_EDIT_LABELDOWN, this);
+  
+  connect(editLabelIn, SIGNAL(triggered()), this, SLOT(labelUp()));
+  connect(editLabelLeft, SIGNAL(triggered()), this, SLOT(labelLeft()));
+  connect(editLabelRight, SIGNAL(triggered()), this, SLOT(labelRight()));
+  connect(editLabelUp, SIGNAL(triggered()), this, SLOT(labelUp()));
+  connect(editLabelDown, SIGNAL(triggered()), this, SLOT(labelDown()));
   
   // Add to menu
-  editMenu->addAction(editAddEdge);
-  editMenu->addSeparator();
-  editMenu->addAction(editRemove);
+  editMenu->addAction(editLabelIn);
+  editMenu->addAction(editLabelLeft);
+  editMenu->addAction(editLabelRight);
+  editMenu->addAction(editLabelUp);
+  editMenu->addAction(editLabelDown);
+  
+  // Group
+  editGrp->addAction(editLabelIn);
+  editGrp->addAction(editLabelLeft);
+  editGrp->addAction(editLabelRight);
+  editGrp->addAction(editLabelUp);
+  editGrp->addAction(editLabelDown);
+  editGrp->setEnabled(false);
 }
 
 void MainWindow::buildModesMenu()
@@ -303,6 +320,7 @@ void MainWindow::createGLWindow(bool ask)
   updateMode(GRAPHIX::NODECREATION);
   toolBar->setEnabled(true);
   algorithmsGrp->setEnabled(true);
+  editGrp->setEnabled(true);
 }
 
 void MainWindow::closeGLWindow()
@@ -327,6 +345,7 @@ void MainWindow::updateCurrentTab(int idx)
     enableAction(MAINWINDOW_FILE_EXPORT_ID, false);
     toolBar->setEnabled(false);
     algorithmsGrp->setEnabled(false);
+    editGrp->setEnabled(false);
   } else {
     GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(idx));
     if(tab != NULL) {
@@ -422,6 +441,31 @@ void MainWindow::setColor()
   tab->updateColor();
 }
 
+void MainWindow::labelLeft()
+{
+  updateLabelPosition(LEFT);
+}
+
+void MainWindow::labelRight()
+{
+  updateLabelPosition(RIGHT);
+}
+
+void MainWindow::labelUp()
+{
+  updateLabelPosition(UP);
+}
+
+void MainWindow::labelDown()
+{
+  updateLabelPosition(DOWN);
+}
+
+void MainWindow::labelIn()
+{
+  updateLabelPosition(IN);
+}
+
 void MainWindow::runShortestPath()
 {
   runAlgorithm(SHORTESTPATH);
@@ -515,5 +559,15 @@ void MainWindow::updateMenus(GLWindow* tab)
   
   modesGrp->setEnabled(enabled);
   algorithmsGrp->setEnabled(enabled);
+}
+
+void MainWindow::updateLabelPosition(TEXTPOSITION pos)
+{
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  
+  if(tab == NULL)
+    return;
+  
+  tab->setLabelPosition(pos);
 }
 

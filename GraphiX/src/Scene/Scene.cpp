@@ -412,9 +412,9 @@ std::vector<std::string> Scene::getLabels() const
   return getLabels(shapes);
 }
 
-std::vector<std::pair<int, int> > Scene::getCoords(SHAPES type) const
+std::vector<std::pair<float, float> > Scene::getCoords(SHAPES type) const
 {
-  std::vector<std::pair<int, int> > ret;
+  std::vector<std::pair<float, float> > ret;
   std::vector<Shape*>::const_iterator it;
   
   for(it = shapes.begin() ; it != shapes.end() ; ++it) {
@@ -425,6 +425,21 @@ std::vector<std::pair<int, int> > Scene::getCoords(SHAPES type) const
       double y = 0;
       GLToWindow(glX, glY, x, y);
       ret.push_back(std::pair<int, int>(x, y));
+    }
+  }
+  
+  return ret;
+}
+
+std::vector<float> Scene::getRadii() const
+{
+  std::vector<float> ret;
+  std::vector<Shape*>::const_iterator it;
+  
+  for(it = shapes.begin() ; it != shapes.end() ; ++it) {
+    if((*it)->getType() == CIRCLE) {
+      Circle* node = static_cast<Circle*>(*it);
+      ret.push_back(node->getRadius());
     }
   }
   

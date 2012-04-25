@@ -15,13 +15,13 @@
 #include <QMainWindow>
 #include <QString>
 
+#include "GLWindow.h"
+
 // GraphiX Library
 #include "graphix.h"
 
 // Glue
 #include "Glu/Algorithms.h"
-
-class GLWindow;
 
 class QAction;
 class QActionGroup;
@@ -125,6 +125,31 @@ protected slots:
    * Set color of selected
    */
   void setColor();
+  
+  /**
+   * Set labels left
+   */
+  void labelLeft();
+  
+  /**
+   * Set labels right
+   */
+  void labelRight();
+  
+  /**
+   * Set labels up
+   */
+  void labelUp();
+  
+  /**
+   * Set labels down
+   */
+  void labelDown();
+  
+  /**
+   * Set labels in
+   */
+  void labelIn();
   
   /**
    * Run Shortest Path Algorithm
@@ -256,6 +281,13 @@ private:
    */
   void updateMenus(GLWindow* tab);
   
+  /**
+   * Update label position
+   *
+   * @param pos   Position
+   */
+  void updateLabelPosition(TEXTPOSITION pos);
+  
   /** Private members **/
   int currentTabIdx;
   
@@ -272,6 +304,7 @@ private:
   
   QActionGroup* modesGrp;
   QActionGroup* algorithmsGrp;
+  QActionGroup* editGrp;
 };
 
 #endif /* WINDOWS_MAINWINDOW_H__ */

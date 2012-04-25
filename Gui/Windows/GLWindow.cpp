@@ -24,7 +24,7 @@
 #include "Menus/MenuDefs.h"
 
 GLWindow::GLWindow(bool directed, QWidget* parent)
-  : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), gluAlg(scene, this, directed)
+  : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), gluAlg(scene, this, directed), textPos(IN)
 {
 }
 
@@ -172,6 +172,12 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
   QPoint pos(evt->globalPos());
   nodeRightClick->updateMenuItems(selected, numSelected, edgeSelected);
   nodeRightClick->exec(pos);
+}
+
+void GLWindow::setLabelPosition(TEXTPOSITION pos)
+{
+  textPos = pos;
+  deselectAll();
 }
 
 void GLWindow::updateLabel()
@@ -328,7 +334,8 @@ void GLWindow::deselectAll()
 void GLWindow::drawLabels()
 {  
   std::vector<std::string> labels = scene.getLabels();
-  std::vector<std::pair<int, int> > coords = scene.getCoords();
+  std::vector<std::pair<float, float> > coords = scene.getCoords();
+  std::vector<float> radii = scene.getRadii();
   
   if(labels.size() != coords.size())
     return;
@@ -336,7 +343,29 @@ void GLWindow::drawLabels()
   for(unsigned i = 0 ; i < labels.size() ; ++i) {
     if(labels[i].empty())
       continue;
-    renderText(coords[i].first, coords[i].second, QString(labels[i].c_str()));
+    
+    float x = coords[i].first;
+    float y = coords[i].second;
+    
+    switch(textPos) {
+      case LEFT:
+        x -= 20;
+        break;
+      case RIGHT:
+        x += 30;
+        break;
+      case UP:
+        y -= 20;
+        break;
+      case DOWN:
+        y += 20;
+      case IN:
+        x += 10;
+      default:
+        break;
+    }
+    
+    renderText(x, y, QString(labels[i].c_str()));
   }
 }
 
@@ -346,7 +375,7 @@ void GLWindow::drawWeights()
     return;
   
   std::vector<int> weights = scene.getWeights();
-  std::vector<std::pair<int, int> > coords = scene.getCoords(GRAPHIX::LINE);
+  std::vector<std::pair<float, float> > coords = scene.getCoords(GRAPHIX::LINE);
   
   if(weights.size() != coords.size())
     return;
