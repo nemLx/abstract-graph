@@ -151,6 +151,13 @@ public:
   virtual void updateLabel(const std::string& label);
   
   /**
+   * Update label of a particular node
+   *
+   * @param label   The label
+   */
+  virtual void updateLabel(int id, const std::string& label);
+  
+  /**
    * Update edge weights
    *
    * @param weight  The new edge weight

@@ -107,9 +107,9 @@ protected slots:
   void setEdgeCreateMode();
   
   /**
-   * Set to view only mode
+   * Set to edit mode
    */
-  void setViewMode();
+  void setEditMode();
   
   /**
    * Set node label
@@ -185,6 +185,16 @@ protected slots:
    * Run Euler
    */
   void runEuler();
+  
+  /**
+   * Get prufer code
+   */
+  void runPrufer();
+  
+  /**
+   * Import prufer code
+   */
+  void importPrufer();
   
 private:
   /**

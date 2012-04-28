@@ -30,6 +30,8 @@
 #define MAINWINDOW_FILE_NEW tr("N&ew Tab")
 #define MAINWINDOW_FILE_CLOSETAB tr("C&lose Current Tab")
 #define MAINWINDOW_FILE_CLOSE tr("C&lose")
+#define MAINWINDOW_FILE_GRAPHICSEQ tr("I&mport Graphic Sequence")
+#define MAINWINDOW_FILE_IMPORTPRUFER tr("I&mport From Prufer Code")
 
 // Edit Menu Actions
 #define MAINWINDOW_EDIT_LABELIN tr("L&able In")
@@ -41,20 +43,20 @@
 // Modes Menu Actions
 #define MAINWINDOW_MODES_NODECREATION tr("N&ode Creation")
 #define MAINWINDOW_MODES_EDGECREATION tr("E&dge Creation")
-#define MAINWINDOW_MODES_VIEWONLY tr("V&iew Only")
+#define MAINWINDOW_MODES_EDITMODE tr("E&dit")
 
 // Algorithm Menu Actions
 #define MAINWINDOW_ALG_SHORTEST tr("S&hortest Path")
+#define MAINWINDOW_ALG_ALLPAIR tr("A&ll Pair Shortest Path")
 #define MAINWINDOW_ALG_MST tr("M&inimum Spanning Tree")
 #define MAINWINDOW_ALG_MAXMATCH tr("M&aximum Matching")
-#define MAINWINDOW_ALG_BIPARTITE tr("Bipartite Sets")
+#define MAINWINDOW_ALG_BIPARTITE tr("B&ipartite Sets")
 #define MAINWINDOW_ALG_MAXNET tr("M&aximum Network Flow")
 #define MAINWINDOW_ALG_MINXY tr("M&inimum X-Y Cut")
 #define MAINWINDOW_ALG_ODDCYCLE tr("O&dd Cycle Detection")
 #define MAINWINDOW_ALG_EULER tr("E&uler Paths/Circuits")
-#define MAINWINDOW_ALG_CENTER tr("Center of Graph")
-#define MAINWINDOW_ALG_PRUFER tr("Prufer Code (Trees)")
-#define MAINWINDOW_ALG_DEBRUIJN tr("de Bruijn Cycles")
+#define MAINWINDOW_ALG_SCC tr("S&CCs")
+#define MAINWINDOW_ALG_PRUFER tr("P&rufer Code (Trees)")
 
 // Toolbar text
 #define MAINWINDOW_TLBR_NODECREATE tr("Node Creation Mode")
@@ -71,7 +73,7 @@
 #define MAINWINDOW_FILE_CLOSETAB_ID 0x1002
 
 // Dialog texts
-#define MAINWINDOW_ALGDLG_CONFIRM tr("Are you sure you wish to run this algorithm? After you run an algorithm, the graph will become VIEW ONLY")
+#define MAINWINDOW_ALGDLG_CONFIRM tr("Are you sure you wish to run this algorithm? After you run an algorithm, the graph will be in EDIT MODE ONLY. Only edit mode and view mode will be available. You will not be able to modify the graph.")
 
 // Error dialog texts
 #define MAINWINDOW_ERRDLG_GENERIC tr("The operation failed.")

@@ -35,7 +35,8 @@ set(SCENE_SRC src/Scene/Scene.cpp include/Scene/Scene.h)
 set(CONTROL_SRC src/Control/Mode.cpp include/Control/Mode.h
   src/Control/NodeCreationMode.cpp include/Control/NodeCreationMode.h
   src/Control/EdgeCreationMode.cpp include/Control/EdgeCreationMode.h
-  src/Control/ViewMode.cpp include/Control/ViewMode.h)
+  src/Control/ViewMode.cpp include/Control/ViewMode.h
+  src/Control/EditMode.cpp include/Control/EditMode.h)
 
 set(SOURCE_FILES ${GFX_SRC} ${SCENE_SRC} ${CONTROL_SRC} include/graphix.h)
 

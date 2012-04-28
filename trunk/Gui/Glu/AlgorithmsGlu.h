@@ -137,6 +137,20 @@ protected:
    */
   virtual int algorithmEulerCircuit();
   
+  /**
+   * Export prufer code
+   *
+   * @return  True if tree, false otherwise
+   */
+  virtual int algorithmExportPrufer();
+  
+  /**
+   * Import prufer code
+   *
+   * @return  1 if good false otherwise
+   */
+  virtual int algorithmImportPrufer();
+  
 private:
   /**
    * Highlight a path based on vector
@@ -175,6 +189,11 @@ private:
    * @return  Directed graph. NULL if graph undirected.
    */
   virtual DiGraph* getDirected() const;
+  
+  /**
+   * Build the scene from the internal graph
+   */
+  virtual void buildSceneFromGraph();
   
   GRAPHIX::Scene& scene;
   GLWindow* parent;

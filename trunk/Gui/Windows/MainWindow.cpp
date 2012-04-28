@@ -134,6 +134,10 @@ void MainWindow::buildFileMenu()
   actExport->setEnabled(false);
   
   QAction* actExit = new QAction(MAINWINDOW_FILE_CLOSE, this);
+  
+  QAction* actImportPrufer = new QAction(MAINWINDOW_FILE_IMPORTPRUFER, this);
+  
+  QAction* actImportGraphic = new QAction(MAINWINDOW_FILE_GRAPHICSEQ, this);
           
   // Make the items do something
   connect(actNew, SIGNAL(triggered()), this, SLOT(createGLWindow()));
@@ -141,12 +145,16 @@ void MainWindow::buildFileMenu()
   connect(actExit, SIGNAL(triggered()), qApp, SLOT(quit()));
   connect(actImport, SIGNAL(triggered()), this, SLOT(importGraph()));
   connect(actExport, SIGNAL(triggered()), this, SLOT(exportGraph()));
+  connect(actImportPrufer, SIGNAL(triggered()), this, SLOT(importPrufer()));
   
   // Add to menu
   fileMenu->addAction(actNew);
   fileMenu->addAction(actCloseT);
   fileMenu->addSeparator();
   fileMenu->addAction(actImport);
+  fileMenu->addAction(actImportPrufer);
+  fileMenu->addAction(actImportGraphic);
+  fileMenu->addSeparator();
   fileMenu->addAction(actExport);
   fileMenu->addSeparator();
   fileMenu->addAction(actExit);
@@ -201,13 +209,14 @@ void MainWindow::buildModesMenu()
   modeCEdge->setShortcut(QKeySequence(tr("Ctrl+2")));
   connect(modeCEdge, SIGNAL(triggered()), this, SLOT(setEdgeCreateMode()));
   
-  QAction* modeView = new QAction(MAINWINDOW_MODES_VIEWONLY, this);
-  modeView->setShortcut(QKeySequence(tr("Ctrl+3")));
-  connect(modeView, SIGNAL(triggered()), this, SLOT(setViewMode()));
+  QAction* modeEdit = new QAction(MAINWINDOW_MODES_EDITMODE, this);
+  modeEdit->setShortcut(QKeySequence(tr("Ctrl+3")));
+  connect(modeEdit, SIGNAL(triggered()), this, SLOT(setEditMode()));
   
   modesMenu->addAction(modeCNode);
   modesMenu->addAction(modeCEdge);
-  modesMenu->addAction(modeView);
+  modesMenu->addSeparator();
+  modesMenu->addAction(modeEdit);
   
   modesGrp->addAction(modeCNode);
   modesGrp->addAction(modeCEdge);
@@ -227,9 +236,9 @@ void MainWindow::buildAlgMenu()
   QAction* algMinXY = new QAction(MAINWINDOW_ALG_MINXY, this);
   QAction* algOdd = new QAction(MAINWINDOW_ALG_ODDCYCLE, this);
   QAction* algEuler = new QAction(MAINWINDOW_ALG_EULER, this);
-  QAction* algCenter = new QAction(MAINWINDOW_ALG_CENTER, this);
   QAction* algPrufer = new QAction(MAINWINDOW_ALG_PRUFER, this);
-  QAction* algdeB = new QAction(MAINWINDOW_ALG_DEBRUIJN, this);
+  QAction* algSCC = new QAction(MAINWINDOW_ALG_SCC, this);
+  QAction* algAllPair = new QAction(MAINWINDOW_ALG_ALLPAIR, this);
   
   // Actions
   connect(algShort, SIGNAL(triggered()), this, SLOT(runShortestPath()));
@@ -239,22 +248,24 @@ void MainWindow::buildAlgMenu()
   connect(algBipartite, SIGNAL(triggered()), this, SLOT(runBipartite()));
   connect(algOdd, SIGNAL(triggered()), this, SLOT(runOdd()));
   connect(algEuler, SIGNAL(triggered()), this, SLOT(runEuler()));
+  connect(algPrufer, SIGNAL(triggered()), this, SLOT(runPrufer()));
   
   
   // Add to menu
   algorithmMenu->addAction(algShort);
+  algorithmMenu->addAction(algAllPair);
   algorithmMenu->addAction(algMST);
+  algorithmMenu->addSeparator();
   algorithmMenu->addAction(algMaxM);
   algorithmMenu->addAction(algMaxNet);
-  algorithmMenu->addAction(algBipartite);
   algorithmMenu->addAction(algMinXY);
+  algorithmMenu->addAction(algBipartite);
   algorithmMenu->addSeparator();
   algorithmMenu->addAction(algOdd);
+  algorithmMenu->addAction(algSCC);
   algorithmMenu->addAction(algEuler);
-  algorithmMenu->addAction(algCenter);
   algorithmMenu->addSeparator();
   algorithmMenu->addAction(algPrufer);
-  algorithmMenu->addAction(algdeB);
   
   // Add to action group
   algorithmsGrp->addAction(algShort);
@@ -265,9 +276,9 @@ void MainWindow::buildAlgMenu()
   algorithmsGrp->addAction(algMinXY);
   algorithmsGrp->addAction(algOdd);
   algorithmsGrp->addAction(algEuler);
-  algorithmsGrp->addAction(algCenter);
   algorithmsGrp->addAction(algPrufer);
-  algorithmsGrp->addAction(algdeB);
+  algorithmsGrp->addAction(algSCC);
+  algorithmsGrp->addAction(algAllPair);
   
   algorithmsGrp->setEnabled(false);
 }
@@ -418,9 +429,9 @@ void MainWindow::setEdgeCreateMode()
   updateMode(GRAPHIX::EDGECREATION);
 }
 
-void MainWindow::setViewMode()
+void MainWindow::setEditMode()
 {
-  updateMode(GRAPHIX::VIEWONLY);
+  updateMode(GRAPHIX::EDIT);
 }
 
 void MainWindow::setNodeLabel()
@@ -501,6 +512,23 @@ void MainWindow::runEuler()
   runAlgorithm(EULER);
 }
 
+void MainWindow::runPrufer()
+{
+  runAlgorithm(EXPORTPRUFER);
+}
+
+void MainWindow::importPrufer()
+{
+  createGLWindow(false);
+  
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  
+  int result = tab->runAlgorithm(IMPORTPRUFER);
+  
+  if(result != 1)
+    closeGLWindow();
+}
+
 void MainWindow::runAlgorithm(ALGORITHMS alg)
 {
   QMessageBox msg(QMessageBox::Warning, tr("Confirm"), MAINWINDOW_ALGDLG_CONFIRM, QMessageBox::Ok|QMessageBox::Cancel, this);
@@ -565,7 +593,7 @@ void MainWindow::updateMenus(GLWindow* tab)
   bool enabled = !tab->isLocked();
   
   modesGrp->setEnabled(enabled);
-  algorithmsGrp->setEnabled(enabled);
+  //algorithmsGrp->setEnabled(enabled);
 }
 
 void MainWindow::updateLabelPosition(TEXTPOSITION pos)
