@@ -23,6 +23,9 @@
 #include "Menus/NodeOptionsMenu.h"
 #include "Menus/MenuDefs.h"
 
+#define FIXED_CANVAS_X 2000
+#define FIXED_CANVAS_Y 2000
+
 GLWindow::GLWindow(bool directed, QWidget* parent)
   : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), gluAlg(scene, this, directed), textPos(IN)
 {

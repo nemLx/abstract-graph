@@ -337,6 +337,24 @@ public:
    * @return  Whether graph is directed or not
    */
   virtual bool isDirected() const;
+  
+  /**
+   * Set scale factor
+   * Generally used for importing/exporting
+   *
+   * @param x  X scale Factor by which scene is scaled
+   * @param y  Y scale Factor by which scene is scaled
+   */
+  virtual void setScaleFactor(float x, float y);
+  
+  /**
+   * Get the scale factor
+   *
+   * @param x  If true, get the X scale factor. Otherwise y
+   *          (default = TRUE)
+   * @return  The scale factor of the scene
+   */
+  virtual float getScaleFactor(bool x = true) const;
 
 protected:
   /**
@@ -416,6 +434,7 @@ private:
   Color highlight;
   Color background;
   bool directed;
+  float xFactor, yFactor;
 };
 }
 #endif /* GRAPHIX_SCENE_SCENE_H__ */

@@ -119,8 +119,32 @@ void GraphMLWriter::writeCoordData(GRAPHIX::Shape* node)
   
   QString coordData("List[%1`, %2`]");
   
-  coordData = coordData.arg("%1").arg(node->getX()*2);
-  coordData = coordData.arg("%2").arg(node->getY()*2);
+  float xScale = scene.getScaleFactor();
+  float yScale = scene.getScaleFactor(false);
+  
+  GRAPHIX::Circle* circle = static_cast<GRAPHIX::Circle*>(node);
+  
+  float rad = circle->getRadius()*.01;
+  float bound = 2*rad;
+  
+  float x = node->getX();
+  float y = node->getY();
+  
+  // Adjust edge nodes
+  if(x + bound > 1)
+    x += rad;
+  else if(x - bound < -1)
+    x -= rad;
+  if(y + bound > 1)
+    y += rad;
+  else if(y - bound < -1)
+    y -= rad;
+  
+  x *= xScale;
+  y *= yScale;
+  
+  coordData = coordData.arg("%1").arg(x);
+  coordData = coordData.arg("%2").arg(y);
   
   writer.writeDTD(coordData);
   writer.writeEndElement();

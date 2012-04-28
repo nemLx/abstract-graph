@@ -9,6 +9,7 @@
  */
 
 #include "GraphMLHandler.h"
+#include <cmath>
 
 GraphMLHandler::GraphMLHandler(GRAPHIX::Scene& scene, AlgorithmsGlu& glu)
   : scene(scene), glu(glu), nodePtr(NULL), done(false), nodeId(""), coordKey("")
@@ -63,8 +64,10 @@ bool GraphMLHandler::parseKey(const QXmlAttributes& atts)
 bool GraphMLHandler::endElement(const QString& namespaceURI, const QString& localName, const QString& qName)
 {
   // Only read a single graph (if multiple graphs included)
-  if(!localName.compare("graph"))
+  if(!localName.compare("graph")) {
     done = true;
+    setNodeCoords();
+  }
   if(!localName.compare("node"))
     nodeId.clear();
   return true;
@@ -154,6 +157,7 @@ void GraphMLHandler::parseCoords(const QString& line)
   if(nodePtr == NULL)
     return;
 
+  AbsoluteCoords coords;
   QStringList split = line.split("[");
   split = split[1].split(",");
   
@@ -162,13 +166,50 @@ void GraphMLHandler::parseCoords(const QString& line)
   QString xStr = remSep[0];
   QString yStr = remSep2[0];
   
-  float x = xStr.toFloat()/2;
-  float y = yStr.toFloat()/2;
+  coords.x = xStr.toFloat();
+  coords.y = yStr.toFloat();
   
-  // TODO: Recalculate coords to current window
-  
-  nodePtr->setX(x);
-  nodePtr->setY(y);
+  nodeCoords[nodePtr] = coords;
   
   nodePtr = NULL;
+}
+
+void GraphMLHandler::setNodeCoords()
+{
+  std::map<GRAPHIX::Circle*, AbsoluteCoords>::iterator it;
+  float maxX = 0;
+  float maxY = 0;
+  float offset = 0;
+  
+  // Get scale factors
+  for(it = nodeCoords.begin() ; it != nodeCoords.end() ; ++it) {
+    if(maxX < abs(it->second.x))
+      maxX = it->second.x;
+    if(maxY < abs(it->second.y))
+      maxY = it->second.y;
+    if(offset < (it->first->getRadius()))
+      offset = it->first->getRadius()*.01;
+  }
+  
+  scene.setScaleFactor(maxX, maxY);
+  
+  for(it = nodeCoords.begin() ; it != nodeCoords.end() ; ++it) {
+    GRAPHIX::Circle* node = it->first;
+    float x = (it->second.x/maxX);
+    float y = (it->second.y/maxY);
+    
+    // Adjust bounds
+    if((x+offset) > 1)
+      x -= offset;
+    else if((x-offset) < -1)
+      x += offset;
+    if((y+offset) > 1)
+      y -= offset;
+    else if((y-offset) < -1)
+      y += offset;
+    
+    
+    node->setX(x);
+    node->setY(y);
+  }
 }
