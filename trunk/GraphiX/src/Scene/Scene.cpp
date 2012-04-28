@@ -293,6 +293,18 @@ void Scene::updateSelectedColor(unsigned int red, unsigned int green, unsigned i
     (*it)->setColor(c);
 }
 
+void Scene::updateNodeColor(int id, unsigned int r, unsigned int g, unsigned int b)
+{
+  Shape* node = findShape(id, GRAPHIX::CIRCLE);
+  
+  if(node == NULL)
+    return;
+  
+  Color c(r, g, b, 0.0);
+  
+  node->setColor(c);
+}
+
 void Scene::setLastId(int id)
 {
   if(shapes.empty())

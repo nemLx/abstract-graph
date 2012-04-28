@@ -182,6 +182,11 @@ void GLWindow::setLabelPosition(TEXTPOSITION pos)
   deselectAll();
 }
 
+void GLWindow::setDirected(bool directed)
+{
+  scene.setDirected(directed);
+}
+
 void GLWindow::updateLabel()
 {
   bool ok = false;

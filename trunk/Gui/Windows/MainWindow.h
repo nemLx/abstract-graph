@@ -62,10 +62,12 @@ protected slots:
   /**
    * Create a new OpenGL tab
    *
-   * @param ask   Determine whether to ask if directed graph or not
-   *              (default = true)
+   * @param ask     Determine whether to ask if directed graph or not
+   *                (default = true)
+   * @param directed Determine whether graph is directed or not.
+   *                  (default = false)
    */
-  void createGLWindow(bool ask = true);
+  void createGLWindow(bool ask = true, bool directed = false);
   
   /**
    * Close OpenGL tab based off of current index
@@ -195,6 +197,11 @@ protected slots:
    * Import prufer code
    */
   void importPrufer();
+  
+  /**
+   * Run SCC
+   */
+  void runSCC();
   
 private:
   /**

@@ -249,6 +249,7 @@ void MainWindow::buildAlgMenu()
   connect(algOdd, SIGNAL(triggered()), this, SLOT(runOdd()));
   connect(algEuler, SIGNAL(triggered()), this, SLOT(runEuler()));
   connect(algPrufer, SIGNAL(triggered()), this, SLOT(runPrufer()));
+  connect(algSCC, SIGNAL(triggered()), this, SLOT(runSCC()));
   
   
   // Add to menu
@@ -311,7 +312,7 @@ void MainWindow::updateMode(GRAPHIX::MODES mode)
 }
 
 /* Signals/Slots */
-void MainWindow::createGLWindow(bool ask)
+void MainWindow::createGLWindow(bool ask, bool directed)
 {
   int dir = -1;
   if(ask) {
@@ -320,7 +321,7 @@ void MainWindow::createGLWindow(bool ask)
     dir = msg.exec();
   }
   
-  GLWindow* glWindow = new GLWindow((dir == QMessageBox::Yes), this);
+  GLWindow* glWindow = new GLWindow((dir == QMessageBox::Yes) || directed, this);
   int idx = glTabs->addTab(glWindow, "Graph");
   glTabs->setCurrentIndex(idx);
   
@@ -527,6 +528,11 @@ void MainWindow::importPrufer()
   
   if(result != 1)
     closeGLWindow();
+}
+
+void MainWindow::runSCC()
+{
+  runAlgorithm(SCC);
 }
 
 void MainWindow::runAlgorithm(ALGORITHMS alg)

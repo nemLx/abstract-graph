@@ -128,6 +128,9 @@ int AlgorithmsGlu::runAlgorithm(ALGORITHMS glu)
     case IMPORTPRUFER:
       result = algorithmImportPrufer();
       break;
+    case SCC:
+      result = algorithmSCC();
+      break;
     default:
       break;
   }
@@ -353,6 +356,37 @@ int AlgorithmsGlu::algorithmImportPrufer()
   buildSceneFromGraph();
   
   return 1;
+}
+
+int AlgorithmsGlu::algorithmSCC()
+{
+  std::map<int,int> map;
+  DiGraph* graph = getDirected();
+  
+  if(graph == NULL)
+    return -2;
+  
+  int numComps = graph->getSCs(&map);
+  
+  std::map<int,int>::const_iterator it;
+  
+  unsigned r = 255.0f;
+  unsigned g = 200.0f;
+  unsigned b = 150.0f;
+  int count = 0;
+  for(it = map.begin() ; it != map.end() ; ++it) {
+    scene.updateNodeColor(it->second, r, g, b);
+    r -= (count % 3) ? count : 0;
+    g -= (count % 4) ? count : 0;
+    b -= (count % 5) ? count : 0;
+    r %= 256;
+    g %= 256;
+    b %= 256;
+  }
+  
+  printf("%d\n", numComps);
+  
+  return numComps;
 }
 
 void AlgorithmsGlu::highlightPath(const std::vector<int>& path, Color color)

@@ -192,6 +192,16 @@ public:
   virtual void updateSelectedColor(unsigned red, unsigned green, unsigned blue);
   
   /**
+   * Update color of particular node
+   *
+   * @param id    Node id
+   * @param r     Red color
+   * @param g     Green color
+   * @param b     Blue color
+   */
+  virtual void updateNodeColor(int id, unsigned r, unsigned g, unsigned b);
+  
+  /**
    * Add a public ID to last added shape
    *
    * @param id    The public id
