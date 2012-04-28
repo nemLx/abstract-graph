@@ -40,6 +40,11 @@ public:
   virtual ~AlgorithmsGlu();
   
   /**
+   * Assignment operator
+   */
+  AlgorithmsGlu& operator=(const AlgorithmsGlu& rhs);
+  
+  /**
    * Handle an action from GraphiX click handling
    *
    * @param action    The action which took place
