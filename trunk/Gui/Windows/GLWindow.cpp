@@ -184,7 +184,10 @@ void GLWindow::setLabelPosition(TEXTPOSITION pos)
 
 void GLWindow::setDirected(bool directed)
 {
-  scene.setDirected(directed);
+  if(scene.isDirected() == directed)
+    return;
+  scene = GRAPHIX::Scene(directed);
+  gluAlg = AlgorithmsGlu(scene, this, directed);
 }
 
 void GLWindow::updateLabel()

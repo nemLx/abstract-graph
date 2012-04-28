@@ -33,6 +33,18 @@ AlgorithmsGlu::~AlgorithmsGlu()
     delete graph;
 }
 
+AlgorithmsGlu& AlgorithmsGlu::operator=(const AlgorithmsGlu& rhs)
+{
+  if(this == &rhs)
+    return *this;
+  
+  scene = rhs.scene;
+  parent = rhs.parent;
+  graph = rhs.graph;
+  printf("Copied...\n");
+  return *this;
+}
+
 void AlgorithmsGlu::handleAction(GRAPHIX::ACTION action)
 {
   // ADDNODE & ADDEDGE
@@ -327,6 +339,8 @@ int AlgorithmsGlu::algorithmExportPrufer()
     pruferCode = pruferCode.arg("%1").arg(code[i]);
   }
   
+  parent->updateGL();
+  
   QMessageBox msg(QMessageBox::Information, "Prufer Code", pruferCode, QMessageBox::Ok, NULL);
   msg.exec();
   
@@ -371,10 +385,11 @@ int AlgorithmsGlu::algorithmSCC()
   std::map<int,int>::const_iterator it;
   
   unsigned r = 255.0f;
-  unsigned g = 200.0f;
-  unsigned b = 150.0f;
+  unsigned g = 240.0f;
+  unsigned b = 200.0f;
   int count = 0;
   for(it = map.begin() ; it != map.end() ; ++it) {
+    scene.updateNodeColor(it->first, r, g, b);
     scene.updateNodeColor(it->second, r, g, b);
     r -= (count % 3) ? count : 0;
     g -= (count % 4) ? count : 0;
@@ -384,7 +399,10 @@ int AlgorithmsGlu::algorithmSCC()
     b %= 256;
   }
   
+  parent->updateGL();
   printf("%d\n", numComps);
+  
+  graph->printGraph();
   
   return numComps;
 }
