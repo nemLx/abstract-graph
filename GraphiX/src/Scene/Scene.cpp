@@ -547,8 +547,8 @@ bool Scene::isDirected() const
 
 void Scene::setScaleFactor(float x, float y)
 {
-  xFactor = abs(x);
-  yFactor = abs(y);
+  xFactor = std::abs(x);
+  yFactor = std::abs(y);
 }
 
 float Scene::getScaleFactor(bool x) const
