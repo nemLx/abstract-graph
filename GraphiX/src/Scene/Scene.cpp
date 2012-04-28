@@ -16,7 +16,9 @@
 
 #include "Control/NodeCreationMode.h"
 #include "Control/EdgeCreationMode.h"
-#include "Control/ViewMode.h"
+#include "Control/EditMode.h"
+
+#include <cmath>
 
 #define GRAPHIX_DEFAULT_PICK_BUFFER_SIZE 16
 
@@ -31,7 +33,7 @@ Scene::Scene(bool directed)
   
   modes[NODECREATION] = new NodeCreationMode(&shapes, &selected, highlight);
   modes[EDGECREATION] = new EdgeCreationMode(&shapes, &selected, highlight);
-  modes[VIEWONLY] = new ViewMode(&shapes, &selected, highlight);
+  modes[EDIT] = new EditMode(&shapes, &selected, highlight);
   
   // Default in Node Creation Mode for now
   currentMode = modes[NODECREATION];
@@ -123,12 +125,12 @@ void Scene::addNode()
   if(last == NULL) { // Base case
     circle = new Circle(-.75, .75, rad);
   } else { // Position based on the last one
-    float x = last->getX() + (scale*last->getRadius());
+    float x = last->getX() + (scale*last->getRadius()*.01);
     float y = last->getY();
     
-    if(x + rad >= rightBnd) {
+    if(x + rad*.01 >= rightBnd) {
       x = -.75f;
-      y = last->getY() - (scale*last->getRadius());
+      y = last->getY() - (scale*last->getRadius()*.01);
     }
     
     circle = new Circle(x, y, rad);
@@ -237,6 +239,22 @@ void Scene::updateLabel(const std::string& label)
     if((*it)->getType() != LINE) // Lines have weights only
       (*it)->setLabel(label);
   }
+}
+
+void Scene::updateLabel(int id, const std::string& label)
+{
+  Shape* node = findShape(id, GRAPHIX::CIRCLE);
+  
+  if(node == NULL)
+    return;
+  
+  std::string currLabel = node->getLabel();
+  
+  currLabel.append("(");
+  currLabel.append(label);
+  currLabel.append(")");
+  
+  node->setLabel(currLabel);
 }
 
 void Scene::updateWeight(int weight)

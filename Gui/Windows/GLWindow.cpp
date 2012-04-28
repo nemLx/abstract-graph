@@ -140,7 +140,7 @@ void GLWindow::mouseReleaseEvent(QMouseEvent* evt)
 void GLWindow::mouseMoveEvent(QMouseEvent* evt)
 {
   // Move exactly one node at a time for now
-  if(scene.countSelected(GRAPHIX::CIRCLE) != 1 || scene.getMode() == GRAPHIX::VIEWONLY)
+  if(scene.countSelected(GRAPHIX::CIRCLE) != 1)
     return;
   
   isMoving = true;
@@ -166,10 +166,10 @@ void GLWindow::contextMenuEvent(QContextMenuEvent* evt)
   if(evt == NULL)
     return;
   
-  GRAPHIX::MODES currMode = scene.getMode();
-  unsigned numSelected  = (currMode == GRAPHIX::VIEWONLY) ? 0 : scene.countSelected();
+//  GRAPHIX::MODES currMode = scene.getMode();
+  unsigned numSelected  = scene.countSelected();
   unsigned edgeSelected = scene.countSelected(GRAPHIX::LINE);
-  bool selected = numSelected > 0 && currMode != GRAPHIX::VIEWONLY;
+  bool selected = numSelected > 0;
   
   QPoint pos(evt->globalPos());
   nodeRightClick->updateMenuItems(selected, numSelected, edgeSelected);

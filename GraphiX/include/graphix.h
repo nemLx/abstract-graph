@@ -28,7 +28,7 @@
 #include "Control/Mode.h"
 #include "Control/NodeCreationMode.h"
 #include "Control/EdgeCreationMode.h"
-#include "Control/ViewMode.h"
+#include "Control/EditMode.h"
 
 #endif /* GRAPHIX_LIB_H__ */
 

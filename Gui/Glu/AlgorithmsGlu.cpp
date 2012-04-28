@@ -8,7 +8,11 @@
  * @version $Id$
  */
 
+#include <map>
 #include <vector>
+
+#include <QInputDialog>
+#include <QMessageBox>
 
 #include "AlgorithmsGlu.h"
 
@@ -118,12 +122,18 @@ int AlgorithmsGlu::runAlgorithm(ALGORITHMS glu)
     case EULER:
       result = algorithmEulerCircuit();
       break;
+    case EXPORTPRUFER:
+      result = algorithmExportPrufer();
+      break;
+    case IMPORTPRUFER:
+      result = algorithmImportPrufer();
+      break;
     default:
       break;
   }
 
-  if(result >= 0) {
-    parent->updateMode(GRAPHIX::VIEWONLY);
+  if(result >= 0 && glu != IMPORTPRUFER) {
+    parent->updateMode(GRAPHIX::EDIT);
     parent->lock(true);
   }
   
@@ -284,6 +294,67 @@ int AlgorithmsGlu::algorithmEulerCircuit()
   return ret;
 }
 
+int AlgorithmsGlu::algorithmExportPrufer()
+{
+  std::vector<int> code;
+  std::map<int, int> map;
+  
+  Graph* graph = getUndirected();
+  
+  if(graph == NULL)
+    return -2;
+  
+  int result = graph->getPruferCode(&code, &map);
+  
+  if(result != 1)
+    return 0;
+  
+  std::map<int,int>::const_iterator it;
+  
+  for(it = map.begin() ; it != map.end() ; ++it) {
+    QString intToStr("%1");
+    intToStr = intToStr.arg("%1").arg(it->second);
+    scene.updateLabel(it->first, intToStr.toStdString());
+  }
+  
+  QString pruferCode;
+  
+  for(unsigned i = 0 ; i < code.size() ; ++i) {
+    pruferCode.append("%1");
+    pruferCode = pruferCode.arg("%1").arg(code[i]);
+  }
+  
+  QMessageBox msg(QMessageBox::Information, "Prufer Code", pruferCode, QMessageBox::Ok, NULL);
+  msg.exec();
+  
+  return result;
+}
+
+int AlgorithmsGlu::algorithmImportPrufer()
+{
+  QString prufer = QInputDialog::getText(NULL, "Prufer Code", "");
+  std::vector<int> code;
+  
+  if(prufer.isEmpty())
+    return -3;
+  
+  Graph* graph = getUndirected();
+  
+  if(graph == NULL)
+    return -2;
+  
+  for(int i = 0 ; i < prufer.length() ; ++i) {
+    const QChar x = prufer[i];
+    code.push_back(x.digitValue());
+  }
+  
+  graph->buildFromPruferCode(&code);
+  
+  buildSceneFromGraph();
+  
+  return 1;
+}
+
 void AlgorithmsGlu::highlightPath(const std::vector<int>& path, Color color)
 {
   std::vector<int>::const_iterator it;
@@ -357,5 +428,31 @@ void AlgorithmsGlu::bipartiteArrange(const std::vector<int>& setX, const std::ve
     
     node->setX(rightX);
     node->setY(top - (count*node->getRadius()*2.5));
+  }
+}
+
+void AlgorithmsGlu::buildSceneFromGraph()
+{
+  if(graph == NULL)
+    return;
+  
+  std::map<int, AbstractNode*>* nodes;
+  std::map<int, AbstractEdge*>* edges;
+  std::map<int, AbstractNode*>::iterator it;
+  std::map<int, AbstractEdge*>::iterator itt;
+  
+  nodes = graph->getNodes();
+  
+  for(it = nodes->begin() ; it != nodes->end() ; ++it) {
+    scene.addNode();
+    scene.setLastId(it->first);
+  }
+  
+  edges = graph->getEdges();
+  
+  for(itt = edges->begin() ; itt != edges->end() ; ++itt) {
+    AbstractEdge* edge = itt->second;
+    scene.addEdge(edge->getFrom()->id, edge->getTo()->id);
+    scene.setLastId(itt->first);
   }
 }
