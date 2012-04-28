@@ -108,6 +108,13 @@ public:
   virtual void setLabelPosition(TEXTPOSITION pos);
   
   /**
+   * Set directed
+   *
+   * @param directed    If true, graph directed. False otherwise
+   */
+  virtual void setDirected(bool directed);
+  
+  /**
    * Run an algorithm on the graph
    *
    * @param alg   The algorithm to be run

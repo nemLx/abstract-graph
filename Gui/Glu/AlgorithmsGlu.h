@@ -151,6 +151,13 @@ protected:
    */
   virtual int algorithmImportPrufer();
   
+  /**
+   * SCC
+   *
+   * @return  1 on success
+   */
+  virtual int algorithmSCC();
+  
 private:
   /**
    * Highlight a path based on vector
