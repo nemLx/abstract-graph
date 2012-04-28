@@ -99,6 +99,19 @@ protected:
    */
   virtual void parseCoords(const QString& line);
   
+  /**
+   * Set the node coordinates
+   */
+  virtual void setNodeCoords();
+  
+  /**
+   * Simple struct to find coordinates
+   */
+  struct AbsoluteCoords {
+    float x;
+    float y;
+  };
+  
 private:
   GRAPHIX::Scene& scene;
   AlgorithmsGlu& glu;
@@ -107,6 +120,7 @@ private:
   QString nodeId;
   QString coordKey;
   std::map<QString, int> idMap;
+  std::map<GRAPHIX::Circle*, AbsoluteCoords> nodeCoords;
 };
 
 #endif /* IO_GRAPHMLHANDLER_H__ */

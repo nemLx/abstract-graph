@@ -98,8 +98,8 @@ void Mode::highlight(Shape* shape)
 {
   if(shape == NULL || shape->isSelected())
     return;  
-  shape->setHighlight(highlightColor);
   shape->toggleSelected();
+  shape->setHighlight(highlightColor);
   selected->push_back(shape);
 }
 
@@ -124,9 +124,9 @@ void Mode::removeHighlight(Shape* shape)
   
   for(it = selected->begin() ; it != selected->end() ; ++it) {
     if(*it == shape) {
-      shape->setHighlight(highlight);
       if(shape->isSelected())
         shape->toggleSelected();
+      shape->setHighlight(highlight);
       selected->erase(it);
       break;
     }

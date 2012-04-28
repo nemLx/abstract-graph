@@ -23,7 +23,8 @@
 namespace GRAPHIX
 {
 Scene::Scene(bool directed)
-  : highlight(Color(0.0, 0.0, 255.0, 0.0)), background(Color(255.0, 255.0, 255.0, 0.0)), directed(directed)
+  : highlight(Color(0.0, 0.0, 255.0, 0.0)), background(Color(255.0, 255.0, 255.0, 0.0)), directed(directed), xFactor(1.0f),
+  yFactor(1.0f)
 {
   bufferSize = GRAPHIX_DEFAULT_PICK_BUFFER_SIZE;
   pickBuffer = new unsigned[bufferSize];
@@ -115,7 +116,7 @@ void Scene::addNode()
 {
   Circle* circle = NULL;
   Circle* last = static_cast<Circle*>(getLast(CIRCLE));
-  float rad = .08f;
+  float rad = 15.0f;
   float rightBnd = .85f;
   float scale = 2.5f;
   
@@ -524,6 +525,19 @@ void Scene::setDirected(bool d)
 bool Scene::isDirected() const
 {
   return directed;
+}
+
+void Scene::setScaleFactor(float x, float y)
+{
+  xFactor = abs(x);
+  yFactor = abs(y);
+}
+
+float Scene::getScaleFactor(bool x) const
+{
+  if(x)
+    return xFactor;
+  return yFactor;
 }
 
 unsigned Scene::pickScene(float x, float y)

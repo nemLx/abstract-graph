@@ -16,8 +16,9 @@
 #include "graphix_incl.h"
 #include "Color.h"
 
-#define DEG2RAD (3.14159/180)
-#define RAD2DEG (180/3.14159)
+#define PI 3.1415926
+#define DEG2RAD (PI/180)
+#define RAD2DEG (180/PI)
 
 namespace GRAPHIX
 {

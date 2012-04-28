@@ -100,6 +100,13 @@ public:
    */
   virtual SHAPES getType() const;
   
+  /**
+   * Set the color's highlight (i.e. when selected)
+   *
+   * @param color   The color to set the highlight
+   */
+  virtual void setHighlight(const Color& color);
+  
 private:
   /**
    * Update the positions of the edges

@@ -18,6 +18,8 @@ namespace GRAPHIX
 Circle::Circle(float x, float y, float rad)
   : Shape(x, y), radius(rad)
 {
+  setColor(Color(0.0,0.0,0.0,0.0));
+  setHighlight(Color(255.0, 255.0, 255.0 ,0.0));
 }
 
 Circle::~Circle()
@@ -76,30 +78,36 @@ void Circle::draw() const
   Color color(getColor());
   Color border(getHighlight());
   
-  // Draw the closed figure
-  glBegin(GL_TRIANGLE_FAN);
+  glEnable(GL_POINT_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  
+  glPointSize(radius);
+  glBegin(GL_POINTS);
     glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
     glVertex2f(x, y);
-    for(int i = 0 ; i <= 360 ; ++i)
-      glVertex2f(x + sin(i*DEG2RAD)*radius, y + cos(i*DEG2RAD)*radius);
   glEnd();
-  
-  // Outline our figure
-  glEnable(GL_LINE_SMOOTH);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-  glLineWidth(1.3f);
-  glBegin(GL_LINE_LOOP);
+
+  float innerRadius = radius - (radius/5);
+  glPointSize(innerRadius);
+  glBegin(GL_POINTS);
     glColor3f(border.r/255.0, border.g/255.0, border.b/255.0);
-    for(int i = 0 ; i < 360 ; ++i)
-      glVertex2f(x + sin(i*DEG2RAD)*radius, y + cos(i*DEG2RAD)*radius);
+    glVertex2f(x, y);
   glEnd();
 }
   
 SHAPES Circle::getType() const
 {
   return CIRCLE;
+}
+
+
+void Circle::setHighlight(const Color& color)
+{
+  if(isSelected())
+    Shape::setHighlight(color);
+  else
+    Shape::setHighlight(Color(255.0, 255.0, 255.0, 0.0));
 }
 
 void Circle::updateEdgePosition()
