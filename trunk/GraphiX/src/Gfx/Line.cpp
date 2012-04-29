@@ -162,25 +162,13 @@ void Line::drawExtra() const
   
   if(highlight.r != highlight.g != highlight.b != 0.f)
     color = highlight;
-  printf("Working...\n");
   
-  // Simple intersection calculations to know where/how
-  // to draw arrow
-  float r = to->getRadius();
-  float x = (to == cl) ? to->getX() - r : to->getX() + r;
-  float m = (to->getY() - from->getY())/((to->getX() - from->getX()));
-  float b = to->getY();
-  float y = m*(x - to->getX()) + b; // point-slope form: y = m*(x - x_1) + y_1
-  float baseShift = (to == cl) ? -.05f : .05f;
+  std::vector<std::pair<float, float> > coords = makeArrowHead(.05f);
   
-  glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
   glBegin(GL_TRIANGLES);
-  
-    glVertex2f(x, y);
-    glVertex2f(x + baseShift, y + baseShift);
-    glVertex2f(x + baseShift, y - baseShift);
-  
-  //printf("Coords: (%f, %f)\n", x, y);
+    glColor3f(color.r/255.0, color.g/255.0, color.b/255.0);
+  for(unsigned i = 0 ; i < coords.size() ; ++i)
+    glVertex2f(coords[i].first, coords[i].second);
   glEnd();
 }
 
@@ -189,4 +177,48 @@ SHAPES Line::getType() const
   return LINE;
 }
 
+// Code adapted from pseudocode at
+// http://stackoverflow.com/questions/1622762/draw-an-arrow-in-opengl-es
+std::vector<std::pair<float, float> > Line::makeArrowHead(float size) const
+{
+  std::vector<std::pair<float, float> > ret;
+  
+  std::pair<float, float> p1(from->getX(), from->getY());
+  std::pair<float, float> p2(getX(), getY());
+  
+  std::pair<float, float> v(p1.first-p2.first, p1.second-p2.second);
+  
+  Line::normalize(v);
+  
+  // 2 Perpendicular vectors
+  std::pair<float, float> v1(-v.second + v.first, v.first + v.second);
+  std::pair<float, float> v2(v.second + v.first, -v.first + v.second);
+  
+  Line::normalize(v1);
+  Line::normalize(v2);
+
+  v1.first  *= size;
+  v2.first  *= size;
+  v1.second *= size;
+  v2.second *= size;
+  
+  std::pair<float, float> vertex2(p2.first + v1.first, p2.second + v1.second);
+  std::pair<float, float> vertex3(p2.first + v2.first, p2.second + v2.second);
+  
+  ret.push_back(p2);
+  ret.push_back(vertex2);
+  ret.push_back(vertex3);
+  
+  return ret;
+}
+
+void Line::normalize(std::pair<float, float>& p)
+{
+  float x = p.first;
+  float y = p.second;
+  float length = sqrt((x*x) + (y*y));
+  
+  p.first /= length;
+  p.second /= length;
+}
 }

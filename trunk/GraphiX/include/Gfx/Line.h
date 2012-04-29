@@ -15,6 +15,9 @@
 #include "Shape.h"
 #include "Circle.h"
 
+#include <utility>
+#include <vector>
+
 namespace GRAPHIX
 {
 
@@ -124,7 +127,22 @@ public:
    */
   virtual SHAPES getType() const;
   
-private:  
+private:
+  /**
+   * Draw an arrow head
+   *
+   * @param size  The size of the arrow head
+   * @return  Coordinate vector
+   */
+  std::vector<std::pair<float, float> > makeArrowHead(float size) const;
+  
+  /**
+   * Normalize a pair
+   *
+   * @param p   The pair to normalize
+   */
+  static void normalize(std::pair<float, float>& p);
+  
   Circle* cl, *cr, *to, *from;
   float width;
   bool directed, direction;
