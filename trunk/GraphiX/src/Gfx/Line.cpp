@@ -162,6 +162,7 @@ void Line::drawExtra() const
   
   if(highlight.r != highlight.g != highlight.b != 0.f)
     color = highlight;
+  printf("Working...\n");
   
   // Simple intersection calculations to know where/how
   // to draw arrow

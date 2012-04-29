@@ -12,7 +12,7 @@
 #include <cmath>
 
 GraphMLHandler::GraphMLHandler(GRAPHIX::Scene& scene, AlgorithmsGlu& glu)
-  : scene(scene), glu(glu), nodePtr(NULL), done(false), nodeId(""), coordKey("")
+  : scene(scene), glu(glu), nodePtr(NULL), done(false), nodeId(""), coordKey(""), hasData(true)
 {
 }
 
@@ -171,44 +171,59 @@ void GraphMLHandler::parseCoords(const QString& line)
   
   nodeCoords[nodePtr] = coords;
   
+  if(!hasData) {
+    hasData = true;
+    minX = maxX = coords.x;
+    minY = maxY = coords.y;
+  } else {
+    if(coords.x < minX)
+      minX = coords.x;
+    else if(coords.x > maxX)
+      maxX = coords.x;
+    
+    if(coords.y < minY)
+      minY = coords.y;
+    else if(coords.y > maxY)
+      maxY = coords.y;
+  }
+  
   nodePtr = NULL;
 }
 
+// Math by Nemo
 void GraphMLHandler::setNodeCoords()
 {
   std::map<GRAPHIX::Circle*, AbsoluteCoords>::iterator it;
-  float maxX = 0;
-  float maxY = 0;
-  float offset = 0;
+  float scale = .9f;
   
-  // Get scale factors
-  for(it = nodeCoords.begin() ; it != nodeCoords.end() ; ++it) {
-    if(maxX < abs(it->second.x))
-      maxX = it->second.x;
-    if(maxY < abs(it->second.y))
-      maxY = it->second.y;
-    if(offset < (it->first->getRadius()))
-      offset = it->first->getRadius()*.01;
-  }
+  if (minX < 0)
+    maxX += abs(minX);
+  else
+    maxX -= abs(minX);
   
-  scene.setScaleFactor(maxX, maxY);
+  if (minY < 0)
+    maxY += abs(minY);
+  else
+    maxY -= abs(minY);
   
-  for(it = nodeCoords.begin() ; it != nodeCoords.end() ; ++it) {
-    GRAPHIX::Circle* node = it->first;
-    float x = (it->second.x/maxX);
-    float y = (it->second.y/maxY);
+  for(it = nodeCoords.begin() ; it != nodeCoords.end() ; it++) {
     
-    // Adjust bounds
-    if((x+offset) > 1)
-      x -= offset;
-    else if((x-offset) < -1)
-      x += offset;
-    if((y+offset) > 1)
-      y -= offset;
-    else if((y-offset) < -1)
-      y += offset;
+    if (minX < 0)
+      it->second.x += abs(minX);
+    else
+      it->second.x -= abs(minX);
     
-    node->setX(x);
-    node->setY(y);
+    if (minY < 0)
+      it->second.y += abs(minY);
+    else
+      it->second.y -= abs(minY);
+    
+    float x = (((2*scale)*it->second.x)/maxX) - scale;
+    float y = (((2*scale)*it->second.y)/maxY) - scale;
+
+    
+    it->first->setX(x);
+    it->first->setY(y);
   }
 }
+

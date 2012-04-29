@@ -130,6 +130,7 @@ void GraphMLWriter::writeCoordData(GRAPHIX::Shape* node)
   float x = node->getX();
   float y = node->getY();
   
+#if 0
   // Adjust edge nodes
   if(x + bound > 1)
     x += rad;
@@ -142,6 +143,7 @@ void GraphMLWriter::writeCoordData(GRAPHIX::Shape* node)
   
   x *= xScale;
   y *= yScale;
+#endif
   
   coordData = coordData.arg("%1").arg(x);
   coordData = coordData.arg("%2").arg(y);
