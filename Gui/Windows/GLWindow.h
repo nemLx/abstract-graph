@@ -35,7 +35,7 @@ enum TEXTPOSITION
   DOWN,
   LEFT,
   RIGHT,
-  IN
+  INSIDE
 };
 
 class GLWindow : public QGLWidget

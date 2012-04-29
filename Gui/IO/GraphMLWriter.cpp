@@ -119,13 +119,13 @@ void GraphMLWriter::writeCoordData(GRAPHIX::Shape* node)
   
   QString coordData("List[%1`, %2`]");
   
-  float xScale = scene.getScaleFactor();
-  float yScale = scene.getScaleFactor(false);
+//  float xScale = scene.getScaleFactor();
+//  float yScale = scene.getScaleFactor(false);
   
-  GRAPHIX::Circle* circle = static_cast<GRAPHIX::Circle*>(node);
+ // GRAPHIX::Circle* circle = static_cast<GRAPHIX::Circle*>(node);
   
-  float rad = circle->getRadius()*.01;
-  float bound = 2*rad;
+  //float rad = circle->getRadius()*.01;
+ // float bound = 2*rad;
   
   float x = node->getX();
   float y = node->getY();
