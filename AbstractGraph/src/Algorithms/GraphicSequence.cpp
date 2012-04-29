@@ -34,6 +34,10 @@ bool GraphicSequence::isGraphic(vector<int> * s){
 		return true;
 	}
 	
+	if (s->empty()){
+		return false;
+	}
+	
 	// sort, retrieve max and remove max
 	sort(s->begin(), s->end(), vectorReverse);
 	int max = *s->begin();
