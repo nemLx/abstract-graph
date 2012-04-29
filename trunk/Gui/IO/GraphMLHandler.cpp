@@ -208,7 +208,6 @@ void GraphMLHandler::setNodeCoords()
     else if((y-offset) < -1)
       y += offset;
     
-    
     node->setX(x);
     node->setY(y);
   }

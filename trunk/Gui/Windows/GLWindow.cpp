@@ -27,8 +27,9 @@
 #define FIXED_CANVAS_Y 2000
 
 GLWindow::GLWindow(bool directed, QWidget* parent)
-  : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), gluAlg(scene, this, directed), textPos(IN)
+  : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), leftButton(false), gluAlg(scene, this, directed), textPos(IN)
 {
+  this->setMouseTracking(true);
 }
 
 GLWindow::~GLWindow()
@@ -124,6 +125,7 @@ void GLWindow::mousePressEvent(QMouseEvent* evt)
   if(button == Qt::LeftButton) {
     GRAPHIX::ACTION act = scene.registerClick(x, y);
     gluAlg.handleAction(act);
+    leftButton = true;
     updateGL();
   }
 }
@@ -136,25 +138,30 @@ void GLWindow::mouseReleaseEvent(QMouseEvent* evt)
     isMoving = false;
     deselectAll();
   }
+  leftButton = false;
 }
 
 void GLWindow::mouseMoveEvent(QMouseEvent* evt)
 {
-  // Move exactly one node at a time for now
-  if(scene.countSelected(GRAPHIX::CIRCLE) != 1)
-    return;
-  
-  isMoving = true;
-  
   // Make sure are coordinates are from the proper perspective
   QPoint pos(evt->pos());
   mapFromGlobal(pos);
   int x = pos.x();
   int y = pos.y();
   
-  // Move selected nodes
-  scene.moveNodes(x, y);
-  updateGL();
+  if(leftButton) {
+    int dx = x - lastPos.first;
+    int dy = y - lastPos.second;
+    
+    isMoving = true;
+    
+    // Move selected nodes
+    scene.moveNodes(dx, dy);
+    updateGL();
+  }
+  
+  lastPos.first  = x;
+  lastPos.second = y;
 }
 
 void GLWindow::keyPressEvent(QKeyEvent* evt)

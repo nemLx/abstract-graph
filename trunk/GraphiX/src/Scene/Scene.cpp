@@ -175,15 +175,23 @@ MODES Scene::getMode() const
 void Scene::moveNodes(int xW, int yW)
 {
   updateViewport();
-  double x = 0, y = 0;
-  windowToGL(xW, yW, x, y);
+  float dx = (float)xW/(float)viewport[2];
+  float dy = (float)yW/(float)viewport[3];
   
   std::vector<Shape*>::iterator it;
-  
+
   for(it = selected.begin() ; it != selected.end() ; ++it) {
     if((*it)->getType() != LINE) {
-      (*it)->setX(x);
-      (*it)->setY(y);
+      float x = (*it)->getX();
+      float y = (*it)->getY();
+      float newX = x + dx;
+      float newY = y - dy;
+      
+      if(newX < -1 || newX > 1 || newY < -1 || newY > 1)
+        continue;
+
+      (*it)->setX(newX);
+      (*it)->setY(newY);
     }
   }
 }
