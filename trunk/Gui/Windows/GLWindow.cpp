@@ -78,6 +78,7 @@ void GLWindow::showWeights(bool show)
 
 int GLWindow::runAlgorithm(ALGORITHMS alg)
 {
+  scene.resetColors();
   int ret = gluAlg.runAlgorithm(alg);
   updateGL();
   return ret;

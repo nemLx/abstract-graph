@@ -42,7 +42,7 @@ ACTION NodeCreationMode::handleClick(double x, double y, unsigned hits, unsigned
   // In node creation mode, so add some circles!
   // (But don't overlap)
   if(hits < 1) {
-    double rad = 15.0f; // Static 15.0f radius for now
+    double rad = 18.0f; // Static 18.0f radius for now
     shapes->push_back(new Circle(x, y, rad));
     ret = ADDNODE;
   }

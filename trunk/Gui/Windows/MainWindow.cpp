@@ -146,6 +146,7 @@ void MainWindow::buildFileMenu()
   connect(actImport, SIGNAL(triggered()), this, SLOT(importGraph()));
   connect(actExport, SIGNAL(triggered()), this, SLOT(exportGraph()));
   connect(actImportPrufer, SIGNAL(triggered()), this, SLOT(importPrufer()));
+  connect(actImportGraphic, SIGNAL(triggered()), this, SLOT(importGraphicSeq()));
   
   // Add to menu
   fileMenu->addAction(actNew);
@@ -220,6 +221,11 @@ void MainWindow::buildModesMenu()
   
   modesGrp->addAction(modeCNode);
   modesGrp->addAction(modeCEdge);
+  
+  addActionToMap(MAINWINDOW_MODES_EDIT_ID, modeEdit);
+  
+  modesGrp->setEnabled(false);
+  modeEdit->setEnabled(false);
 }
 
 void MainWindow::buildAlgMenu()
@@ -250,6 +256,7 @@ void MainWindow::buildAlgMenu()
   connect(algEuler, SIGNAL(triggered()), this, SLOT(runEuler()));
   connect(algPrufer, SIGNAL(triggered()), this, SLOT(runPrufer()));
   connect(algSCC, SIGNAL(triggered()), this, SLOT(runSCC()));
+  connect(algAllPair, SIGNAL(triggered()), this, SLOT(runAllPairs()));
   
   
   // Add to menu
@@ -282,6 +289,8 @@ void MainWindow::buildAlgMenu()
   algorithmsGrp->addAction(algAllPair);
   
   algorithmsGrp->setEnabled(false);
+  
+  addActionToMap(MAINWINDOW_ALG_ALLPAIRS_ID, algAllPair);
 }
 
 /* Internal private helpers (i.e. not directly gui related) */
@@ -327,12 +336,14 @@ void MainWindow::createGLWindow(bool ask, bool directed)
   
   enableAction(MAINWINDOW_FILE_CLOSETAB_ID, true);
   enableAction(MAINWINDOW_FILE_EXPORT_ID, true);
+  enableAction(MAINWINDOW_MODES_EDIT_ID, true);
   
   // Set everyone back to node creation mode
   updateMode(GRAPHIX::NODECREATION);
   toolBar->setEnabled(true);
   algorithmsGrp->setEnabled(true);
   editGrp->setEnabled(true);
+  modesGrp->setEnabled(true);
 }
 
 void MainWindow::closeGLWindow()
@@ -355,9 +366,11 @@ void MainWindow::updateCurrentTab(int idx)
   if(idx == -1) {
     enableAction(MAINWINDOW_FILE_CLOSETAB_ID, false);
     enableAction(MAINWINDOW_FILE_EXPORT_ID, false);
+    enableAction(MAINWINDOW_MODES_EDIT_ID, false);
     toolBar->setEnabled(false);
     algorithmsGrp->setEnabled(false);
     editGrp->setEnabled(false);
+    modesGrp->setEnabled(false);
   } else {
     GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(idx));
     if(tab != NULL) {
@@ -535,14 +548,39 @@ void MainWindow::runSCC()
   runAlgorithm(SCC);
 }
 
+void MainWindow::importGraphicSeq()
+{
+  createGLWindow(false);
+  
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  
+  int result = tab->runAlgorithm(GRAPHICSEQ);
+  
+  if(result != 1)
+    closeGLWindow();
+}
+
+void MainWindow::runAllPairs()
+{
+  GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
+  
+  tab->runAlgorithm(ALLPAIRS);
+  
+  QMessageBox msg(QMessageBox::Information, tr("Done"), MAINWINDOW_ALGDLG_ALLPAIR_COMPLETE, QMessageBox::Ok, this);
+  msg.exec();
+  
+  enableAction(MAINWINDOW_ALG_ALLPAIRS_ID, false);
+}
+
 void MainWindow::runAlgorithm(ALGORITHMS alg)
 {
   QMessageBox msg(QMessageBox::Warning, tr("Confirm"), MAINWINDOW_ALGDLG_CONFIRM, QMessageBox::Ok|QMessageBox::Cancel, this);
   
   GLWindow* tab = static_cast<GLWindow*>(glTabs->widget(currentTabIdx));
   
-  if(tab->isLocked())
-    return;
+  // We allow re-running algorithms now
+//  if(tab->isLocked())
+  //  return;
   
   int confirm = msg.exec();
   

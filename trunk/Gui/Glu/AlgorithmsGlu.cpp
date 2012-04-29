@@ -41,7 +41,7 @@ AlgorithmsGlu& AlgorithmsGlu::operator=(const AlgorithmsGlu& rhs)
   scene = rhs.scene;
   parent = rhs.parent;
   graph = rhs.graph;
-  printf("Copied...\n");
+
   return *this;
 }
 
@@ -142,6 +142,12 @@ int AlgorithmsGlu::runAlgorithm(ALGORITHMS glu)
       break;
     case SCC:
       result = algorithmSCC();
+      break;
+    case GRAPHICSEQ:
+      result = algorithmGraphicSequence();
+      break;
+    case ALLPAIRS:
+      result = algorithmAllPairs();
       break;
     default:
       break;
@@ -360,10 +366,7 @@ int AlgorithmsGlu::algorithmImportPrufer()
   if(graph == NULL)
     return -2;
   
-  for(int i = 0 ; i < prufer.length() ; ++i) {
-    const QChar x = prufer[i];
-    code.push_back(x.digitValue());
-  }
+  AlgorithmsGlu::stringToVector(prufer, code);
   
   graph->buildFromPruferCode(&code);
   
@@ -375,6 +378,7 @@ int AlgorithmsGlu::algorithmImportPrufer()
 int AlgorithmsGlu::algorithmSCC()
 {
   std::map<int,int> map;
+  std::vector<Color> colorMap;
   DiGraph* graph = getDirected();
   
   if(graph == NULL)
@@ -384,19 +388,11 @@ int AlgorithmsGlu::algorithmSCC()
   
   std::map<int,int>::const_iterator it;
   
-  unsigned r = 255.0f;
-  unsigned g = 240.0f;
-  unsigned b = 200.0f;
-  int count = 0;
+  buildColorMap(colorMap, numComps);
+  
   for(it = map.begin() ; it != map.end() ; ++it) {
-    scene.updateNodeColor(it->first, r, g, b);
-    scene.updateNodeColor(it->second, r, g, b);
-    r -= (count % 3) ? count : 0;
-    g -= (count % 4) ? count : 0;
-    b -= (count % 5) ? count : 0;
-    r %= 256;
-    g %= 256;
-    b %= 256;
+    Color c(colorMap[it->second]);
+    scene.updateNodeColor(it->first, c.r, c.g, c.b);
   }
   
   parent->updateGL();
@@ -405,6 +401,43 @@ int AlgorithmsGlu::algorithmSCC()
   graph->printGraph();
   
   return numComps;
+}
+
+int AlgorithmsGlu::algorithmGraphicSequence()
+{
+  QString sequence = QInputDialog::getText(NULL, "Graphic Sequence", "");
+  std::vector<int> code;
+  
+  Graph* graph = getUndirected();
+  
+  if(graph == NULL)
+    return -2;
+  
+  AlgorithmsGlu::stringToVector(sequence, code);
+  
+  int result = graph->buildFromSequence(&code);
+  
+  if(result == 0)
+    return result;
+  
+  buildSceneFromGraph();
+  
+  return result;
+}
+
+int AlgorithmsGlu::algorithmAllPairs()
+{
+  if(!allPairs.empty())
+    return 1;
+  
+  Graph* graph = getUndirected();
+  
+  if(graph == NULL)
+    return -2;
+  
+  graph->allPairSP(&allPairs, &pairDist);
+  
+  return 1;
 }
 
 void AlgorithmsGlu::highlightPath(const std::vector<int>& path, Color color)
@@ -451,6 +484,14 @@ DiGraph* AlgorithmsGlu::getDirected() const
   if(!scene.isDirected())
     return NULL;
   return static_cast<DiGraph*>(graph);
+}
+
+void AlgorithmsGlu::stringToVector(const QString& str, std::vector<int>& code)
+{
+  for(int i = 0 ; i < str.length() ; ++i) {
+    const QChar x = str[i];
+    code.push_back(x.digitValue());
+  }
 }
 
 void AlgorithmsGlu::bipartiteArrange(const std::vector<int>& setX, const std::vector<int>& setY) const
@@ -506,5 +547,24 @@ void AlgorithmsGlu::buildSceneFromGraph()
     AbstractEdge* edge = itt->second;
     scene.addEdge(edge->getFrom()->id, edge->getTo()->id);
     scene.setLastId(itt->first);
+  }
+}
+
+void AlgorithmsGlu::buildColorMap(std::vector<Color>& map, int colors)
+{
+  int change = 200;
+  int r = 255;
+  int g = 0;
+  int b = 0;
+  int count = 1;
+  for(int i = 0 ; i < colors ; ++i, count++) {
+    Color c(r, g, b, 0.0f);
+    map.push_back(c);
+    r += (count % 2) ? 0 : change;
+    g += (count % 3) ? 0 : change;
+    b += change;
+    r %= 256;
+    g %= 256;
+    b %= 256;
   }
 }
