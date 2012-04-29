@@ -20,6 +20,9 @@
 // AbstractGraph Library
 #include "AGRAPHLIB.h"
 
+#include <map>
+#include <utility>
+
 class GLWindow;
 
 class AlgorithmsGlu
@@ -163,6 +166,20 @@ protected:
    */
   virtual int algorithmSCC();
   
+  /**
+   * Graphic Sequence algorithm
+   *
+   * @return  1 on success
+   */
+  virtual int algorithmGraphicSequence();
+  
+  /**
+   * Run the all pairs algorithm
+   *
+   * @return 1
+   */
+  virtual int algorithmAllPairs();
+  
 private:
   /**
    * Highlight a path based on vector
@@ -203,13 +220,30 @@ private:
   virtual DiGraph* getDirected() const;
   
   /**
+   * Convert string to vector
+   *
+   * @param str   Input string
+   * @param code  The populated vector
+   */
+  static void stringToVector(const QString& str, std::vector<int>& code);
+  
+  /**
    * Build the scene from the internal graph
    */
   virtual void buildSceneFromGraph();
   
+  /**
+   * Build color map
+   *
+   * @param map    The map to build the colors on
+   * @param colors Number of colors to generate
+   */
+  virtual void buildColorMap(std::vector<Color>& map, int colors);
+  
   GRAPHIX::Scene& scene;
   GLWindow* parent;
   AbstractGraph* graph;
+  std::map<std::pair<int,int>, int> allPairs, pairDist;
 };
 
 #endif /* GLU_ALGORITHMSGLU_H__ */

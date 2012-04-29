@@ -72,8 +72,15 @@
 #define MAINWINDOW_FILE_EXPORT_ID 0x1001
 #define MAINWINDOW_FILE_CLOSETAB_ID 0x1002
 
+// Modes gets 0x2000 block
+#define MAINWINDOW_MODES_EDIT_ID 0x2001
+
+// Algorithms gets 0x3000 block
+#define MAINWINDOW_ALG_ALLPAIRS_ID 0x3001
+
 // Dialog texts
 #define MAINWINDOW_ALGDLG_CONFIRM tr("Are you sure you wish to run this algorithm? After you run an algorithm, the graph will be in EDIT MODE ONLY. Only edit mode and view mode will be available. You will not be able to modify the graph.")
+#define MAINWINDOW_ALGDLG_ALLPAIR_COMPLETE tr("All pairs shortest path have been calculated. All subsequent shortest paths will be retrieved in linear time.")
 
 // Error dialog texts
 #define MAINWINDOW_ERRDLG_GENERIC tr("The operation failed.")

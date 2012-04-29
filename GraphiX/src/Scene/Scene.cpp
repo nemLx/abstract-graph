@@ -118,7 +118,7 @@ void Scene::addNode()
 {
   Circle* circle = NULL;
   Circle* last = static_cast<Circle*>(getLast(CIRCLE));
-  float rad = 15.0f;
+  float rad = 18.0f;
   float rightBnd = .85f;
   float scale = 2.5f;
   
@@ -568,6 +568,16 @@ float Scene::getScaleFactor(bool x) const
   if(x)
     return xFactor;
   return yFactor;
+}
+
+void Scene::resetColors()
+{
+  Color black(0.0, 0.0, 0.0, 0.0);
+  highlight = Color(0.0, 0.0, 255.0, 0.0);
+  std::vector<Shape*>::iterator it;
+  
+  for(it = shapes.begin() ; it != shapes.end() ; ++it)
+    (*it)->setColor(black);
 }
 
 unsigned Scene::pickScene(float x, float y)

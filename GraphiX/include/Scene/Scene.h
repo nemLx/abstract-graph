@@ -372,6 +372,11 @@ public:
    * @return  The scale factor of the scene
    */
   virtual float getScaleFactor(bool x = true) const;
+  
+  /**
+   * Reset highlight
+   */
+  virtual void resetColors();
 
 protected:
   /**

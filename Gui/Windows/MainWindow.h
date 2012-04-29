@@ -203,6 +203,16 @@ protected slots:
    */
   void runSCC();
   
+  /**
+   * Import graphic sequence
+   */
+  void importGraphicSeq();
+  
+  /**
+   * Run all pairs
+   */
+  void runAllPairs();
+  
 private:
   /**
    * Initialize action items (private helper)
