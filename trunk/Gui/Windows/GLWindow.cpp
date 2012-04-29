@@ -27,7 +27,7 @@
 #define FIXED_CANVAS_Y 2000
 
 GLWindow::GLWindow(bool directed, QWidget* parent)
-  : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), leftButton(false), gluAlg(scene, this, directed), textPos(IN)
+  : QGLWidget(parent), scene(directed), nodeRightClick(new NodeOptionsMenu(this)), locked(false), enableWeights(false), isMoving(false), leftButton(false), gluAlg(scene, this, directed), textPos(INSIDE)
 {
   this->setMouseTracking(true);
 }
@@ -136,7 +136,7 @@ void GLWindow::mouseReleaseEvent(QMouseEvent* evt)
   
   if(button == Qt::LeftButton && isMoving) {
     isMoving = false;
-    deselectAll();
+//    deselectAll();
   }
   leftButton = false;
 }
@@ -379,7 +379,7 @@ void GLWindow::drawLabels()
         break;
       case DOWN:
         y += 30;
-      case IN:
+      case INSIDE:
       default:
         break;
     }

@@ -488,7 +488,7 @@ void MainWindow::labelDown()
 
 void MainWindow::labelIn()
 {
-  updateLabelPosition(IN);
+  updateLabelPosition(INSIDE);
 }
 
 void MainWindow::runShortestPath()
