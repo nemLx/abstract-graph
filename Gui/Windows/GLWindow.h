@@ -15,6 +15,8 @@
 
 #include <QtOpenGL/QGLWidget>
 
+#include <utility>
+
 // GraphiX Library
 #include "graphix.h"
 
@@ -264,8 +266,10 @@ private:
   bool locked;
   bool enableWeights;
   bool isMoving;
+  bool leftButton;
   AlgorithmsGlu gluAlg;
   TEXTPOSITION textPos;
+  std::pair<int,int> lastPos;
 };
 
 #endif /* WINDOWS_GLWINDOW_H__ */
