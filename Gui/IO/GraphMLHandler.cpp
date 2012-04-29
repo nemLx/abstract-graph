@@ -207,7 +207,6 @@ void GraphMLHandler::setNodeCoords()
     maxY -= abs(minY);
   
   for(it = nodeCoords.begin() ; it != nodeCoords.end() ; it++) {
-    
     if (minX < 0)
       it->second.x += abs(minX);
     else
