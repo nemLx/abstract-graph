@@ -121,6 +121,8 @@ private:
   QString coordKey;
   std::map<QString, int> idMap;
   std::map<GRAPHIX::Circle*, AbsoluteCoords> nodeCoords;
+  float maxX, minX, maxY, minY;
+  bool hasData;
 };
 
 #endif /* IO_GRAPHMLHANDLER_H__ */
