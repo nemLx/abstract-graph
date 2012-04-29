@@ -136,7 +136,9 @@ void GLWindow::mouseReleaseEvent(QMouseEvent* evt)
   
   if(button == Qt::LeftButton && isMoving) {
     isMoving = false;
-//    deselectAll();
+#ifndef __linux__
+    deselectAll();
+#endif
   }
   leftButton = false;
 }

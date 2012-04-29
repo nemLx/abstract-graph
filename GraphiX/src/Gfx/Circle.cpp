@@ -88,7 +88,11 @@ void Circle::draw() const
     glVertex2f(x, y);
   glEnd();
 
+#ifdef _WIN32
+  float innerRadius = radius - (radius/2);
+#else
   float innerRadius = radius - (radius/5);
+#endif
   glPointSize(innerRadius);
   glBegin(GL_POINTS);
     glColor3f(border.r/255.0, border.g/255.0, border.b/255.0);
